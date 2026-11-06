@@ -2,30 +2,36 @@
 import json, os, sys, urllib.parse, urllib.request
 
 TERMS = {
-    "chest_press_high": ["machine chest press", "chest press"], "smith_bench": ["smith machine bench press", "bench press"],
-    "incline_machine": ["incline chest press", "incline bench press", "incline press"], "seated_dip": ["dip machine", "seated dip", "dips"],
-    "pec_deck": ["pec deck", "butterfly", "fly machine"], "tri_rope": ["triceps pushdown rope", "rope pushdown", "triceps pushdown"],
-    "tri_bar": ["triceps pushdown", "pushdown"], "tri_db_overhead": ["overhead triceps extension", "triceps extension"],
-    "tri_plate": ["overhead triceps extension", "triceps extension"], "pulldown_wide": ["lat pulldown", "wide grip pulldown", "pulldown"],
-    "cable_row": ["seated cable row", "cable row", "seated row"], "pulldown_neutral": ["close grip pulldown", "lat pulldown"],
-    "machine_row": ["seated row machine", "machine row", "seated row"], "tbar_row": ["t-bar row", "t bar row", "bent over row"],
-    "back_ext": ["hyperextension", "back extension"], "biceps_machine": ["biceps curl machine", "machine curl", "preacher curl"],
-    "barbell_curl": ["barbell curl", "biceps curl"], "cable_curl_rope": ["cable hammer curl", "hammer curl"],
-    "cable_curl_bar": ["cable curl", "biceps curl"], "wrist_curl": ["wrist curl"], "db_lateral": ["lateral raise", "dumbbell lateral raise"],
-    "db_press": ["dumbbell shoulder press", "shoulder press"], "machine_shoulder_press": ["machine shoulder press", "shoulder press"],
-    "machine_lateral": ["machine lateral raise", "lateral raise"], "reverse_pec_deck": ["reverse fly", "rear delt fly", "reverse butterfly"],
-    "face_pull": ["face pull"], "db_shrug": ["dumbbell shrug", "shrug"], "leg_ext": ["leg extension"], "leg_curl": ["lying leg curl", "leg curl"],
-    "leg_press": ["leg press"], "squat_machine": ["hack squat", "machine squat", "squat"], "adductor": ["adductor", "hip adduction"],
-    "abductor": ["abductor", "hip abduction"], "calf_seated": ["seated calf raise", "calf raise"], "abs_machine": ["crunch machine", "crunch"],
-    "knee_raise": ["knee raise", "hanging leg raise", "leg raise"], "cable_crunch": ["cable crunch", "crunch"],
-    "decline_crunch": ["decline crunch", "sit-up", "crunch"], "torso_rotation": ["rotary torso", "russian twist", "twist"],
-    "barbell_bench": ["bench press"], "incline_db_press": ["incline dumbbell press", "incline bench press"], "db_fly": ["dumbbell fly", "fly"],
-    "cable_crossover": ["cable crossover", "cable fly"], "push_up": ["push-up", "push up", "pushups"], "pull_up": ["pull-up", "pull up", "chin-up"],
-    "db_row": ["dumbbell row", "one arm row"], "deadlift": ["deadlift"], "barbell_squat": ["barbell squat", "squat"], "lunge": ["lunge"],
-    "rdl": ["romanian deadlift", "stiff-legged deadlift"], "hip_thrust": ["hip thrust", "glute bridge"], "standing_calf": ["standing calf raise", "calf raise"],
-    "db_curl": ["dumbbell curl", "biceps curl"], "hammer_curl": ["hammer curl"], "skull_crusher": ["skull crusher", "lying triceps extension"],
-    "front_raise": ["front raise"], "upright_row": ["upright row"],
+    "chest_press_high": ["chest press"], "smith_bench": ["smith machine bench press", "bench press"],
+    "incline_machine": ["incline chest press", "incline press"], "seated_dip": ["dip machine", "dips", "dip"],
+    "pec_deck": ["pec deck", "butterfly"], "tri_rope": ["triceps pushdown rope", "rope pushdown", "triceps pushdown"],
+    "tri_bar": ["triceps pushdown", "pushdown"], "tri_db_overhead": ["overhead triceps extension", "triceps extension", "french press"],
+    "tri_plate": ["overhead triceps extension", "triceps extension", "french press"],
+    "pulldown_wide": ["wide grip lat pulldown", "lat pulldown"], "cable_row": ["seated cable row", "cable row"],
+    "pulldown_neutral": ["close grip lat pulldown", "lat pulldown"], "machine_row": ["seated row machine", "seated row"],
+    "tbar_row": ["t-bar row", "t bar row"], "back_ext": ["hyperextension", "hyperextensions", "back extension"],
+    "biceps_machine": ["machine bicep curl", "biceps curl machine", "preacher curl"], "barbell_curl": ["barbell curl", "biceps curl barbell"],
+    "cable_curl_rope": ["cable hammer curl", "rope hammer curl", "hammer curl"], "cable_curl_bar": ["cable curl", "cable biceps curl"],
+    "wrist_curl": ["wrist curl", "wrist curls"], "db_lateral": ["lateral raise", "lateral raises"],
+    "db_press": ["dumbbell shoulder press", "shoulder press dumbbells"], "machine_shoulder_press": ["shoulder press machine", "machine shoulder press", "shoulder press"],
+    "machine_lateral": ["machine lateral raise", "lateral raise"], "reverse_pec_deck": ["reverse pec deck", "reverse fly", "reverse butterfly"],
+    "face_pull": ["face pull"], "db_shrug": ["dumbbell shrug", "shrugs dumbbells", "shrug"], "leg_ext": ["leg extension"],
+    "leg_curl": ["lying leg curl", "leg curl"], "leg_press": ["leg press"], "squat_machine": ["hack squat", "machine squat"],
+    "adductor": ["hip adduction", "adductor machine", "adduction"], "abductor": ["hip abduction", "abduction"],
+    "calf_seated": ["seated calf raise", "calf raise"], "abs_machine": ["crunch machine", "ab crunch", "crunch"],
+    "knee_raise": ["captain's chair knee raise", "knee raise", "leg raise"], "cable_crunch": ["cable crunch", "kneeling cable crunch"],
+    "decline_crunch": ["decline crunch", "decline sit-up", "sit-up", "sit up"], "torso_rotation": ["rotary torso", "torso twist", "russian twist"],
+    "barbell_bench": ["barbell bench press", "bench press"], "incline_db_press": ["incline dumbbell press", "incline press dumbbell", "incline bench press"],
+    "db_fly": ["dumbbell fly", "dumbbell flyes", "flyes"], "cable_crossover": ["cable crossover", "cable cross-over", "cable fly"],
+    "push_up": ["push-up", "push up"], "pull_up": ["pull-up", "pull-ups", "pull up"],
+    "db_row": ["one arm dumbbell row", "bent over dumbbell row", "dumbbell row"], "deadlift": ["deadlift", "deadlifts"],
+    "barbell_squat": ["barbell squat", "barbell full squat"], "lunge": ["lunges", "lunge"], "rdl": ["romanian deadlift"],
+    "hip_thrust": ["hip thrust"], "standing_calf": ["standing calf raise"], "db_curl": ["dumbbell curl", "biceps curl dumbbell"],
+    "hammer_curl": ["hammer curl", "hammer curls"], "skull_crusher": ["skull crusher", "skullcrusher", "lying triceps extension"],
+    "front_raise": ["front raise", "front raises"], "upright_row": ["upright row"],
 }
+EXCLUDE = {"pulldown_wide": ["close", "supinated", "reverse"], "barbell_curl": ["reverse"], "db_row": ["upright"],
+           "db_curl": ["press"], "smith_bench": ["squat"], "chest_press_high": ["incline", "decline"], "face_pull": ["dumbbell", "bent"]}
 
 def get(url):
     req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "gym-voice-coach-build"})
@@ -44,12 +50,15 @@ for ex_id, terms in TERMS.items():
     for term in terms:
         if done: break
         try:
-            data = json.load(get("https://wger.de/api/v2/exerciseinfo/?limit=30&name__search=" + urllib.parse.quote(term)))
+            data = json.load(get("https://wger.de/api/v2/exerciseinfo/?limit=60&name__search=" + urllib.parse.quote(term)))
         except Exception as e:
             print(f"{ex_id}: search '{term}' failed: {e}"); continue
-        results = [r for r in data.get("results", []) if r.get("images")]
-        words = term.lower().split()
-        results.sort(key=lambda r: (not all(w in en_name(r).lower() for w in words), len(en_name(r))))
+        norm = lambda x: x.lower().replace("-", " ").replace("'", "")
+        words = norm(term).split()
+        bad = EXCLUDE.get(ex_id, [])
+        results = [r for r in data.get("results", []) if r.get("images")
+                   and all(w in norm(en_name(r)) for w in words) and not any(b in norm(en_name(r)) for b in bad)]
+        results.sort(key=lambda r: (norm(en_name(r)) != norm(term), len(en_name(r))))
         for r in results:
             imgs = sorted(r["images"], key=lambda i: not i.get("is_main"))
             img = imgs[0]
