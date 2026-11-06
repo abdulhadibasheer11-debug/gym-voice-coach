@@ -89,7 +89,7 @@ class Speaker(private val ctx: Context) {
         list.forEachIndexed { i, p ->
             last = enqueue(p, if (isArabic(p)) ar else en, interrupt && i == 0, rate)
         }
-        val estimate = list.sumOf { it.length } * 110L / rate.coerceAtLeast(0.5f) + 3000
+        val estimate = (list.sumOf { it.length } * 110L / rate.coerceAtLeast(0.5f)).toLong() + 3000L
         withTimeoutOrNull(estimate) { last?.await() }
         audio.abandonAudioFocusRequest(focus)
     }
