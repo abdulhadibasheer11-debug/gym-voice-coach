@@ -31,7 +31,7 @@ TERMS = {
     "front_raise": ["front raise", "front raises"], "upright_row": ["upright row"],
 }
 EXCLUDE = {"pulldown_wide": ["close", "supinated", "reverse"], "barbell_curl": ["reverse"], "db_row": ["upright"],
-           "db_curl": ["press"], "smith_bench": ["squat"], "chest_press_high": ["incline", "decline"], "face_pull": ["dumbbell", "bent"]}
+           "db_curl": ["press"], "smith_bench": ["squat"], "tbar_row": ["upright"], "chest_press_high": ["incline", "decline"], "face_pull": ["dumbbell", "bent"]}
 
 def get(url):
     req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "gym-voice-coach-build"})
