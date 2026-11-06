@@ -9,6 +9,7 @@ import android.net.Uri
 import android.provider.DocumentsContract
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.PI
@@ -31,6 +32,7 @@ class Music(private val ctx: Context, private val scope: CoroutineScope, private
     private var index = 0
     private var ducked = false
     private var paused = false
+    private var stopped = false
     private val folderUri = folder?.let { Uri.parse(it) }
 
     private fun vol() = baseVolume * (if (ducked) 0.2f else 1f)
@@ -38,20 +40,30 @@ class Music(private val ctx: Context, private val scope: CoroutineScope, private
     fun start() {
         when (mode) {
             "app" -> scope.launch {
-                val pcm = withContext(Dispatchers.Default) { BeatSynth.render() }
-                runCatching {
-                    val t = AudioTrack.Builder()
-                        .setAudioAttributes(attrs)
-                        .setAudioFormat(AudioFormat.Builder().setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-                            .setSampleRate(BeatSynth.SR).setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build())
-                        .setTransferMode(AudioTrack.MODE_STATIC)
-                        .setBufferSizeInBytes(pcm.size * 2)
-                        .build()
-                    t.write(pcm, 0, pcm.size)
-                    t.setLoopPoints(0, pcm.size, -1)
-                    t.setVolume(vol())
-                    if (!paused) t.play()
-                    track = t
+                val order = BeatSynth.styles.shuffled()
+                var k = 0
+                while (true) {
+                    val pcm = withContext(Dispatchers.Default) { BeatSynth.render(order[k % order.size]) }
+                    val old = track
+                    runCatching {
+                        val t = AudioTrack.Builder()
+                            .setAudioAttributes(attrs)
+                            .setAudioFormat(AudioFormat.Builder().setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                                .setSampleRate(BeatSynth.SR).setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build())
+                            .setTransferMode(AudioTrack.MODE_STATIC)
+                            .setBufferSizeInBytes(pcm.size * 2)
+                            .build()
+                        t.write(pcm, 0, pcm.size)
+                        t.setLoopPoints(0, pcm.size, -1)
+                        t.setVolume(vol())
+                        if (stopped) { t.release(); return@launch }
+                        if (!paused) t.play()
+                        track = t
+                    }
+                    runCatching { old?.stop(); old?.release() }
+                    k++
+                    delay(150_000) // a new style every two and a half minutes
+                    if (stopped) return@launch
                 }
             }
             "phone" -> scope.launch {
@@ -108,38 +120,74 @@ class Music(private val ctx: Context, private val scope: CoroutineScope, private
     }
 
     fun stop() {
+        stopped = true
         runCatching { track?.stop(); track?.release() }; track = null
         runCatching { player?.release() }; player = null
     }
 }
 
-/** Synthesises a 15-second, 126 BPM electronic loop: kick, snare, hats, bass and a plucked arpeggio. */
+/** A music style for the on-device generator. Patterns are 16 steps (sixteenth notes) per bar. */
+data class Style(
+    val name: String, val bpm: Double, val chords: List<Pair<Int, Boolean>>, // (MIDI root, minor?) one chord per 2 bars
+    val kick: Set<Int>, val snare: Set<Int>, val hatEvery: Int, val openHat: Set<Int>,
+    val bass: String, val lead: String, val swing: Double = 0.0, val drive: Boolean = false,
+)
+
 object BeatSynth {
     const val SR = 22050
 
-    fun render(bpm: Double = 126.0): ShortArray {
-        val step = 60.0 / bpm / 4
+    val styles = listOf(
+        Style("House", 126.0, listOf(57 to true, 53 to false, 48 to false, 55 to false), setOf(0, 4, 8, 12), setOf(4, 12), 2, setOf(2, 6, 10, 14), "offbeat", "pluck"),
+        Style("Drum and Bass", 172.0, listOf(50 to true, 46 to false, 53 to false, 48 to false), setOf(0, 10), setOf(4, 12), 1, emptySet(), "reese", "pad"),
+        Style("Trap", 140.0, listOf(48 to true, 44 to false, 51 to false, 46 to false), setOf(0, 7, 10), setOf(8), 1, emptySet(), "808", "bell"),
+        Style("Rock", 124.0, listOf(52 to false, 48 to false, 55 to false, 50 to false), setOf(0, 6, 8), setOf(4, 12), 2, emptySet(), "eighths", "power", drive = true),
+        Style("Synthwave", 110.0, listOf(52 to true, 48 to false, 55 to false, 50 to false), setOf(0, 4, 8, 12), setOf(4, 12), 2, emptySet(), "octave", "saw"),
+        Style("Boom Bap", 92.0, listOf(50 to true, 55 to true, 46 to false, 45 to false), setOf(0, 7, 10), setOf(4, 12), 2, emptySet(), "kickroot", "keys", swing = 0.18),
+    )
+
+    private fun hz(midi: Double) = 440.0 * Math.pow(2.0, (midi - 69) / 12)
+
+    fun render(style: Style): ShortArray {
+        val step = 60.0 / style.bpm / 4
         val steps = 8 * 16
-        val n = (steps * step * SR).toInt()
+        val n = (steps * step * SR).toInt() + SR / 4
         val buf = FloatArray(n)
-        val rnd = Random(7)
-        val roots = doubleArrayOf(55.0, 43.65, 65.41, 49.0)                 // A1, F1, C2, G1 (2 bars each)
-        val chords = arrayOf(doubleArrayOf(1.0, 1.189, 1.498), doubleArrayOf(1.0, 1.26, 1.498),
-            doubleArrayOf(1.0, 1.26, 1.498), doubleArrayOf(1.0, 1.26, 1.498))
+        val rnd = Random(style.name.hashCode())
         for (s in 0 until steps) {
-            val t0 = (s * step * SR).toInt()
+            val swingShift = if (s % 2 == 1) style.swing * step else 0.0
+            val t0 = ((s * step + swingShift) * SR).toInt()
             val inBar = s % 16
-            val ci = (s / 32) % 4
-            if (inBar % 4 == 0) kick(buf, t0)
-            if (inBar == 4 || inBar == 12) snare(buf, t0, rnd)
-            hat(buf, t0, rnd, if (inBar % 4 == 2) 0.22f else 0.08f)
-            if (inBar % 2 == 0) bass(buf, t0, if (inBar % 4 == 2) roots[ci] * 2 else roots[ci], step * 1.8)
-            if (inBar % 2 == 1) pluck(buf, t0, roots[ci] * 8 * chords[ci][(s / 2) % 3])
+            val (root, minor) = style.chords[(s / 32) % style.chords.size]
+            val third = if (minor) 3 else 4
+            if (inBar in style.kick) kick(buf, t0)
+            if (inBar in style.snare) snare(buf, t0, rnd)
+            if (inBar % style.hatEvery == 0 || inBar in style.openHat) hat(buf, t0, rnd, if (inBar in style.openHat) 0.22f else 0.07f, if (inBar in style.openHat) 0.03 else 0.008)
+            if (style.lead == "bell" && inBar >= 12 && s % 32 >= 28) hat(buf, t0 + (step * SR / 2).toInt(), rnd, 0.06f, 0.006) // trap hat roll
+            val bassRoot = hz(root - 24.0)
+            when (style.bass) {
+                "offbeat" -> if (inBar % 4 == 2) tone(buf, t0, bassRoot * 2, step * 1.8, 0.3, "saw", 0.12)
+                "reese" -> if (inBar == 0 || inBar == 8) tone(buf, t0, bassRoot, step * 7.5, 0.28, "reese", 0.6)
+                "808" -> if (inBar in style.kick) tone(buf, t0, bassRoot, step * 3.5, 0.45, "sine", 0.35)
+                "eighths" -> if (inBar % 2 == 0) tone(buf, t0, bassRoot, step * 1.8, 0.3, "saw", 0.2)
+                "octave" -> tone(buf, t0, if (inBar % 2 == 0) bassRoot else bassRoot * 2, step * 0.9, 0.25, "saw", 0.08)
+                "kickroot" -> if (inBar in style.kick) tone(buf, t0, bassRoot, step * 3.0, 0.32, "sine", 0.3)
+            }
+            val chord = listOf(0, third, 7)
+            when (style.lead) {
+                "pluck" -> if (inBar % 2 == 1) tone(buf, t0, hz(root + 12.0 + chord[(s / 2) % 3]), 0.25, 0.1, "sine", 0.07)
+                "pad" -> if (inBar == 0 && s % 32 == 0) chord.forEach { tone(buf, t0, hz(root + 12.0 + it), step * 31, 0.05, "saw", 2.5) }
+                "bell" -> if (inBar == 3 || inBar == 11) tone(buf, t0, hz(root + 24.0 + chord[(s / 8) % 3]), 0.5, 0.09, "bell", 0.25)
+                "power" -> if (inBar == 0 || inBar == 6 || inBar == 8) listOf(0, 7, 12).forEach { tone(buf, t0, hz(root + it.toDouble()), step * 1.6, 0.07, "saw", 0.3) }
+                "saw" -> if (inBar % 2 == 0) tone(buf, t0, hz(root + 12.0 + listOf(0, third, 7, 12)[(s / 2) % 4]), step * 1.8, 0.08, "saw", 0.15)
+                "keys" -> if (inBar == 0 || inBar == 10) chord.forEach { tone(buf, t0, hz(root + 12.0 + it), 0.6, 0.07, "sine", 0.3) }
+            }
         }
+        if (style.drive) for (i in buf.indices) buf[i] = kotlin.math.tanh(buf[i] * 1.6f)
         var peak = 0.001f
         for (x in buf) if (kotlin.math.abs(x) > peak) peak = kotlin.math.abs(x)
         val g = 0.85f / peak
-        return ShortArray(n) { (buf[it] * g * Short.MAX_VALUE).toInt().coerceIn(-32767, 32767).toShort() }
+        val loopLen = (steps * step * SR).toInt()
+        return ShortArray(loopLen) { (buf[it] * g * Short.MAX_VALUE).toInt().coerceIn(-32767, 32767).toShort() }
     }
 
     private fun kick(b: FloatArray, t0: Int) {
@@ -161,32 +209,30 @@ object BeatSynth {
         }
     }
 
-    private fun hat(b: FloatArray, t0: Int, r: Random, amp: Float) {
+    private fun hat(b: FloatArray, t0: Int, r: Random, amp: Float, decay: Double) {
         var prev = 0f
-        for (i in 0 until (0.035 * SR).toInt()) {
+        for (i in 0 until (decay * 5 * SR).toInt()) {
             if (t0 + i >= b.size) return
             val x = r.nextFloat() * 2 - 1
-            b[t0 + i] += (x - prev) * amp * exp(-i / (0.008 * SR)).toFloat()
+            b[t0 + i] += (x - prev) * amp * exp(-i / (decay * SR)).toFloat()
             prev = x
         }
     }
 
-    private fun bass(b: FloatArray, t0: Int, f: Double, dur: Double) {
+    /** Generic voice: sine, saw (3 harmonics), reese (two detuned saws), bell (inharmonic). */
+    private fun tone(b: FloatArray, t0: Int, f: Double, dur: Double, amp: Double, wave: String, decay: Double) {
         for (i in 0 until (dur * SR).toInt()) {
             if (t0 + i >= b.size) return
             val t = i.toDouble() / SR
-            val env = minOf(1.0, i / (0.005 * SR)) * exp(-t / 0.18)
+            val env = minOf(1.0, i / (0.004 * SR)) * exp(-t / decay) * minOf(1.0, (dur - t) / 0.01)
             val w = 2 * PI * f * t
-            b[t0 + i] += ((sin(w) + 0.5 * sin(2 * w) + 0.25 * sin(3 * w)) * env * 0.28).toFloat()
-        }
-    }
-
-    private fun pluck(b: FloatArray, t0: Int, f: Double) {
-        for (i in 0 until (0.25 * SR).toInt()) {
-            if (t0 + i >= b.size) return
-            val t = i.toDouble() / SR
-            val w = 2 * PI * f * t
-            b[t0 + i] += ((sin(w) + 0.3 * sin(2 * w)) * exp(-t / 0.07) * 0.12).toFloat()
+            val v = when (wave) {
+                "saw" -> sin(w) + 0.5 * sin(2 * w) + 0.33 * sin(3 * w)
+                "reese" -> sin(w) + 0.5 * sin(2 * w) + sin(w * 1.007) + 0.5 * sin(2 * w * 1.007)
+                "bell" -> sin(w) + 0.5 * sin(w * 2.76) + 0.25 * sin(w * 5.4)
+                else -> sin(w)
+            }
+            b[t0 + i] += (v * env * amp).toFloat()
         }
     }
 }

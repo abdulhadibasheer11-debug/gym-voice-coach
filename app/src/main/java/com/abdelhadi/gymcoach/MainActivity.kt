@@ -27,6 +27,16 @@ class MainActivity : Activity() {
     private var testSpeaker: Speaker? = null
     private lateinit var musicFolderText: TextView
     private lateinit var recordedText: TextView
+    private lateinit var cardioBox: LinearLayout
+
+    private fun renderCardioMinutes() {
+        cardioBox.removeAllViews()
+        if (prefs.cardio == Cardio.NONE) return
+        val c = prefs.cardio
+        cardioBox.addView(Ui.radioGroup(this, "مدة ${c.ar}",
+            listOf(3, 5, 7, 10, 12, 15, 20, 30).map { it to "$it دقائق" },
+            prefs.cardioMinutes(c).let { m -> if (m in listOf(3, 5, 7, 10, 12, 15, 20, 30)) m else 7 }) { prefs.setCardioMinutes(c, it); refresh() })
+    }
 
     private fun pickFolder() {
         startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), 7)
@@ -61,8 +71,12 @@ class MainActivity : Activity() {
 
         col.addView(Ui.heading(this, "الإحماء"))
         col.addView(Ui.radioGroup(this, "الإحماء",
-            listOf(Cardio.TREADMILL to "المشاية 7 دقائق", Cardio.BIKE to "الدراجة 5 دقائق", Cardio.NONE to "بدون كارديو"),
-            prefs.cardio) { prefs.cardio = it; refresh() })
+            listOf(Cardio.TREADMILL to "المشاية", Cardio.BIKE to "الدراجة", Cardio.NONE to "بدون كارديو"),
+            prefs.cardio) { prefs.cardio = it; renderCardioMinutes(); refresh() })
+        col.addView(Ui.text(this, "مدة الإحماء بالدقائق", 20f))
+        cardioBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        col.addView(cardioBox)
+        renderCardioMinutes()
 
         col.addView(Ui.heading(this, "خطة اليوم"))
         planBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
@@ -96,6 +110,16 @@ class MainActivity : Activity() {
         col.addView(Ui.text(this, "لغة العدّ أثناء التكرار", 20f))
         col.addView(Ui.radioGroup(this, "لغة العدّ",
             listOf("en" to "الإنجليزية", "ar" to "العربية"), prefs.countLang) { prefs.countLang = it })
+        col.addView(Ui.text(this, "عدد الجولات الافتراضي لكل تمرين", 20f))
+        col.addView(Ui.radioGroup(this, "عدد الجولات الافتراضي",
+            listOf(2, 3, 4, 5).map { it to "$it جولات" }, prefs.defaultSets) { prefs.defaultSets = it; refresh() })
+        col.addView(Ui.text(this, "عدد التكرارات الافتراضي", 20f))
+        col.addView(Ui.radioGroup(this, "عدد التكرارات الافتراضي",
+            listOf(6, 8, 10, 12, 15, 20).map { it to "$it تكرار" }, prefs.defaultReps) { prefs.defaultReps = it; refresh() })
+        col.addView(Ui.text(this, "تذكير شرب الماء", 20f))
+        col.addView(Ui.radioGroup(this, "تذكير شرب الماء",
+            listOf(0 to "بدون تذكير", 10 to "كل 10 دقائق", 15 to "كل 15 دقيقة", 20 to "كل 20 دقيقة", 30 to "كل 30 دقيقة"),
+            prefs.waterEvery) { prefs.waterEvery = it })
         col.addView(Ui.text(this, "وقت التنقل بين الأجهزة وتجهيز الوزن", 20f))
         col.addView(Ui.radioGroup(this, "وقت التنقل",
             listOf(1.0f to "عادي، حوالي دقيقتين للجهاز الجديد", 1.25f to "أطول بربع", 1.5f to "أطول بالنصف", 2.0f to "ضعف الوقت"),
@@ -145,7 +169,7 @@ class MainActivity : Activity() {
         summary.text = "${day.ar}: ${plan.blocks.size} تمارين، المدة المتوقعة ${plan.totalSec / 60} دقيقة. إذا بدأت الآن تنتهي حوالي $end."
         planBox.removeAllViews()
         var n = 0
-        if (s.cardio != Cardio.NONE) planBox.addView(Ui.text(this, "${++n}. إحماء: ${s.cardio.ar} ${s.cardio.minutes} دقائق.", 19f))
+        if (s.cardio != Cardio.NONE) planBox.addView(Ui.text(this, "${++n}. إحماء: ${s.cardio.ar} ${s.cardioMinutes} دقائق.", 19f))
         if (day.armStretch) planBox.addView(Ui.text(this, "${++n}. إطالة مفاصل اليدين، حوالي 4 دقائق.", 19f))
         plan.blocks.forEach { b ->
             val card = Ui.card(this)
@@ -157,7 +181,7 @@ class MainActivity : Activity() {
                 card.addView(Ui.styled(this, "$n. ${e.nameAr}", 21f, bold = true))
                 card.addView(Ui.styled(this, e.en, 17f, color = Ui.MUTED))
                 card.addView(Ui.styled(this, "${e.ar}.", 17f))
-                card.addView(Ui.styled(this, "${b.sets} جولات × ${repsOf(e, s, b.reps)} تكرار · راحة ${e.cat.rest + (s.restAdj[id] ?: 0)} ثانية · العضلة: ${e.targetAr}", 16f, color = Ui.MUTED))
+                card.addView(Ui.styled(this, "${b.sets} جولات × ${b.repsText(e, s)} تكرار · راحة ${(b.rest ?: e.cat.rest) + (s.restAdj[id] ?: 0)} ثانية · العضلة: ${e.targetAr}", 16f, color = Ui.MUTED))
             }
             planBox.addView(card)
         }

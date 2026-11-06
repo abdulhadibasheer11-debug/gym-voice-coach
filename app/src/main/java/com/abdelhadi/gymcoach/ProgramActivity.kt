@@ -135,7 +135,7 @@ class DayEditActivity : Activity() {
             val label = "${i + 1}. ${blockLabel(bl)}"
             card.addView(Ui.styled(this, label, 20f, bold = true))
             ExerciseImages.view(this, bl.variants[0][0], 120)?.let { card.addView(it) }
-            card.addView(Ui.button(this, "الجولات والتكرار للتمرين ${i + 1}") { editSetsReps(i) })
+            card.addView(Ui.button(this, "الجولات والتكرار والراحة للتمرين ${i + 1}") { editSetsReps(i) })
             if (i > 0) card.addView(Ui.button(this, "تحريك التمرين ${i + 1} للأعلى") { move(i, i - 1) })
             if (i < blocks.size - 1) card.addView(Ui.button(this, "تحريك التمرين ${i + 1} للأسفل") { move(i, i + 1) })
             val single = bl.variants.size == 1 && bl.variants[0].size == 1
@@ -192,22 +192,33 @@ class DayEditActivity : Activity() {
 
     private fun editSetsReps(i: Int) {
         val bl = day().blocks[i]
+        val st = Prefs(this)
         val box = Ui.column(this)
-        fun field(label: String, value: Int): android.widget.EditText {
+        fun field(label: String, value: String, numeric: Boolean, hintText: String = ""): android.widget.EditText {
             box.addView(Ui.styled(this, label, 18f, bold = true))
             return android.widget.EditText(this).apply {
-                inputType = android.text.InputType.TYPE_CLASS_NUMBER
-                setText(value.toString()); textSize = 22f; setTextColor(Ui.FG); contentDescription = label
+                inputType = if (numeric) android.text.InputType.TYPE_CLASS_NUMBER else android.text.InputType.TYPE_CLASS_TEXT
+                setText(value); hint = hintText; textSize = 22f; setTextColor(Ui.FG); setHintTextColor(Ui.MUTED); contentDescription = label
                 also { box.addView(it) }
             }
         }
-        val sets = field("عدد الجولات", bl.sets ?: 3)
-        val reps = field("عدد التكرارات", bl.reps ?: (Catalog[bl.variants[0][0]].reps ?: 12))
-        AlertDialog.Builder(this).setTitle(blockLabel(bl)).setView(box)
+        val defReps = Catalog[bl.variants[0][0]].reps ?: st.defaultReps
+        val sets = field("عدد الجولات", (bl.sets ?: bl.repsList?.size ?: st.defaultSets).toString(), true)
+        val reps = field("عدد التكرارات في كل جولة", (bl.reps ?: defReps).toString(), true)
+        val list = field("أو تكرارات مختلفة لكل جولة، اختياري", bl.repsList?.joinToString(" ") ?: "", false, "مثال: 12 10 8")
+        val rest = field("الراحة بين الجولات بالثواني، اتركها فارغة للحساب التلقائي", bl.rest?.toString() ?: "", true,
+            "تلقائي: ${Catalog[bl.variants[0][0]].cat.rest}")
+        AlertDialog.Builder(this).setTitle(blockLabel(bl)).setView(android.widget.ScrollView(this).apply { addView(box) })
             .setPositiveButton("حفظ") { _, _ ->
-                val s = sets.text.toString().toIntOrNull()?.coerceIn(1, 10)
+                val rl = list.text.toString().split(Regex("[^0-9]+")).mapNotNull { it.toIntOrNull()?.coerceIn(1, 200) }.takeIf { it.isNotEmpty() }
+                val s = if (rl != null) rl.size.coerceAtMost(10) else sets.text.toString().toIntOrNull()?.coerceIn(1, 10)
                 val r = reps.text.toString().toIntOrNull()?.coerceIn(1, 200)
-                update { d -> d.copy(blocks = d.blocks.mapIndexed { j, b -> if (j == i) b.copy(sets = s, reps = r) else b }) }
+                val rs = rest.text.toString().toIntOrNull()?.coerceIn(10, 600)
+                update { d -> d.copy(blocks = d.blocks.mapIndexed { j, b -> if (j == i) b.copy(sets = s, reps = r, repsList = rl, rest = rs) else b }) }
+                render(i)
+            }
+            .setNeutralButton("الرجوع للافتراضي") { _, _ ->
+                update { d -> d.copy(blocks = d.blocks.mapIndexed { j, b -> if (j == i) b.copy(sets = null, reps = null, repsList = null, rest = null) else b }) }
                 render(i)
             }
             .setNegativeButton("إلغاء", null).show()

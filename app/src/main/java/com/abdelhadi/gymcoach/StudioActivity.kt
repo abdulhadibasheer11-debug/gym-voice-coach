@@ -2,6 +2,7 @@ package com.abdelhadi.gymcoach
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
@@ -54,6 +55,12 @@ class StudioActivity : Activity() {
             val j = phrases.indexOfFirst { !VoicePack.has(this, it) }
             if (j >= 0) { i = j; render(true) } else announce("كل الجمل مسجلة. ممتاز!")
         })
+        col.addView(Ui.heading(this, "مشاركة الصوت مع الأصدقاء"))
+        col.addView(Ui.styled(this, "بعد أن تسجّل، أرسل الحزمة لأصدقائك بملف واحد عبر واتساب أو غيره، ويستوردونها من نفس الشاشة. استأذن صاحب الصوت قبل المشاركة.", 17f, color = Ui.MUTED))
+        col.addView(Ui.button(this, "مشاركة حزمة الصوت") { sharePack() })
+        col.addView(Ui.button(this, "استيراد حزمة صوت من ملف") {
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).setType("*/*").addCategory(Intent.CATEGORY_OPENABLE), 9)
+        })
         col.addView(Ui.button(this, "حذف تسجيل هذه الجملة") {
             VoicePack.file(this, phrases[i]).delete(); render(false); announce("تم الحذف")
         })
@@ -65,6 +72,31 @@ class StudioActivity : Activity() {
     }
 
     private fun announce(t: String) = phrase.announceForAccessibility(t)
+
+    private fun sharePack() {
+        val f = VoicePack.export(this, "صوت المدرب")
+        if (f == null) { announce("لا توجد تسجيلات للمشاركة بعد"); return }
+        val uri = androidx.core.content.FileProvider.getUriForFile(this, "$packageName.files", f)
+        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+            type = "application/zip"; putExtra(Intent.EXTRA_STREAM, uri)
+            putExtra(Intent.EXTRA_TEXT, "حزمة صوت لتطبيق مدرّب الجيم الصوتي. افتح التطبيق، ثم استوديو التسجيل، ثم استيراد حزمة صوت.")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }, "مشاركة حزمة الصوت"))
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val uri = data?.data ?: return
+        if (requestCode == 9 && resultCode == RESULT_OK) {
+            val (n, name) = runCatching { VoicePack.import(this, uri) }.getOrDefault(0 to null)
+            render(false)
+            if (n > 0) {
+                Prefs(this).useRecorded = true
+                announce("تم استيراد $n تسجيل${name?.let { "، $it" } ?: ""}. تم تفعيل الصوت البشري.")
+            } else announce("هذا الملف ليس حزمة صوت صالحة")
+        }
+    }
 
     private fun render(speakIt: Boolean) {
         val done = VoicePack.recordedCount(this)

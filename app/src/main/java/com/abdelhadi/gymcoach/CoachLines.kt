@@ -43,6 +43,8 @@ object CoachLines {
         l("يلا على التمرين اللي بعده."), l("ما في وقت نضيعه، يلا!"), l("Next one!", "يلا يا بطل."),
         l("خلصنا هذا، ننتقل."), l("تمرين ممتاز، اللي بعده أحلى."),
     )
+    private val water = listOf(l("وقت الماء!", "خذ كم رشفة صغيرة."), l("Hydration time.", "اشرب شوية ماء."),
+        l("جسمك يحتاج ماء، اشرب رشفات قليلة الآن."), l("استراحة ماء سريعة، رشفتين أو ثلاث."))
     private val halfway = listOf(l("خلصنا نص الحصة!", "كمّل بنفس الحماس."), l("Halfway done!", "أنت ماشي صح."))
     private val lastExercise = listOf(l("آخر تمرين اليوم!", "خلّينا نختم بقوة."), l("Final exercise!", "آخر شوط يا وحش."))
 
@@ -56,7 +58,7 @@ object CoachLines {
 
     /** All segments that can be recorded in the voice studio: counts 1–30, then coach lines. */
     fun recordable(): List<String> = ((1..30).map { it.toString() } + fixed +
-        listOf(midSet, pushSet, lastRep, setDone, restMotivation, restLastSet, transition, halfway, lastExercise, facts)
+        listOf(midSet, pushSet, lastRep, setDone, restMotivation, restLastSet, transition, halfway, lastExercise, facts, water)
             .flatten().flatten()).distinct()
 
     fun midSet() = pick("mid", midSet)
@@ -68,5 +70,6 @@ object CoachLines {
     fun restLastSet() = pick("restLast", restLastSet)
     fun transition() = pick("trans", transition)
     fun halfway() = pick("half", halfway)
+    fun water() = pick("water", water)
     fun lastExercise() = pick("lastEx", lastExercise)
 }

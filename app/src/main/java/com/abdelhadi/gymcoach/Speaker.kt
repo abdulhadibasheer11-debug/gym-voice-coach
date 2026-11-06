@@ -12,6 +12,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.speech.tts.Voice
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.withTimeoutOrNull
 import java.util.Locale
@@ -51,6 +52,14 @@ class Speaker(private val ctx: Context) {
 
     private val ar = Locale("ar")
     private val en = Locale.US
+    private var arVoice: Voice? = null
+    private var enVoice: Voice? = null
+
+    /** Pick an installed offline voice for a language explicitly, so English never falls back to the Arabic voice. */
+    private fun pickVoice(vs: Set<Voice>, lang: String): Voice? = vs
+        .filter { it.locale.language == lang && !it.isNetworkConnectionRequired && it.features?.contains("notInstalled") != true }
+        .sortedWith(compareByDescending<Voice> { lang == "en" && it.locale.country == "US" }.thenByDescending { it.quality })
+        .firstOrNull()
 
     suspend fun init(): Boolean {
         val ready = CompletableDeferred<Boolean>()
@@ -59,6 +68,10 @@ class Speaker(private val ctx: Context) {
         if (!ok) return false
         tts?.apply {
             setAudioAttributes(attrs)
+            runCatching {
+                val vs = voices ?: emptySet()
+                arVoice = pickVoice(vs, "ar"); enVoice = pickVoice(vs, "en")
+            }
             arabicAvailable = isLanguageAvailable(ar) >= TextToSpeech.LANG_AVAILABLE
             englishAvailable = isLanguageAvailable(en) >= TextToSpeech.LANG_AVAILABLE
             setOnUtteranceProgressListener(object : UtteranceProgressListener() {
@@ -93,7 +106,8 @@ class Speaker(private val ctx: Context) {
         pending[id] = d
         val t = tts
         if (t == null) { d.complete(Unit); return d }
-        t.setLanguage(lang)
+        val v = if (lang == ar) arVoice else enVoice
+        if (v != null) t.setVoice(v) else t.setLanguage(lang)
         t.setSpeechRate(r)
         t.speak(text, if (flush) TextToSpeech.QUEUE_FLUSH else TextToSpeech.QUEUE_ADD, Bundle(), id)
         return d
@@ -136,10 +150,10 @@ class Speaker(private val ctx: Context) {
     suspend fun say(parts: List<String>, record: Boolean = true, interrupt: Boolean = false) =
         say(*parts.toTypedArray(), record = record, interrupt = interrupt)
 
-    /** Fire-and-forget count word (does not wait). */
-    fun count(word: String, arabic: Boolean, flush: Boolean, r: Float) {
+    /** Fire-and-forget count word (does not wait). clipKey = text of the recorded clip (e.g. "7"). */
+    fun count(word: String, arabic: Boolean, flush: Boolean, r: Float, clipKey: String = word) {
         duckFor(1300)
-        playClip(word, flush) ?: enqueue(word, if (arabic) ar else en, flush, r)
+        playClip(clipKey, flush) ?: enqueue(word, if (arabic) ar else en, flush, r)
     }
 
     fun stop() {

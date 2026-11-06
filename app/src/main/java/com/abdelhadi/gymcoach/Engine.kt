@@ -104,6 +104,7 @@ class Engine(
         val targetEnd = wallStart + plan.totalSec * 1000L
         fun elapsed() = (SystemClock.elapsedRealtime() - t0) / 1000.0
         val done = mutableSetOf<String>()
+        var lastWater = 0.0 // seconds since start when the last water reminder was given
         var transCount = 0
         val total = plan.blocks.size
 
@@ -135,7 +136,7 @@ class Engine(
                 is RestStep -> { Session.phase = "rest"; Session.title = "راحة"; Session.subtitle = "التالي: ${Catalog[st.nextId].nameAr}، جولة ${st.nextSet} من ${st.of}" }
                 is TransitionStep -> { Session.phase = "move"; Session.title = Catalog[st.ex[0]].nameAr; Session.subtitle = "${Catalog[st.ex[0]].en} · التمرين ${st.blockNo} من ${st.blockTotal}" }
                 is PairSwitchStep -> { Session.phase = "move"; Session.title = Catalog[st.to].nameAr; Session.subtitle = "سوبر سِت · ${Catalog[st.to].en}" }
-                is CardioStep -> { Session.phase = "warmup"; Session.title = "إحماء: ${st.cardio.ar}"; Session.subtitle = "${st.cardio.minutes} دقائق" }
+                is CardioStep -> { Session.phase = "warmup"; Session.title = "إحماء: ${st.cardio.ar}"; Session.subtitle = "${st.dur / 60} دقائق" }
                 is StretchStep -> { Session.phase = "warmup"; Session.title = "إطالة اليدين"; Session.subtitle = "اتبع الصوت" }
                 is IntroStep -> { Session.phase = "warmup"; Session.title = plan.day.ar; Session.subtitle = plan.day.en }
             }
@@ -149,7 +150,7 @@ class Engine(
                     waitMs(2000)
                 }
                 is CardioStep -> {
-                    sp.say("الإحماء: ${st.cardio.ar} ${st.cardio.minutes} دقائق.", "ابدأ بسرعة خفيفة وزِدها تدريجياً. سأنبهك عند النهاية.")
+                    sp.say("الإحماء: ${st.cardio.ar} ${minAr(st.dur.toDouble())}.", "ابدأ بسرعة خفيفة وزِدها تدريجياً. سأنبهك عند النهاية.")
                     val half = durMs / 2
                     waitMs(durMs - 3000, listOf(
                         Cue(half) { sp.say("نص وقت الإحماء. باقي ${minAr(half / 1000.0)}.") },
@@ -175,7 +176,7 @@ class Engine(
                     parts += listOf(
                         if (transCount == 1) "التمرين الأول:" else "التمرين رقم ${st.blockNo} من ${st.blockTotal}:",
                         e.nameAr + ".", e.en, e.ar + ".", "العضلة المستهدفة: ${e.targetAr}.",
-                        "${st.sets} جولات، ${st.reps} تكرار.", tempoAr(e),
+                        if (st.repsText.contains("،")) "${st.sets} جولات، التكرارات: ${st.repsText}." else "${st.sets} جولات، ${st.repsText} تكرار.", tempoAr(e),
                     )
                     if (st.superset && exs.size > 1) parts += listOf("سوبر سِت، بالتبادل مع", exs[1].nameAr + ".", exs[1].en, "بدون راحة بين التمرينين.")
                     if (transCount > 1 && remain > 60) parts += "باقي على نهاية الحصة حوالي ${minAr(remain)}."
@@ -193,6 +194,9 @@ class Engine(
                 is RestStep -> {
                     val e = Catalog[st.nextId]
                     sp.say("راحة ${dur.roundToInt()} ثانية.")
+                    if (settings.waterEveryMin > 0 && elapsed() - lastWater >= settings.waterEveryMin * 60 && dur >= 40) {
+                        lastWater = elapsed(); sp.say(CoachLines.water())
+                    }
                     val w = durMs - 3000
                     val tip = e.tips[(st.nextSet - 2).mod(e.tips.size)]
                     val cues = mutableListOf(Cue(10_000) {
@@ -212,7 +216,7 @@ class Engine(
 
     private fun countWord(n: Int, extra: String?, fast: Boolean) {
         val r = min(1.8f, sp.rate * if (fast) 1.5f else 1.15f)
-        sp.count(n.toString(), countArabic, flush = fast, r = r)
+        sp.count(if (countArabic) n.toString() else NumberWords.en(n), countArabic, flush = fast, r = r, clipKey = n.toString())
         if (extra != null) sp.count(extra, extra.any { it in '؀'..'ۿ' }, flush = false, r = r)
     }
 
@@ -259,7 +263,7 @@ class Engine(
                 for (i in 1..item.count) {
                     if (c.stop || c.skip) return
                     while (c.paused) delay(100)
-                    sp.count(i.toString(), countArabic, flush = true, r = sp.rate * 1.1f)
+                    sp.count(if (countArabic) i.toString() else NumberWords.en(i), countArabic, flush = true, r = sp.rate * 1.1f, clipKey = i.toString())
                     waitMs((item.tempo * 1000).toLong(), showClock = false)
                 }
             } else {

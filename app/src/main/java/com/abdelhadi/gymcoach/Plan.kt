@@ -190,6 +190,10 @@ data class Block(
     val superset: Boolean = false,
     val sets: Int? = null,
     val reps: Int? = null,
+    /** Different reps per set, e.g. 12, 10, 8 (pyramid). Overrides reps. */
+    val repsList: List<Int>? = null,
+    /** Rest between sets in seconds; null = automatic by exercise type. */
+    val rest: Int? = null,
 )
 
 fun b(vararg ids: String, superset: Boolean = false) = Block(listOf(ids.toList()), superset)
@@ -261,14 +265,16 @@ object Timing {
 data class Settings(
     val sets: Int = 3,
     val defaultReps: Int = 12,
+    val cardioMinutes: Int = 7,
+    val waterEveryMin: Int = 15,
     val transMult: Double = 1.0,
     val cardio: Cardio = Cardio.TREADMILL,
     val restAdj: Map<String, Int> = emptyMap(),
     val variantIdx: Int = 0,
 )
 
-fun restFor(id: String, setIdx: Int, s: Settings): Int {
-    var r = Catalog[id].cat.rest + (s.restAdj[id] ?: 0)
+fun restFor(id: String, setIdx: Int, s: Settings, override: Int? = null): Int {
+    var r = (override ?: Catalog[id].cat.rest) + (s.restAdj[id] ?: 0)
     if (setIdx >= 2) r = (r * 1.1).roundToInt() // extra fatigue before the last set
     return r
 }
@@ -293,45 +299,50 @@ sealed class Step {
 class IntroStep(override val dur: Int) : Step()
 class CardioStep(val cardio: Cardio, override val dur: Int) : Step()
 class StretchStep(val items: List<StretchItem>, override val dur: Int) : Step()
-class TransitionStep(val ex: List<String>, val superset: Boolean, val blockNo: Int, val blockTotal: Int, override val dur: Int, val sets: Int = 3, val reps: Int = 12) : Step()
+class TransitionStep(val ex: List<String>, val superset: Boolean, val blockNo: Int, val blockTotal: Int, override val dur: Int, val sets: Int = 3, val reps: Int = 12, val repsText: String = "12") : Step()
 class PairSwitchStep(val to: String, val round: Int, override val dur: Int) : Step()
 class SetStep(val id: String, val setNo: Int, val of: Int, val reps: Int, override val dur: Int) : Step()
 class RestStep(val nextId: String, val nextSet: Int, val of: Int, val superset: Boolean, override val dur: Int) : Step()
 
-data class ResolvedBlock(val ex: List<String>, val superset: Boolean, val sets: Int, val reps: Int?)
+data class ResolvedBlock(val ex: List<String>, val superset: Boolean, val sets: Int, val reps: Int?, val repsList: List<Int>?, val rest: Int?) {
+    /** Reps for set number r (0-based) of exercise e. */
+    fun repsAt(e: Exercise, s: Settings, r: Int) = repsList?.let { it.getOrNull(r) ?: it.last() } ?: repsOf(e, s, reps)
+    fun repsText(e: Exercise, s: Settings) = repsList?.joinToString("، ") ?: repsOf(e, s, reps).toString()
+}
 data class Plan(val day: Day, val steps: List<Step>, val totalSec: Int, val blocks: List<ResolvedBlock>)
 
 fun buildPlan(day: Day, s: Settings): Plan {
     val blocks = day.blocks.filter { it.variants.isNotEmpty() }.map {
-        ResolvedBlock(it.variants[s.variantIdx % it.variants.size], it.superset, it.sets ?: s.sets, it.reps)
+        ResolvedBlock(it.variants[s.variantIdx % it.variants.size], it.superset,
+            it.repsList?.size?.takeIf { _ -> it.sets == null } ?: it.sets ?: s.sets, it.reps, it.repsList?.takeIf { l -> l.isNotEmpty() }, it.rest)
     }
     val steps = mutableListOf<Step>()
     steps += IntroStep(Timing.INTRO)
-    if (s.cardio != Cardio.NONE) steps += CardioStep(s.cardio, s.cardio.minutes * 60)
+    if (s.cardio != Cardio.NONE && s.cardioMinutes > 0) steps += CardioStep(s.cardio, s.cardioMinutes * 60)
     if (day.armStretch) steps += StretchStep(ARM_STRETCH, ARM_STRETCH.sumOf { it.seconds + STRETCH_ANNOUNCE })
     var prev: Exercise? = null
     blocks.forEachIndexed { bi, b ->
         val first = Catalog[b.ex[0]]
-        steps += TransitionStep(b.ex, b.superset, bi + 1, blocks.size, transFor(prev, first, s), b.sets, repsOf(first, s, b.reps))
+        steps += TransitionStep(b.ex, b.superset, bi + 1, blocks.size, transFor(prev, first, s), b.sets, repsOf(first, s, b.reps), b.repsText(first, s))
         if (b.superset && b.ex.size > 1) {
             for (r in 0 until b.sets) {
                 b.ex.forEachIndexed { k, id ->
                     val e = Catalog[id]
-                    val reps = repsOf(e, s, b.reps)
+                    val reps = b.repsAt(e, s, r)
                     if (k > 0) steps += PairSwitchStep(id, r, if (r == 0) Timing.PAIR_SWITCH_FIRST else Timing.PAIR_SWITCH)
                     steps += SetStep(id, r + 1, b.sets, reps, setSeconds(e, reps))
                 }
-                if (r < b.sets - 1) steps += RestStep(b.ex[0], r + 2, b.sets, true, restFor(b.ex.last(), r + 1, s))
+                if (r < b.sets - 1) steps += RestStep(b.ex[0], r + 2, b.sets, true, restFor(b.ex.last(), r + 1, s, b.rest))
             }
             prev = Catalog[b.ex.last()]
         } else {
             b.ex.forEachIndexed { k, id ->
                 val e = Catalog[id]
-                val reps = repsOf(e, s, b.reps)
-                if (k > 0) steps += TransitionStep(listOf(id), false, bi + 1, blocks.size, transFor(Catalog[b.ex[k - 1]], e, s), b.sets, reps)
+                if (k > 0) steps += TransitionStep(listOf(id), false, bi + 1, blocks.size, transFor(Catalog[b.ex[k - 1]], e, s), b.sets, repsOf(e, s, b.reps), b.repsText(e, s))
                 for (r in 0 until b.sets) {
+                    val reps = b.repsAt(e, s, r)
                     steps += SetStep(id, r + 1, b.sets, reps, setSeconds(e, reps))
-                    if (r < b.sets - 1) steps += RestStep(id, r + 2, b.sets, false, restFor(id, r + 1, s))
+                    if (r < b.sets - 1) steps += RestStep(id, r + 2, b.sets, false, restFor(id, r + 1, s, b.rest))
                 }
                 prev = e
             }

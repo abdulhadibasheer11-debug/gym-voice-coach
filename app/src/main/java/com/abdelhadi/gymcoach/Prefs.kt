@@ -26,6 +26,18 @@ class Prefs(private val ctx: Context) {
         get() = runCatching { Cardio.valueOf(p.getString("cardio", "TREADMILL")!!) }.getOrDefault(Cardio.TREADMILL)
         set(v) = p.edit().putString("cardio", v.name).apply()
 
+    fun cardioMinutes(c: Cardio) = p.getInt("cardioMin.${c.name}", c.minutes)
+    fun setCardioMinutes(c: Cardio, m: Int) = p.edit().putInt("cardioMin.${c.name}", m).apply()
+    var defaultSets: Int
+        get() = p.getInt("defaultSets", 3)
+        set(v) = p.edit().putInt("defaultSets", v).apply()
+    var defaultReps: Int
+        get() = p.getInt("defaultReps", 12)
+        set(v) = p.edit().putInt("defaultReps", v).apply()
+    var waterEvery: Int
+        get() = p.getInt("waterEvery", 15)
+        set(v) = p.edit().putInt("waterEvery", v).apply()
+
     fun variant(dayId: String) = p.getInt("variant.$dayId", 0)
     fun bumpVariant(dayId: String) = p.edit().putInt("variant.$dayId", variant(dayId) + 1).apply()
 
@@ -68,6 +80,10 @@ class Prefs(private val ctx: Context) {
         set(v) = p.edit().putBoolean("useRecorded", v).apply()
 
     fun settingsFor(day: Day) = Settings(
+        sets = defaultSets,
+        defaultReps = defaultReps,
+        cardioMinutes = cardioMinutes(cardio),
+        waterEveryMin = waterEvery,
         transMult = transMult.toDouble(),
         cardio = cardio,
         restAdj = restAdj,

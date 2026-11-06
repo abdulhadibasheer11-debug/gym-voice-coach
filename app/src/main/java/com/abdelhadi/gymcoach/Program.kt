@@ -31,6 +31,8 @@ object ProgramStore {
                             put("superset", b.superset)
                             b.sets?.let { put("sets", it) }
                             b.reps?.let { put("reps", it) }
+                            b.repsList?.let { put("repsList", JSONArray(it)) }
+                            b.rest?.let { put("rest", it) }
                         })
                     }
                 })
@@ -55,7 +57,9 @@ object ProgramStore {
                     if (variants.isEmpty()) null
                     else Block(variants, bo.optBoolean("superset", false),
                         if (bo.has("sets")) bo.getInt("sets") else null,
-                        if (bo.has("reps")) bo.getInt("reps") else null)
+                        if (bo.has("reps")) bo.getInt("reps") else null,
+                        bo.optJSONArray("repsList")?.let { a -> (0 until a.length()).map { a.getInt(it) } },
+                        if (bo.has("rest")) bo.getInt("rest") else null)
                 },
             )
         }
@@ -114,8 +118,10 @@ fun blockLabel(bl: Block): String {
         else -> names
     }
     val sr = buildString {
-        append("، ${bl.sets ?: 3} جولات")
-        append("، ${bl.reps ?: (Catalog[first[0]].reps ?: 12)} تكرار")
+        append("، ${bl.sets ?: bl.repsList?.size ?: 3} جولات")
+        if (bl.repsList != null) append("، التكرارات ${bl.repsList.joinToString("، ")}")
+        else append("، ${bl.reps ?: (Catalog[first[0]].reps ?: 12)} تكرار")
+        if (bl.rest != null) append("، راحة ${bl.rest} ثانية")
     }
     return kind + sr
 }
