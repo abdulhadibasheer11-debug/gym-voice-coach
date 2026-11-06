@@ -1,22 +1,30 @@
 package com.abdelhadi.gymcoach
 
 import android.app.Activity
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 
 /**
- * Control screen during a session. Texts are updated silently (no live regions) so TalkBack never talks
- * over the coach voice; the user can swipe to them to read the current status.
+ * Control screen during a session: a large colour-coded card (orange = set, green = rest, blue = moving,
+ * yellow = warm-up) with a big rep count or countdown for sighted users, plus large buttons.
+ * Texts are updated silently (no live regions) so TalkBack never talks over the coach.
  */
 class WorkoutActivity : Activity() {
     private val handler = Handler(Looper.getMainLooper())
+    private lateinit var heroCard: LinearLayout
+    private lateinit var phaseLabel: TextView
+    private lateinit var title: TextView
+    private lateinit var subtitle: TextView
+    private lateinit var big: TextView
     private lateinit var status: TextView
     private lateinit var progress: TextView
-    private lateinit var remaining: TextView
     private lateinit var pauseBtn: Button
     private var seen = -1L
     private val openedAt = System.currentTimeMillis()
@@ -25,26 +33,52 @@ class WorkoutActivity : Activity() {
         override fun run() {
             // the service needs a moment to start; only close once it has finished
             if (!Session.running && System.currentTimeMillis() - openedAt > 6000) { finish(); return }
-            if (Session.version != seen) {
-                seen = Session.version
-                setIfChanged(status, Session.status)
-                setIfChanged(progress, Session.progress)
-                setIfChanged(remaining, if (Session.remainingSec >= 0) "متبقي في هذه الخطوة ${Session.remainingSec} ثانية" else "")
-                setIfChanged(pauseBtn, if (Session.paused) "استئناف" else "إيقاف مؤقت")
-            }
-            handler.postDelayed(this, 500)
+            if (Session.version != seen) { seen = Session.version; render() }
+            handler.postDelayed(this, 250)
         }
     }
 
     private fun setIfChanged(v: TextView, t: String) { if (v.text.toString() != t) v.text = t }
 
+    private fun render() {
+        val (label, color) = when (Session.phase) {
+            "set" -> "جولة" to Ui.SET
+            "rest" -> "راحة" to Ui.REST
+            "move" -> "تجهيز التمرين" to Ui.MOVE
+            else -> "إحماء" to 0xFF8A6D00.toInt()
+        }
+        if (Session.paused) setIfChanged(phaseLabel, "متوقف مؤقتاً") else setIfChanged(phaseLabel, label)
+        (heroCard.background as? GradientDrawable)?.setColor(if (Session.paused) 0xFF555555.toInt() else color)
+        setIfChanged(title, Session.title)
+        setIfChanged(subtitle, Session.subtitle)
+        val r = Session.remainingSec
+        val bigText = when {
+            r < 0 -> ""
+            Session.phase == "set" -> "$r"
+            else -> "%d:%02d".format(r / 60, r % 60)
+        }
+        setIfChanged(big, bigText)
+        big.contentDescription = if (Session.phase == "set") "التكرار $r" else if (r >= 0) "متبقي $r ثانية" else ""
+        setIfChanged(status, Session.status)
+        setIfChanged(progress, Session.progress)
+        setIfChanged(pauseBtn, if (Session.paused) "استئناف" else "إيقاف مؤقت")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val col = Ui.column(this)
         col.addView(Ui.heading(this, "الحصة جارية", big = true))
-        status = Ui.text(this, "", 24f).also { col.addView(it) }
-        progress = Ui.text(this, "", 19f).also { col.addView(it) }
-        remaining = Ui.text(this, "", 19f).also { col.addView(it) }
+
+        heroCard = Ui.card(this, Ui.MOVE)
+        phaseLabel = Ui.styled(this, "", 18f, bold = true).also { heroCard.addView(it) }
+        title = Ui.styled(this, "", 30f, bold = true).also { heroCard.addView(it) }
+        subtitle = Ui.styled(this, "", 18f).also { heroCard.addView(it) }
+        big = Ui.styled(this, "", 84f, bold = true).also { it.gravity = Gravity.CENTER; heroCard.addView(it) }
+        col.addView(heroCard)
+
+        progress = Ui.styled(this, "", 17f, color = Ui.MUTED).also { col.addView(it) }
+        status = Ui.styled(this, "", 19f).also { col.addView(it) }
+
         pauseBtn = Ui.button(this, "إيقاف مؤقت", primary = true) { WorkoutService.send(this, WorkoutService.ACTION_PAUSE) }
         col.addView(pauseBtn)
         col.addView(Ui.button(this, "إعادة آخر تعليمات") { WorkoutService.send(this, WorkoutService.ACTION_REPEAT) })

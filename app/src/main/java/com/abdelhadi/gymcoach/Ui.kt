@@ -13,9 +13,30 @@ import android.widget.TextView
 
 /** Small helpers to build large, high-contrast, screen-reader friendly views in code. */
 object Ui {
-    const val BG = Color.BLACK
+    const val BG = 0xFF101318.toInt()
+    const val CARD = 0xFF1C2129.toInt()
     const val FG = Color.WHITE
+    const val MUTED = 0xFFB8BEC9.toInt()
     const val ACCENT = 0xFFFFD400.toInt()
+    const val SET = 0xFFFF8A00.toInt()
+    const val REST = 0xFF1E8E5A.toInt()
+    const val MOVE = 0xFF2F6FDE.toInt()
+
+    /** Rounded card; read by TalkBack as one item. */
+    fun card(ctx: Context, color: Int = CARD) = LinearLayout(ctx).apply {
+        orientation = LinearLayout.VERTICAL
+        val p = dp(ctx, 16); setPadding(p, p, p, p)
+        background = GradientDrawable().apply { cornerRadius = dp(ctx, 18).toFloat(); setColor(color) }
+        layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            .apply { setMargins(0, dp(ctx, 6), 0, dp(ctx, 6)) }
+        if (android.os.Build.VERSION.SDK_INT >= 28) isScreenReaderFocusable = true
+    }
+
+    fun styled(ctx: Context, text: String, size: Float, bold: Boolean = false, color: Int = FG) = TextView(ctx).apply {
+        this.text = text; textSize = size; setTextColor(color)
+        if (bold) setTypeface(typeface, Typeface.BOLD)
+        setPadding(0, dp(ctx, 2), 0, dp(ctx, 2))
+    }
 
     fun dp(ctx: Context, v: Int) = (v * ctx.resources.displayMetrics.density).toInt()
 

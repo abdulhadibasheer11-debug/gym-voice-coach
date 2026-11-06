@@ -14,8 +14,8 @@ class Prefs(ctx: Context) {
         get() = p.getString("lastDay", null)
         set(v) = p.edit().putString("lastDay", v).apply()
     var speechRate: Float
-        get() = p.getFloat("rate", 1.0f)
-        set(v) = p.edit().putFloat("rate", v).apply()
+        get() = p.getFloat("rate2", 1.2f)
+        set(v) = p.edit().putFloat("rate2", v).apply()
     var countLang: String
         get() = p.getString("countLang", "en") ?: "en"
         set(v) = p.edit().putString("countLang", v).apply()

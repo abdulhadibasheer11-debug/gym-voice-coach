@@ -55,7 +55,7 @@ class MainActivity : Activity() {
         voiceStatus = Ui.text(this, "", 18f).also { col.addView(it) }
         col.addView(Ui.text(this, "سرعة الكلام", 20f))
         col.addView(Ui.radioGroup(this, "سرعة الكلام",
-            listOf(0.85f to "بطيئة", 1.0f to "عادية", 1.15f to "سريعة قليلاً", 1.3f to "سريعة"),
+            listOf(1.0f to "هادئة", 1.2f to "عادية", 1.35f to "سريعة", 1.5f to "سريعة جداً"),
             prefs.speechRate) { prefs.speechRate = it })
         col.addView(Ui.text(this, "لغة العدّ أثناء التكرار", 20f))
         col.addView(Ui.radioGroup(this, "لغة العدّ",
@@ -105,11 +105,17 @@ class MainActivity : Activity() {
         if (s.cardio != Cardio.NONE) planBox.addView(Ui.text(this, "${++n}. إحماء: ${s.cardio.ar} ${s.cardio.minutes} دقائق.", 19f))
         if (day.armStretch) planBox.addView(Ui.text(this, "${++n}. إطالة مفاصل اليدين، حوالي 4 دقائق.", 19f))
         plan.blocks.forEach { b ->
-            val parts = b.ex.map { id ->
+            val card = Ui.card(this)
+            n++
+            if (b.superset) card.addView(Ui.styled(this, "سوبر سِت بالتبادل", 16f, bold = true, color = Ui.ACCENT))
+            b.ex.forEach { id ->
                 val e = Catalog[id]
-                "${e.en}: ${e.ar}. ${s.sets} جولات × ${repsOf(e, s)} تكرار. الراحة ${e.cat.rest + (s.restAdj[id] ?: 0)} ثانية."
+                card.addView(Ui.styled(this, "$n. ${e.nameAr}", 21f, bold = true))
+                card.addView(Ui.styled(this, e.en, 17f, color = Ui.MUTED))
+                card.addView(Ui.styled(this, "${e.ar}.", 17f))
+                card.addView(Ui.styled(this, "${s.sets} جولات × ${repsOf(e, s)} تكرار · راحة ${e.cat.rest + (s.restAdj[id] ?: 0)} ثانية · العضلة: ${e.targetAr}", 16f, color = Ui.MUTED))
             }
-            planBox.addView(Ui.text(this, "${++n}. " + (if (b.superset) "سوبر سِت بالتبادل: " else "") + parts.joinToString(" ثم "), 19f))
+            planBox.addView(card)
         }
     }
 

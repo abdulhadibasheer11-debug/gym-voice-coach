@@ -19,6 +19,10 @@ object Session {
     @Volatile var progress = ""
     @Volatile var remainingSec = -1
     @Volatile var restId: String? = null
+    /** For the visual screen: phase = set / rest / move / warmup, title = current exercise (Arabic name). */
+    @Volatile var phase = ""
+    @Volatile var title = ""
+    @Volatile var subtitle = ""
     @Volatile var version = 0L
     fun touch() { version++ }
 }
@@ -42,17 +46,6 @@ class Engine(
     private val prefs: Prefs,
 ) {
     private val countArabic get() = prefs.countLang == "ar"
-    private var motIdx = (0..6).random()
-    private val motivation = listOf(
-        listOf("Keep going!", "أنت أقوى من التعب."),
-        listOf("Nice work.", "كل جولة تقرّبك من هدفك."),
-        listOf("تنفّس بعمق، شهيق من الأنف وزفير من الفم."),
-        listOf("Stay focused.", "جودة الحركة أهم من الوزن."),
-        listOf("اشرب رشفة ماء الآن."),
-        listOf("Strong set!", "خلّ الجولة الجاية بنفس التركيز."),
-        listOf("You got this.", "ركّز على العضلة المستهدفة وأنت تتحرك."),
-    )
-    private fun nextMotivation() = motivation[motIdx++ % motivation.size]
 
     private fun fire(vararg parts: String) { scope.launch { sp.say(*parts) } }
 
@@ -133,6 +126,15 @@ class Engine(
             Session.progress = progressText(st, total, remainMin)
             Session.remainingSec = -1
             Session.restId = (st as? RestStep)?.nextId
+            when (st) {
+                is SetStep -> { Session.phase = "set"; Session.title = Catalog[st.id].nameAr; Session.subtitle = "${Catalog[st.id].en} · جولة ${st.setNo} من ${st.of}" }
+                is RestStep -> { Session.phase = "rest"; Session.title = "راحة"; Session.subtitle = "التالي: ${Catalog[st.nextId].nameAr}، جولة ${st.nextSet} من ${st.of}" }
+                is TransitionStep -> { Session.phase = "move"; Session.title = Catalog[st.ex[0]].nameAr; Session.subtitle = "${Catalog[st.ex[0]].en} · التمرين ${st.blockNo} من ${st.blockTotal}" }
+                is PairSwitchStep -> { Session.phase = "move"; Session.title = Catalog[st.to].nameAr; Session.subtitle = "سوبر سِت · ${Catalog[st.to].en}" }
+                is CardioStep -> { Session.phase = "warmup"; Session.title = "إحماء: ${st.cardio.ar}"; Session.subtitle = "${st.cardio.minutes} دقائق" }
+                is StretchStep -> { Session.phase = "warmup"; Session.title = "إطالة اليدين"; Session.subtitle = "اتبع الصوت" }
+                is IntroStep -> { Session.phase = "warmup"; Session.title = plan.day.ar; Session.subtitle = plan.day.en }
+            }
             Session.touch()
 
             when (st) {
@@ -158,12 +160,20 @@ class Engine(
                     val exs = st.ex.map { Catalog[it] }
                     val e = exs[0]
                     val remain = (targetEnd - System.currentTimeMillis()) / 1000.0
-                    val parts = mutableListOf(
-                        if (transCount == 1) "التمرين الأول." else "التمرين التالي، رقم ${st.blockNo} من ${st.blockTotal}.",
-                        e.en, e.ar + ".", "العضلة المستهدفة: ${e.targetAr}.",
+                    val parts = mutableListOf<String>()
+                    if (transCount > 1) {
+                        parts += when {
+                            st.blockNo == st.blockTotal && st.blockTotal > 2 -> CoachLines.lastExercise()
+                            st.blockNo == (st.blockTotal + 1) / 2 + 1 && st.blockTotal >= 4 -> CoachLines.halfway()
+                            else -> CoachLines.transition()
+                        }
+                    }
+                    parts += listOf(
+                        if (transCount == 1) "التمرين الأول:" else "التمرين رقم ${st.blockNo} من ${st.blockTotal}:",
+                        e.nameAr + ".", e.en, e.ar + ".", "العضلة المستهدفة: ${e.targetAr}.",
                         "${settings.sets} جولات، ${repsOf(e, settings)} تكرار.", tempoAr(e),
                     )
-                    if (st.superset && exs.size > 1) parts += listOf("سوبر سِت، بالتبادل مع", exs[1].en, exs[1].ar + ".", "بدون راحة بين التمرينين.")
+                    if (st.superset && exs.size > 1) parts += listOf("سوبر سِت، بالتبادل مع", exs[1].nameAr + ".", exs[1].en, "بدون راحة بين التمرينين.")
                     if (transCount > 1 && remain > 60) parts += "باقي على نهاية الحصة حوالي ${minAr(remain)}."
                     if (drift > 60) parts += "نحن متأخرين ${minAr(drift)}، سأختصر الراحة قليلاً."
                     parts += "عندك ${dur.roundToInt()} ثانية لتجهيز الجهاز والوزن."
@@ -172,7 +182,7 @@ class Engine(
                 }
                 is PairSwitchStep -> {
                     val e = Catalog[st.to]
-                    if (st.round == 0) sp.say("انتقل الآن إلى", e.en, e.ar + ".", tempoAr(e)) else sp.say("انتقل إلى", e.en)
+                    if (st.round == 0) sp.say("انتقل الآن إلى", e.nameAr + ".", e.en, e.ar + ".", tempoAr(e)) else sp.say("انتقل إلى", e.nameAr)
                     waitMs(max(2000L, durMs - 4000), if (st.dur > 25) listOf(Cue(15_000) { sp.say("خمسة عشر ثانية.") }) else emptyList())
                 }
                 is SetStep -> { doSet(st); if (!c.skip && !c.stop) done += st.id }
@@ -185,10 +195,10 @@ class Engine(
                         if (st.superset) sp.say("عشر ثواني. الجولة الجاية:", e.en) else sp.say("عشر ثواني، جهّز نفسك.")
                     })
                     if (w > 35_000) cues += Cue(w - 8000) {
-                        val m = nextMotivation()
-                        if (st.nextSet == st.of) sp.say(listOf("آخر جولة جاية!") + m) else sp.say(m)
+                        sp.say(if (st.nextSet == st.of) CoachLines.restLastSet() else CoachLines.restMotivation())
                     }
-                    if (w > 55_000) cues += Cue(w / 2 - 2000) { sp.say("نصيحة:", tip) }
+                    if (w > 55_000) cues += Cue(w / 2 + 3000) { sp.say("نصيحة:", tip) }
+                    if (w > 80_000) cues += Cue(25_000) { sp.say(CoachLines.fact()) }
                     waitMs(w, cues)
                 }
             }
@@ -199,13 +209,14 @@ class Engine(
     private fun countWord(n: Int, extra: String?, fast: Boolean) {
         val r = min(1.8f, sp.rate * if (fast) 1.5f else 1.15f)
         sp.count(n.toString(), countArabic, flush = fast, r = r)
-        if (extra != null) sp.count(extra, countArabic || extra.any { it in '؀'..'ۿ' }, flush = false, r = r)
+        if (extra != null) sp.count(extra, extra.any { it in '؀'..'ۿ' }, flush = false, r = r)
     }
 
     private suspend fun doSet(st: SetStep) {
         val e = Catalog[st.id]
         Session.remainingSec = -1
-        sp.say("جولة ${st.setNo} من ${st.of}.", e.en)
+        Session.subtitle = "${e.en} · جولة ${st.setNo} من ${st.of}"
+        sp.say("جولة ${st.setNo} من ${st.of}.", e.nameAr)
         repeat(3) { if (c.stop || c.skip) return; sp.beep(Beep.COUNTDOWN); waitMs(800, showClock = false) }
         if (c.stop || c.skip) return
         sp.beep(Beep.GO)
@@ -216,11 +227,14 @@ class Engine(
         for (i in 1..st.reps) {
             if (c.stop || c.skip || c.skipExercise) return
             while (c.paused) delay(100)
-            Session.status = "${e.en}، جولة ${st.setNo} من ${st.of}، التكرار $i من ${st.reps}"
+            Session.status = "${e.nameAr}، جولة ${st.setNo} من ${st.of}، التكرار $i من ${st.reps}"
+            Session.remainingSec = i
             Session.touch()
             val extra = when {
-                i == st.reps -> if (countArabic) "الأخيرة!" else "Last one!"
-                !fast && i == st.reps - 2 -> if (countArabic) "يلا!" else "Push!"
+                i == st.reps -> CoachLines.lastRep().first()
+                !fast && st.reps >= 8 && i == st.reps - 2 -> CoachLines.push().first()
+                !fast && st.reps >= 10 && i == st.reps / 2 -> CoachLines.midSet().first()
+                fast && i % 25 == 0 && i < st.reps -> CoachLines.midSet().first()
                 else -> null
             }
             countWord(i, extra, fast)
@@ -229,7 +243,7 @@ class Engine(
             waitMs(((down + bot) * 1000).toLong(), showClock = false)
         }
         sp.beep(Beep.DONE)
-        sp.say(if (countArabic) "ممتاز، انتهت الجولة." else "Done!", if (countArabic) "" else "ممتاز.")
+        sp.say(CoachLines.setDone())
     }
 
     private suspend fun doStretch(st: StretchStep) {

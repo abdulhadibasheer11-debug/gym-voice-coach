@@ -12,7 +12,26 @@ data class Exercise(
     val tempo: DoubleArray, val tips: List<String>, val reps: Int? = null,
 ) {
     val repSeconds get() = tempo.sum()
+    /** Common Arabic gym name of the machine/exercise (the `ar` field is a spoken description). */
+    val nameAr: String get() = AR_NAMES[id] ?: ar
 }
+
+val AR_NAMES = mapOf(
+    "chest_press_high" to "جهاز ضغط الصدر", "smith_bench" to "بنش سميث مستوي", "incline_machine" to "جهاز الصدر العلوي المائل",
+    "seated_dip" to "جهاز الديبس بالجلوس", "pec_deck" to "جهاز الفراشة، البترفلاي", "tri_rope" to "ترايسبس حبل على الكيبل",
+    "tri_bar" to "ترايسبس بار على الكيبل", "tri_db_overhead" to "ترايسبس دمبل خلف الرأس", "tri_plate" to "ترايسبس طارة خلف الرأس",
+    "pulldown_wide" to "سحب علوي واسع", "cable_row" to "سحب أرضي، روينج كيبل", "pulldown_neutral" to "سحب علوي بمسكة متوازية",
+    "machine_row" to "جهاز التجديف بالجلوس", "tbar_row" to "تي بار، الطرمبة", "back_ext" to "الظهر السفلي، الكتونية",
+    "biceps_machine" to "جهاز الباي", "barbell_curl" to "باي بار حر", "cable_curl_rope" to "باي حبل هامر على الكيبل",
+    "cable_curl_bar" to "باي بار على الكيبل", "wrist_curl" to "جهاز الرست للسواعد",
+    "db_lateral" to "رفرفة جانبي دمبل", "db_press" to "ضغط أكتاف دمبل", "machine_shoulder_press" to "جهاز ضغط الأكتاف",
+    "machine_lateral" to "جهاز الرفرفة الجانبية", "reverse_pec_deck" to "فراشة عكسي للكتف الخلفي", "face_pull" to "فيس بول بالحبل",
+    "db_shrug" to "ترابيس دمبل", "leg_ext" to "جهاز الرجل الأمامية، ليج اكستنشن", "leg_curl" to "جهاز الرجل الخلفية، ليج كيرل",
+    "leg_press" to "جهاز دفع الأرجل، ليج برس", "squat_machine" to "جهاز السكوات", "adductor" to "جهاز الضم",
+    "abductor" to "جهاز الفتح", "calf_seated" to "جهاز السمانة بالجلوس",
+    "abs_machine" to "جهاز البطن، كرنش", "knee_raise" to "رفع الركب على جهاز الكابتن", "cable_crunch" to "كرنش بالكيبل",
+    "decline_crunch" to "بطن على البنش المائل", "torso_rotation" to "جهاز دوران الخصر",
+)
 
 private fun ex(
     id: String, en: String, ar: String, targetAr: String, equip: Equip, station: String, cat: Cat,
@@ -64,8 +83,16 @@ object Catalog {
             "اعصر في الأعلى ثانية كاملة."),
         ex("cable_curl_bar", "Cable EZ-Bar Curl", "الكيبل من الأسفل بالحديدة المنحنية للبايسبس", "البايسبس", Equip.CABLE, "cable_low", Cat.ISOLATION, t(1.0, 1.0, 2.0, 0.0),
             "انزل ببطء، النزول نص التمرين."),
-        ex("abs_machine", "Ab Crunch Machine", "جهاز البطن، أي جهاز متاح", "البطن", Equip.MACHINE, "abs", Cat.ABS, t(1.0, 1.0, 1.5, 0.0),
-            "ازفر الهواء وأنت تعصر البطن."),
+        ex("abs_machine", "Ab Crunch Machine", "تجلس وتثني جسمك للأمام وتعصر البطن", "البطن", Equip.MACHINE, "abs", Cat.ABS, t(1.0, 1.0, 1.5, 0.0),
+            "ازفر الهواء وأنت تعصر البطن.", "لا تسحب بيديك، خلّ البطن هو اللي يشتغل."),
+        ex("knee_raise", "Captain's Chair Knee Raise", "تسند ذراعيك على الجهاز وظهرك على المسند، وترفع ركبتيك لصدرك", "أسفل البطن", Equip.MACHINE, "captain", Cat.ABS, t(1.0, 1.0, 1.5, 0.0),
+            "ارفع ركبتيك ببطء ولا تتأرجح.", "ميّل حوضك للأمام في الأعلى."),
+        ex("cable_crunch", "Cable Crunch", "تركع أمام الكيبل العالي، تمسك الحبل بجانب رأسك وتنثني للأسفل", "البطن", Equip.CABLE, "cable_high", Cat.ABS, t(1.0, 1.0, 1.5, 0.0),
+            "الحوض ثابت، فقط ظهرك ينثني للأسفل."),
+        ex("decline_crunch", "Decline Bench Crunch", "تستلقي على البنش المائل للأسفل وقدماك مثبتتان، وترفع جسمك", "البطن", Equip.FREE, "decline_bench", Cat.ABS, t(1.0, 1.0, 1.5, 0.0),
+            "لا تشد رقبتك بيديك."),
+        ex("torso_rotation", "Rotary Torso Machine", "تجلس وتدور بجسمك لجهة واحدة، ثم تبدّل الجهة", "جوانب البطن", Equip.MACHINE, "torso", Cat.ABS, t(1.0, 0.5, 1.5, 0.0),
+            "الحركة من الخصر، والحوض ثابت."),
         ex("wrist_curl", "Wrist Curl Machine", "جهاز الرست للسواعد", "السواعد", Equip.MACHINE, "wrist", Cat.SMALL, t(0.6, 0.0, 0.8, 0.0),
             "حركة سريعة ومنتظمة، الساعد ثابت والرسغ فقط يتحرك.", reps = 100),
         // ---- Shoulders
@@ -109,12 +136,16 @@ data class Block(val variants: List<List<String>>, val superset: Boolean = false
 private fun b(vararg ids: String, superset: Boolean = false) = Block(listOf(ids.toList()), superset)
 private fun v(vararg options: List<String>, superset: Boolean = false) = Block(options.toList(), superset)
 
+/** Abs slot: a different abs machine each session. */
+private val ABS = v(listOf("abs_machine"), listOf("knee_raise"), listOf("cable_crunch"), listOf("decline_crunch"), listOf("torso_rotation"))
+
 data class Day(val id: String, val ar: String, val en: String, val armStretch: Boolean, val blocks: List<Block>)
 
 val DAYS = listOf(
     Day("chest", "الصدر والترايسبس", "Chest and Triceps", true, listOf(
         b("chest_press_high"), b("smith_bench"), b("incline_machine"), b("seated_dip"), b("pec_deck"),
         v(listOf("tri_rope", "tri_bar"), listOf("tri_db_overhead", "tri_plate")),
+        ABS,
     )),
     Day("back", "الظهر", "Back", true, listOf(
         b("pulldown_wide"), b("cable_row"), b("pulldown_neutral"), b("machine_row"), b("tbar_row"), b("back_ext"),
@@ -123,11 +154,11 @@ val DAYS = listOf(
         b("biceps_machine"),
         b("tri_rope", "barbell_curl", superset = true),
         v(listOf("cable_curl_rope", "tri_db_overhead"), listOf("cable_curl_bar", "tri_plate"), superset = true),
-        b("abs_machine"), b("wrist_curl"),
+        ABS, b("wrist_curl"),
     )),
     Day("shoulders", "الكتف والترابيس", "Shoulders and Traps", true, listOf(
         b("db_lateral"), b("db_press"), b("machine_shoulder_press"), b("machine_lateral"),
-        b("reverse_pec_deck"), b("face_pull"), b("db_shrug"), b("abs_machine"),
+        b("reverse_pec_deck"), b("face_pull"), b("db_shrug"), ABS,
     )),
     Day("legs", "الأرجل", "Legs", false, listOf(
         b("leg_ext"), b("leg_curl"), b("leg_press"), b("squat_machine"), b("adductor"), b("abductor"), b("calf_seated"),
