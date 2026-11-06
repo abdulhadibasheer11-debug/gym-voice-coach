@@ -3,6 +3,7 @@ name: Build APK and publish release
 on:
   push:
     branches: [main]
+    paths-ignore: ["probe/**"]
   workflow_dispatch:
 
 permissions:
