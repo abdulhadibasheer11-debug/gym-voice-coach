@@ -47,6 +47,7 @@ class WorkoutService : Service() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var job: Job? = null
     private var speaker: Speaker? = null
+    private var music: Music? = null
     private val controls = Controls()
     private var wakeLock: PowerManager.WakeLock? = null
     private var media: MediaSession? = null
@@ -74,7 +75,8 @@ class WorkoutService : Service() {
         if (job != null) return
         startForegroundCompat(buildNotification("جاري التجهيز"))
         val prefs = Prefs(this)
-        val day = DAYS.firstOrNull { it.id == dayId } ?: DAYS[0]
+        val days = prefs.days()
+        val day = days.firstOrNull { it.id == dayId } ?: days[0]
         val settings = prefs.settingsFor(day)
         val plan = buildPlan(day, settings)
         wakeLock = (getSystemService(Context.POWER_SERVICE) as PowerManager)
@@ -90,7 +92,12 @@ class WorkoutService : Service() {
                 Session.touch(); finish(); return@launch
             }
             sp.rate = prefs.speechRate
+            sp.useRecorded = prefs.useRecorded
             sp.onText = { Session.status = it; Session.touch() }
+            val m = Music(this@WorkoutService, this, prefs.musicMode, prefs.musicFolder, prefs.musicVolume)
+            music = m
+            sp.onSpeech = { m.duck(it) }
+            m.start()
             if (!sp.arabicAvailable) sp.say("Arabic voice is not installed. Please install Arabic in Google text to speech settings.")
             // keep notification text in sync
             val notifJob = launch {
@@ -129,6 +136,7 @@ class WorkoutService : Service() {
     private fun finish() {
         Session.running = false; Session.paused = false; Session.touch()
         speaker?.shutdown(); speaker = null
+        music?.stop(); music = null
         media?.release(); media = null
         runCatching { wakeLock?.release() }
         stopForeground(STOP_FOREGROUND_REMOVE)
@@ -141,6 +149,7 @@ class WorkoutService : Service() {
         Session.paused = controls.paused; Session.touch()
         updateMediaState()
         speaker?.stop()
+        music?.pause(controls.paused)
         scope.launch {
             speaker?.say(if (controls.paused) "متوقف مؤقتاً. اضغط استئناف عندما تكون جاهز." else "نكمل.", record = false)
         }
@@ -238,6 +247,7 @@ class WorkoutService : Service() {
         controls.stop = true
         scope.cancel()
         speaker?.shutdown()
+        music?.stop()
         Session.running = false; Session.touch()
         super.onDestroy()
     }

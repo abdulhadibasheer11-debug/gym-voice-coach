@@ -26,6 +26,8 @@ class WorkoutActivity : Activity() {
     private lateinit var status: TextView
     private lateinit var progress: TextView
     private lateinit var pauseBtn: Button
+    private lateinit var image: android.widget.ImageView
+    private var shownEx: String? = "-"
     private var seen = -1L
     private val openedAt = System.currentTimeMillis()
 
@@ -49,6 +51,11 @@ class WorkoutActivity : Activity() {
         }
         if (Session.paused) setIfChanged(phaseLabel, "متوقف مؤقتاً") else setIfChanged(phaseLabel, label)
         (heroCard.background as? GradientDrawable)?.setColor(if (Session.paused) 0xFF555555.toInt() else color)
+        if (shownEx != Session.exId) {
+            shownEx = Session.exId
+            val bmp = Session.exId?.let { ExerciseImages.get(this, it) }
+            if (bmp != null) { image.setImageBitmap(bmp); image.visibility = android.view.View.VISIBLE } else image.visibility = android.view.View.GONE
+        }
         setIfChanged(title, Session.title)
         setIfChanged(subtitle, Session.subtitle)
         val r = Session.remainingSec
@@ -73,6 +80,15 @@ class WorkoutActivity : Activity() {
         phaseLabel = Ui.styled(this, "", 18f, bold = true).also { heroCard.addView(it) }
         title = Ui.styled(this, "", 30f, bold = true).also { heroCard.addView(it) }
         subtitle = Ui.styled(this, "", 18f).also { heroCard.addView(it) }
+        image = android.widget.ImageView(this).apply {
+            scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+            setBackgroundColor(0xFFFFFFFF.toInt())
+            importantForAccessibility = android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            visibility = android.view.View.GONE
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Ui.dp(this@WorkoutActivity, 190))
+                .apply { setMargins(0, Ui.dp(this@WorkoutActivity, 8), 0, Ui.dp(this@WorkoutActivity, 8)) }
+        }
+        heroCard.addView(image)
         big = Ui.styled(this, "", 84f, bold = true).also { it.gravity = Gravity.CENTER; heroCard.addView(it) }
         col.addView(heroCard)
 

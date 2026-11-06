@@ -5,3 +5,4 @@ local.properties
 *.keystore
 .idea/
 !signing/release.jks
+app/src/main/assets/images/

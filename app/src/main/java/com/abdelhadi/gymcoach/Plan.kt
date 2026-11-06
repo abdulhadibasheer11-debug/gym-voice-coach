@@ -31,6 +31,23 @@ val AR_NAMES = mapOf(
     "abductor" to "جهاز الفتح", "calf_seated" to "جهاز السمانة بالجلوس",
     "abs_machine" to "جهاز البطن، كرنش", "knee_raise" to "رفع الركب على جهاز الكابتن", "cable_crunch" to "كرنش بالكيبل",
     "decline_crunch" to "بطن على البنش المائل", "torso_rotation" to "جهاز دوران الخصر",
+    "barbell_bench" to "بنش بار حر", "incline_db_press" to "ضغط دمبل مائل", "db_fly" to "تفتيح دمبل",
+    "cable_crossover" to "تقاطع الكيبل، كروس أوفر", "push_up" to "ضغط الأرض", "pull_up" to "العقلة",
+    "db_row" to "تجديف دمبل بيد واحدة", "deadlift" to "الرفعة الميتة، ديدلفت", "barbell_squat" to "سكوات بار حر",
+    "lunge" to "طعن بالدمبل، لانجز", "rdl" to "رفعة رومانية", "hip_thrust" to "رفع الحوض، هيب ثرست",
+    "standing_calf" to "سمانة وقوف", "db_curl" to "باي دمبل", "hammer_curl" to "باي هامر دمبل",
+    "skull_crusher" to "ترايسبس بار مستلقي", "front_raise" to "رفع أمامي دمبل", "upright_row" to "سحب عالي بالبار",
+)
+
+/** Muscle groups used by the exercise picker. */
+val GROUPS: List<Pair<String, List<String>>> = listOf(
+    "الصدر" to listOf("chest_press_high", "smith_bench", "barbell_bench", "incline_machine", "incline_db_press", "seated_dip", "pec_deck", "db_fly", "cable_crossover", "push_up"),
+    "الظهر" to listOf("pulldown_wide", "pulldown_neutral", "pull_up", "cable_row", "machine_row", "tbar_row", "db_row", "deadlift", "back_ext"),
+    "الأكتاف والترابيس" to listOf("db_lateral", "db_press", "machine_shoulder_press", "machine_lateral", "front_raise", "reverse_pec_deck", "face_pull", "upright_row", "db_shrug"),
+    "البايسبس والسواعد" to listOf("biceps_machine", "barbell_curl", "db_curl", "hammer_curl", "cable_curl_rope", "cable_curl_bar", "wrist_curl"),
+    "الترايسبس" to listOf("tri_rope", "tri_bar", "tri_db_overhead", "tri_plate", "skull_crusher"),
+    "الأرجل" to listOf("leg_ext", "leg_curl", "leg_press", "squat_machine", "barbell_squat", "lunge", "rdl", "hip_thrust", "adductor", "abductor", "calf_seated", "standing_calf"),
+    "البطن" to listOf("abs_machine", "knee_raise", "cable_crunch", "decline_crunch", "torso_rotation"),
 )
 
 private fun ex(
@@ -125,23 +142,66 @@ object Catalog {
             "ميّل جسمك للأمام قليلاً لشغل أقوى على المؤخرة."),
         ex("calf_seated", "Seated Calf Raise", "جهاز السمانة بالجلوس، أمشاط القدم فقط على الجهاز", "السمانة", Equip.MACHINE, "calf", Cat.SMALL, t(1.0, 1.0, 2.0, 1.0),
             "انزل لآخر تمدد وتوقف ثانية تحت."),
+        // ---- Extra exercises for custom programs
+        ex("barbell_bench", "Barbell Bench Press", "بنش بار حر، استلقِ على البنش وادفع البار للأعلى", "منتصف الصدر", Equip.FREE, "bench", Cat.HEAVY, t(1.0, 0.0, 2.0, 0.5),
+            "لوحي الكتف مشدودين للخلف، والقدمين ثابتتين."),
+        ex("incline_db_press", "Incline Dumbbell Press", "دمبل على البنش المائل، ادفع للأعلى", "أعلى الصدر", Equip.FREE, "incline_bench", Cat.COMPOUND, t(1.0, 0.0, 2.0, 0.0),
+            "انزل بالدمبل لجانب الصدر بهدوء."),
+        ex("db_fly", "Dumbbell Fly", "فتح الدمبل على البنش المستوي", "الصدر", Equip.FREE, "bench", Cat.ISOLATION, t(1.0, 0.5, 2.0, 0.0),
+            "المرفقين مثنيين قليلاً طول الحركة."),
+        ex("cable_crossover", "Cable Crossover", "تقاطع الكيبل، ضم اليدين أمامك من الكيبلين العاليين", "الصدر", Equip.CABLE, "cable_cross", Cat.ISOLATION, t(1.0, 1.0, 2.0, 0.0),
+            "اعصر الصدر لما تلتقي اليدين."),
+        ex("push_up", "Push-up", "الضغط على الأرض", "الصدر والترايسبس", Equip.FREE, "floor", Cat.COMPOUND, t(1.0, 0.0, 2.0, 0.0),
+            "جسمك مستقيم من الرأس للكعب."),
+        ex("pull_up", "Pull-up", "العقلة، اسحب جسمك للأعلى", "الظهر العريض", Equip.FREE, "pullup_bar", Cat.HEAVY, t(1.0, 0.5, 2.0, 0.0),
+            "انزل لآخر مدى في كل تكرار."),
+        ex("db_row", "One-Arm Dumbbell Row", "تجديف دمبل بيد واحدة مع الاستناد على البنش", "منتصف الظهر", Equip.FREE, "bench", Cat.COMPOUND, t(1.0, 1.0, 2.0, 0.0),
+            "اسحب الدمبل لجهة الحوض، مو للصدر."),
+        ex("deadlift", "Deadlift", "الرفعة الميتة بالبار من الأرض", "الظهر والأرجل", Equip.FREE, "barbell", Cat.HEAVY, t(1.5, 0.0, 2.0, 0.5),
+            "ظهرك مستقيم، والبار قريب من رجليك."),
+        ex("barbell_squat", "Barbell Back Squat", "سكوات بالبار على الكتفين", "الفخذ والمؤخرة", Equip.FREE, "squat_rack", Cat.HEAVY, t(1.5, 0.0, 2.0, 0.0),
+            "الركبة باتجاه أصابع القدم."),
+        ex("lunge", "Dumbbell Lunge", "طعن بالدمبل، خطوة للأمام وانزل", "الفخذ والمؤخرة", Equip.FREE, "dumbbells", Cat.COMPOUND, t(1.0, 0.0, 2.0, 0.0),
+            "الجذع مستقيم، والركبة الخلفية تقترب من الأرض."),
+        ex("rdl", "Romanian Deadlift", "رفعة رومانية بالبار، ميل للأمام مع ركبة شبه مستقيمة", "الفخذ الخلفي", Equip.FREE, "barbell", Cat.HEAVY, t(1.0, 0.0, 2.5, 0.0),
+            "ادفع حوضك للخلف حتى تحس بتمدد الفخذ الخلفي."),
+        ex("hip_thrust", "Hip Thrust", "رفع الحوض والظهر مستند على البنش", "المؤخرة", Equip.FREE, "bench", Cat.COMPOUND, t(1.0, 1.0, 2.0, 0.0),
+            "اعصر المؤخرة في الأعلى."),
+        ex("standing_calf", "Standing Calf Raise", "سمانة وقوف على الجهاز", "السمانة", Equip.MACHINE, "calf_standing", Cat.SMALL, t(1.0, 1.0, 2.0, 1.0),
+            "انزل لآخر تمدد."),
+        ex("db_curl", "Dumbbell Curl", "باي دمبل وقوف", "البايسبس", Equip.FREE, "dumbbells", Cat.ISOLATION, t(1.0, 0.5, 2.0, 0.0),
+            "لف الرسغ للخارج وأنت ترفع."),
+        ex("hammer_curl", "Dumbbell Hammer Curl", "باي هامر بالدمبل، القبضة رأسية", "البايسبس والساعد", Equip.FREE, "dumbbells", Cat.ISOLATION, t(1.0, 0.5, 2.0, 0.0),
+            "المرفق ثابت بجانبك."),
+        ex("skull_crusher", "EZ-Bar Skull Crusher", "ترايسبس بالبار المنحني وأنت مستلقي، تنزل البار لجبهتك", "الترايسبس", Equip.FREE, "bench", Cat.ISOLATION, t(1.0, 0.0, 2.0, 0.0),
+            "المرفقين ثابتين ومتجهين للأعلى."),
+        ex("front_raise", "Dumbbell Front Raise", "رفع أمامي بالدمبل", "الكتف الأمامي", Equip.FREE, "dumbbells", Cat.ISOLATION, t(1.0, 0.5, 2.0, 0.0),
+            "ارفع لمستوى الكتف فقط."),
+        ex("upright_row", "Upright Row", "سحب البار للأعلى قريب من جسمك حتى الصدر", "الكتف والترابيس", Equip.FREE, "barbell", Cat.COMPOUND, t(1.0, 0.5, 2.0, 0.0),
+            "المرفقين أعلى من اليدين."),
     ).associateBy { it.id }
 
     operator fun get(id: String) = all.getValue(id)
 }
 
 /** A block: straight sets of one or more exercises, or an antagonist superset. variants alternate each session. */
-data class Block(val variants: List<List<String>>, val superset: Boolean = false)
+data class Block(
+    val variants: List<List<String>>,
+    val superset: Boolean = false,
+    val sets: Int? = null,
+    val reps: Int? = null,
+)
 
-private fun b(vararg ids: String, superset: Boolean = false) = Block(listOf(ids.toList()), superset)
-private fun v(vararg options: List<String>, superset: Boolean = false) = Block(options.toList(), superset)
+fun b(vararg ids: String, superset: Boolean = false) = Block(listOf(ids.toList()), superset)
+fun v(vararg options: List<String>, superset: Boolean = false) = Block(options.toList(), superset)
 
 /** Abs slot: a different abs machine each session. */
-private val ABS = v(listOf("abs_machine"), listOf("knee_raise"), listOf("cable_crunch"), listOf("decline_crunch"), listOf("torso_rotation"))
+val ABS = v(listOf("abs_machine"), listOf("knee_raise"), listOf("cable_crunch"), listOf("decline_crunch"), listOf("torso_rotation"))
 
 data class Day(val id: String, val ar: String, val en: String, val armStretch: Boolean, val blocks: List<Block>)
 
-val DAYS = listOf(
+/** The user's original 5-day split; also the default program. */
+val DEFAULT_DAYS = listOf(
     Day("chest", "الصدر والترايسبس", "Chest and Triceps", true, listOf(
         b("chest_press_high"), b("smith_bench"), b("incline_machine"), b("seated_dip"), b("pec_deck"),
         v(listOf("tri_rope", "tri_bar"), listOf("tri_db_overhead", "tri_plate")),
@@ -222,8 +282,8 @@ fun transFor(prev: Exercise?, e: Exercise, s: Settings): Int {
     return (base * s.transMult).roundToInt()
 }
 
-fun repsOf(e: Exercise, s: Settings) = e.reps ?: s.defaultReps
-fun setSeconds(e: Exercise, s: Settings) = (Timing.SET_CUE + repsOf(e, s) * e.repSeconds + Timing.SET_END).roundToInt()
+fun repsOf(e: Exercise, s: Settings, override: Int? = null) = override ?: e.reps ?: s.defaultReps
+fun setSeconds(e: Exercise, reps: Int) = (Timing.SET_CUE + reps * e.repSeconds + Timing.SET_END).roundToInt()
 
 // ---------------- Steps ----------------
 sealed class Step {
@@ -233,16 +293,18 @@ sealed class Step {
 class IntroStep(override val dur: Int) : Step()
 class CardioStep(val cardio: Cardio, override val dur: Int) : Step()
 class StretchStep(val items: List<StretchItem>, override val dur: Int) : Step()
-class TransitionStep(val ex: List<String>, val superset: Boolean, val blockNo: Int, val blockTotal: Int, override val dur: Int) : Step()
+class TransitionStep(val ex: List<String>, val superset: Boolean, val blockNo: Int, val blockTotal: Int, override val dur: Int, val sets: Int = 3, val reps: Int = 12) : Step()
 class PairSwitchStep(val to: String, val round: Int, override val dur: Int) : Step()
 class SetStep(val id: String, val setNo: Int, val of: Int, val reps: Int, override val dur: Int) : Step()
 class RestStep(val nextId: String, val nextSet: Int, val of: Int, val superset: Boolean, override val dur: Int) : Step()
 
-data class ResolvedBlock(val ex: List<String>, val superset: Boolean)
+data class ResolvedBlock(val ex: List<String>, val superset: Boolean, val sets: Int, val reps: Int?)
 data class Plan(val day: Day, val steps: List<Step>, val totalSec: Int, val blocks: List<ResolvedBlock>)
 
 fun buildPlan(day: Day, s: Settings): Plan {
-    val blocks = day.blocks.map { ResolvedBlock(it.variants[s.variantIdx % it.variants.size], it.superset) }
+    val blocks = day.blocks.filter { it.variants.isNotEmpty() }.map {
+        ResolvedBlock(it.variants[s.variantIdx % it.variants.size], it.superset, it.sets ?: s.sets, it.reps)
+    }
     val steps = mutableListOf<Step>()
     steps += IntroStep(Timing.INTRO)
     if (s.cardio != Cardio.NONE) steps += CardioStep(s.cardio, s.cardio.minutes * 60)
@@ -250,24 +312,26 @@ fun buildPlan(day: Day, s: Settings): Plan {
     var prev: Exercise? = null
     blocks.forEachIndexed { bi, b ->
         val first = Catalog[b.ex[0]]
-        steps += TransitionStep(b.ex, b.superset, bi + 1, blocks.size, transFor(prev, first, s))
-        if (b.superset) {
-            for (r in 0 until s.sets) {
+        steps += TransitionStep(b.ex, b.superset, bi + 1, blocks.size, transFor(prev, first, s), b.sets, repsOf(first, s, b.reps))
+        if (b.superset && b.ex.size > 1) {
+            for (r in 0 until b.sets) {
                 b.ex.forEachIndexed { k, id ->
                     val e = Catalog[id]
+                    val reps = repsOf(e, s, b.reps)
                     if (k > 0) steps += PairSwitchStep(id, r, if (r == 0) Timing.PAIR_SWITCH_FIRST else Timing.PAIR_SWITCH)
-                    steps += SetStep(id, r + 1, s.sets, repsOf(e, s), setSeconds(e, s))
+                    steps += SetStep(id, r + 1, b.sets, reps, setSeconds(e, reps))
                 }
-                if (r < s.sets - 1) steps += RestStep(b.ex[0], r + 2, s.sets, true, restFor(b.ex.last(), r + 1, s))
+                if (r < b.sets - 1) steps += RestStep(b.ex[0], r + 2, b.sets, true, restFor(b.ex.last(), r + 1, s))
             }
             prev = Catalog[b.ex.last()]
         } else {
             b.ex.forEachIndexed { k, id ->
                 val e = Catalog[id]
-                if (k > 0) steps += TransitionStep(listOf(id), false, bi + 1, blocks.size, transFor(Catalog[b.ex[k - 1]], e, s))
-                for (r in 0 until s.sets) {
-                    steps += SetStep(id, r + 1, s.sets, repsOf(e, s), setSeconds(e, s))
-                    if (r < s.sets - 1) steps += RestStep(id, r + 2, s.sets, false, restFor(id, r + 1, s))
+                val reps = repsOf(e, s, b.reps)
+                if (k > 0) steps += TransitionStep(listOf(id), false, bi + 1, blocks.size, transFor(Catalog[b.ex[k - 1]], e, s), b.sets, reps)
+                for (r in 0 until b.sets) {
+                    steps += SetStep(id, r + 1, b.sets, reps, setSeconds(e, reps))
+                    if (r < b.sets - 1) steps += RestStep(id, r + 2, b.sets, false, restFor(id, r + 1, s))
                 }
                 prev = e
             }

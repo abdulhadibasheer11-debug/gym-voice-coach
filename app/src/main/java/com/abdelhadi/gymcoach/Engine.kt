@@ -23,6 +23,7 @@ object Session {
     @Volatile var phase = ""
     @Volatile var title = ""
     @Volatile var subtitle = ""
+    @Volatile var exId: String? = null
     @Volatile var version = 0L
     fun touch() { version++ }
 }
@@ -126,6 +127,9 @@ class Engine(
             Session.progress = progressText(st, total, remainMin)
             Session.remainingSec = -1
             Session.restId = (st as? RestStep)?.nextId
+            Session.exId = when (st) {
+                is SetStep -> st.id; is RestStep -> st.nextId; is TransitionStep -> st.ex[0]; is PairSwitchStep -> st.to; else -> null
+            }
             when (st) {
                 is SetStep -> { Session.phase = "set"; Session.title = Catalog[st.id].nameAr; Session.subtitle = "${Catalog[st.id].en} · جولة ${st.setNo} من ${st.of}" }
                 is RestStep -> { Session.phase = "rest"; Session.title = "راحة"; Session.subtitle = "التالي: ${Catalog[st.nextId].nameAr}، جولة ${st.nextSet} من ${st.of}" }
@@ -171,7 +175,7 @@ class Engine(
                     parts += listOf(
                         if (transCount == 1) "التمرين الأول:" else "التمرين رقم ${st.blockNo} من ${st.blockTotal}:",
                         e.nameAr + ".", e.en, e.ar + ".", "العضلة المستهدفة: ${e.targetAr}.",
-                        "${settings.sets} جولات، ${repsOf(e, settings)} تكرار.", tempoAr(e),
+                        "${st.sets} جولات، ${st.reps} تكرار.", tempoAr(e),
                     )
                     if (st.superset && exs.size > 1) parts += listOf("سوبر سِت، بالتبادل مع", exs[1].nameAr + ".", exs[1].en, "بدون راحة بين التمرينين.")
                     if (transCount > 1 && remain > 60) parts += "باقي على نهاية الحصة حوالي ${minAr(remain)}."

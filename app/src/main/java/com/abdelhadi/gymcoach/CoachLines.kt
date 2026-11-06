@@ -46,6 +46,19 @@ object CoachLines {
     private val halfway = listOf(l("خلصنا نص الحصة!", "كمّل بنفس الحماس."), l("Halfway done!", "أنت ماشي صح."))
     private val lastExercise = listOf(l("آخر تمرين اليوم!", "خلّينا نختم بقوة."), l("Final exercise!", "آخر شوط يا وحش."))
 
+    /** Every fixed sentence the engine speaks (must match the engine's strings exactly). */
+    val fixed = listOf(
+        "Let's go!", "Go!", "ابدأ!", "نصيحة:", "خمسة.", "نكمل.",
+        "عشر ثواني، جهّز نفسك.", "عشرين ثانية. ثبّت الوزن وجهّز وضعيتك.", "خمسة عشر ثانية.",
+        "باقي دقيقة واحدة على نهاية الإحماء.", "عشر ثواني. خفّف السرعة.", "انتهى الإحماء. ممتاز.", "انتهت الإطالة.",
+        "انتهت الحصة!", "Great workout!", "لا تنسَ تشرب ماء.",
+    )
+
+    /** All segments that can be recorded in the voice studio: counts 1–30, then coach lines. */
+    fun recordable(): List<String> = ((1..30).map { it.toString() } + fixed +
+        listOf(midSet, pushSet, lastRep, setDone, restMotivation, restLastSet, transition, halfway, lastExercise, facts)
+            .flatten().flatten()).distinct()
+
     fun midSet() = pick("mid", midSet)
     fun push() = pick("push", pushSet)
     fun lastRep() = pick("last", lastRep)

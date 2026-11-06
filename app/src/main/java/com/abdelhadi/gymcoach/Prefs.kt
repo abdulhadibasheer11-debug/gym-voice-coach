@@ -4,7 +4,7 @@ import android.content.Context
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Prefs(ctx: Context) {
+class Prefs(private val ctx: Context) {
     private val p = ctx.getSharedPreferences("gymcoach", Context.MODE_PRIVATE)
 
     var dayId: String?
@@ -45,11 +45,27 @@ class Prefs(ctx: Context) {
         p.edit().putString("log", trimmed.toString()).apply()
     }
 
+    fun days() = ProgramStore.days(ctx)
+
     fun suggestedDayId(): String {
-        val last = lastDay ?: return DAYS[0].id
-        val i = DAYS.indexOfFirst { it.id == last }
-        return DAYS[(i + 1).mod(DAYS.size)].id
+        val days = days()
+        val last = lastDay ?: return days[0].id
+        val i = days.indexOfFirst { it.id == last }
+        return days[(i + 1).mod(days.size)].id
     }
+
+    var musicMode: String
+        get() = p.getString("musicMode", "none") ?: "none"
+        set(v) = p.edit().putString("musicMode", v).apply()
+    var musicFolder: String?
+        get() = p.getString("musicFolder", null)
+        set(v) = p.edit().putString("musicFolder", v).apply()
+    var musicVolume: Float
+        get() = p.getFloat("musicVolume", 0.5f)
+        set(v) = p.edit().putFloat("musicVolume", v).apply()
+    var useRecorded: Boolean
+        get() = p.getBoolean("useRecorded", false)
+        set(v) = p.edit().putBoolean("useRecorded", v).apply()
 
     fun settingsFor(day: Day) = Settings(
         transMult = transMult.toDouble(),

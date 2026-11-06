@@ -25,6 +25,23 @@ class MainActivity : Activity() {
     private lateinit var voiceStatus: TextView
     private lateinit var dayBox: LinearLayout
     private var testSpeaker: Speaker? = null
+    private lateinit var musicFolderText: TextView
+    private lateinit var recordedText: TextView
+
+    private fun pickFolder() {
+        startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), 7)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val uri = data?.data
+        if (requestCode == 7 && resultCode == RESULT_OK && uri != null) {
+            runCatching { contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+            prefs.musicFolder = uri.toString()
+            refresh()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +57,7 @@ class MainActivity : Activity() {
         col.addView(Ui.heading(this, "يوم التمرين"))
         dayBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         col.addView(dayBox)
+        col.addView(Ui.button(this, "تخصيص البرنامج والأيام") { startActivity(Intent(this, ProgramActivity::class.java)) })
 
         col.addView(Ui.heading(this, "الإحماء"))
         col.addView(Ui.radioGroup(this, "الإحماء",
@@ -49,6 +67,24 @@ class MainActivity : Activity() {
         col.addView(Ui.heading(this, "خطة اليوم"))
         planBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         col.addView(planBox)
+
+        col.addView(Ui.heading(this, "الموسيقى أثناء التمرين"))
+        col.addView(Ui.radioGroup(this, "الموسيقى",
+            listOf("none" to "بدون موسيقى، أو أشغّلها من تطبيق آخر وتنخفض عند كلام المدرب",
+                "phone" to "موسيقى من ملفات هاتفي", "app" to "موسيقى حماسية من التطبيق"),
+            prefs.musicMode) { prefs.musicMode = it; if (it == "phone" && prefs.musicFolder == null) pickFolder() })
+        musicFolderText = Ui.text(this, "", 17f).also { col.addView(it) }
+        col.addView(Ui.button(this, "اختيار مجلد الموسيقى من الهاتف") { pickFolder() })
+        col.addView(Ui.text(this, "مستوى صوت الموسيقى", 20f))
+        col.addView(Ui.radioGroup(this, "مستوى صوت الموسيقى",
+            listOf(0.3f to "منخفض", 0.5f to "متوسط", 0.8f to "عالٍ"), prefs.musicVolume) { prefs.musicVolume = it })
+
+        col.addView(Ui.heading(this, "صوت المدرب البشري، تجريبي"))
+        recordedText = Ui.text(this, "", 17f).also { col.addView(it) }
+        col.addView(Ui.radioGroup(this, "صوت المدرب",
+            listOf(false to "صوت الهاتف", true to "الصوت البشري المسجّل، وصوت الهاتف لما لم يُسجَّل"),
+            prefs.useRecorded) { prefs.useRecorded = it })
+        col.addView(Ui.button(this, "فتح استوديو التسجيل") { startActivity(Intent(this, StudioActivity::class.java)) })
 
         col.addView(Ui.heading(this, "الإعدادات"))
         col.addView(Ui.button(this, "تجربة الصوت") { testVoice() })
@@ -71,6 +107,8 @@ class MainActivity : Activity() {
         col.addView(Ui.heading(this, "التحديثات"))
         col.addView(Ui.text(this, "الإصدار الحالي ${BuildConfig.VERSION_NAME}", 18f))
         col.addView(Ui.button(this, "فحص التحديثات") { checkUpdate(manual = true) })
+        col.addView(Ui.heading(this, "حقوق الصور"))
+        col.addView(Ui.text(this, ExerciseImages.credits(this), 15f))
 
         setContentView(ScrollView(this).apply { setBackgroundColor(Ui.BG); addView(col) })
         refresh()
@@ -84,18 +122,23 @@ class MainActivity : Activity() {
     }
 
     private fun refresh() {
+        val days = prefs.days()
+        if (days.none { it.id == prefs.dayId }) prefs.dayId = prefs.suggestedDayId()
         val sug = prefs.suggestedDayId()
+        musicFolderText.text = prefs.musicFolder?.let { "مجلد الموسيقى: " + android.net.Uri.decode(it).substringAfterLast(':').substringAfterLast('/') } ?: "لم يتم اختيار مجلد موسيقى."
+        recordedText.text = "الجمل المسجّلة: ${VoicePack.recordedCount(this)} من ${CoachLines.recordable().size}."
         dayBox.removeAllViews()
-        val opts = DAYS.mapIndexed { i, d ->
+        val opts = days.mapIndexed { i, d ->
             val mins = buildPlan(d, prefs.settingsFor(d)).totalSec / 60
-            d.id to "اليوم ${i + 1}: ${d.ar}، ${d.en}، حوالي $mins دقيقة${if (d.id == sug) "، المقترح اليوم" else ""}"
+            d.id to "اليوم ${i + 1}: ${d.ar}${if (d.en.isNotBlank()) "، ${d.en}" else ""}، حوالي $mins دقيقة${if (d.id == sug) "، المقترح اليوم" else ""}"
         }
         dayBox.addView(Ui.radioGroup(this, "يوم التمرين", opts, prefs.dayId ?: sug) { prefs.dayId = it; refreshPlan() })
         refreshPlan()
     }
 
     private fun refreshPlan() {
-        val day = DAYS.first { it.id == (prefs.dayId ?: DAYS[0].id) }
+        val days = prefs.days()
+        val day = days.firstOrNull { it.id == prefs.dayId } ?: days[0]
         val s = prefs.settingsFor(day)
         val plan = buildPlan(day, s)
         val end = SimpleDateFormat("h:mm a", Locale("ar")).format(Date(System.currentTimeMillis() + plan.totalSec * 1000L))
@@ -110,10 +153,11 @@ class MainActivity : Activity() {
             if (b.superset) card.addView(Ui.styled(this, "سوبر سِت بالتبادل", 16f, bold = true, color = Ui.ACCENT))
             b.ex.forEach { id ->
                 val e = Catalog[id]
+                ExerciseImages.view(this, id)?.let { card.addView(it) }
                 card.addView(Ui.styled(this, "$n. ${e.nameAr}", 21f, bold = true))
                 card.addView(Ui.styled(this, e.en, 17f, color = Ui.MUTED))
                 card.addView(Ui.styled(this, "${e.ar}.", 17f))
-                card.addView(Ui.styled(this, "${s.sets} جولات × ${repsOf(e, s)} تكرار · راحة ${e.cat.rest + (s.restAdj[id] ?: 0)} ثانية · العضلة: ${e.targetAr}", 16f, color = Ui.MUTED))
+                card.addView(Ui.styled(this, "${b.sets} جولات × ${repsOf(e, s, b.reps)} تكرار · راحة ${e.cat.rest + (s.restAdj[id] ?: 0)} ثانية · العضلة: ${e.targetAr}", 16f, color = Ui.MUTED))
             }
             planBox.addView(card)
         }

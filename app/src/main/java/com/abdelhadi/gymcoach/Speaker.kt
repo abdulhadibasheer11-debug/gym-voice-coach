@@ -4,8 +4,12 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.media.MediaPlayer
 import android.media.ToneGenerator
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.SystemClock
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import kotlinx.coroutines.CompletableDeferred
@@ -15,10 +19,10 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * Text-to-speech with mixed Arabic/English segments.
- * Every segment is spoken in its own language. Uses the "navigation guidance" audio usage so that
- * music is ducked rather than paused, and TalkBack (accessibility stream) is not interrupted.
- * Later, pre-recorded clips can be plugged in here (look up a clip by text before falling back to TTS).
+ * The coach's voice. Each segment is spoken in its own language (Arabic / English).
+ * If "use recorded voice" is on and a human recording exists for a segment, the recording is played instead.
+ * Uses the "navigation guidance" audio usage: other apps' music is ducked, TalkBack is not interrupted.
+ * onSpeech(true/false) lets the in-app music duck while the coach talks.
  */
 class Speaker(private val ctx: Context) {
     private var tts: TextToSpeech? = null
@@ -32,8 +36,11 @@ class Speaker(private val ctx: Context) {
     private val focus = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
         .setAudioAttributes(attrs).build()
     private var tone: ToneGenerator? = runCatching { ToneGenerator(AudioManager.STREAM_MUSIC, 85) }.getOrNull()
+    private val main = Handler(Looper.getMainLooper())
 
-    var rate = 1.0f
+    var rate = 1.2f
+    var useRecorded = false
+    var onSpeech: ((Boolean) -> Unit)? = null
     var arabicAvailable = false
         private set
     var englishAvailable = false
@@ -67,6 +74,19 @@ class Speaker(private val ctx: Context) {
 
     private fun isArabic(s: String) = s.any { it in '؀'..'ۿ' }
 
+    // ---------- ducking of in-app music ----------
+    private var duckUntil = 0L
+    private val unduck = Runnable {
+        if (SystemClock.elapsedRealtime() >= duckUntil) onSpeech?.invoke(false)
+    }
+    private fun duckFor(ms: Long) {
+        duckUntil = maxOf(duckUntil, SystemClock.elapsedRealtime() + ms)
+        onSpeech?.invoke(true)
+        main.removeCallbacks(unduck)
+        main.postDelayed(unduck, duckUntil - SystemClock.elapsedRealtime() + 50)
+    }
+
+    // ---------- low level ----------
     private fun enqueue(text: String, lang: Locale, flush: Boolean, r: Float): CompletableDeferred<Unit> {
         val id = "u" + ids.incrementAndGet()
         val d = CompletableDeferred<Unit>()
@@ -79,18 +99,37 @@ class Speaker(private val ctx: Context) {
         return d
     }
 
-    /** Speak parts in order and wait until finished. */
+    private var player: MediaPlayer? = null
+    private fun playClip(text: String, flush: Boolean): CompletableDeferred<Unit>? {
+        if (!useRecorded || !VoicePack.has(ctx, text)) return null
+        val d = CompletableDeferred<Unit>()
+        runCatching {
+            if (flush) { player?.release(); player = null }
+            val mp = MediaPlayer()
+            mp.setAudioAttributes(attrs)
+            mp.setDataSource(VoicePack.file(ctx, text).absolutePath)
+            mp.setOnCompletionListener { it.release(); if (player === it) player = null; d.complete(Unit) }
+            mp.setOnErrorListener { p, _, _ -> p.release(); d.complete(Unit); true }
+            mp.prepare()
+            mp.start()
+            player = mp
+        }.onFailure { d.complete(Unit) }
+        return d
+    }
+
+    /** Speak segments in order and wait until finished. */
     suspend fun say(vararg parts: String, record: Boolean = true, interrupt: Boolean = false) {
         val list = parts.filter { it.isNotBlank() }
         if (list.isEmpty()) return
         if (record) { lastSpoken = list; onText?.invoke(list.joinToString(" ")) }
+        if (interrupt) stop()
         audio.requestAudioFocus(focus)
-        var last: CompletableDeferred<Unit>? = null
-        list.forEachIndexed { i, p ->
-            last = enqueue(p, if (isArabic(p)) ar else en, interrupt && i == 0, rate)
+        for (p in list) {
+            duckFor(p.length * 110L + 1500)
+            val d = playClip(p, false) ?: enqueue(p, if (isArabic(p)) ar else en, false, rate)
+            withTimeoutOrNull((p.length * 150f / rate.coerceAtLeast(0.5f)).toLong() + 4000L) { d.await() }
         }
-        val estimate = (list.sumOf { it.length } * 110L / rate.coerceAtLeast(0.5f)).toLong() + 3000L
-        withTimeoutOrNull(estimate) { last?.await() }
+        duckFor(400)
         audio.abandonAudioFocusRequest(focus)
     }
 
@@ -99,10 +138,15 @@ class Speaker(private val ctx: Context) {
 
     /** Fire-and-forget count word (does not wait). */
     fun count(word: String, arabic: Boolean, flush: Boolean, r: Float) {
-        enqueue(word, if (arabic) ar else en, flush, r)
+        duckFor(1300)
+        playClip(word, flush) ?: enqueue(word, if (arabic) ar else en, flush, r)
     }
 
-    fun stop() { tts?.stop(); pending.values.forEach { it.complete(Unit) }; pending.clear() }
+    fun stop() {
+        tts?.stop()
+        runCatching { player?.release() }; player = null
+        pending.values.forEach { it.complete(Unit) }; pending.clear()
+    }
 
     fun beep(kind: Beep) {
         val g = tone ?: return
@@ -118,6 +162,7 @@ class Speaker(private val ctx: Context) {
 
     fun shutdown() {
         stop()
+        main.removeCallbacks(unduck)
         tts?.shutdown(); tts = null
         tone?.release(); tone = null
         runCatching { audio.abandonAudioFocusRequest(focus) }
