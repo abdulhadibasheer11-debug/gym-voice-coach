@@ -1,0 +1,43 @@
+name: Build APK and publish release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Build signed APK
+        env:
+          KEYSTORE_PATH: ${{ github.workspace }}/signing/release.jks
+          # Personal app: the signing key lives in the repo so every build can update the installed app.
+          # Override by adding repository secrets with the same names if you ever want to keep it private.
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'CyAABBhoWOQ3z0oOoSEyNXelLjhxSvPL' }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'CyAABBhoWOQ3z0oOoSEyNXelLjhxSvPL' }}
+          KEY_ALIAS: gymcoach
+        run: gradle assembleRelease --stacktrace --no-daemon
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp app/build/outputs/apk/release/app-release.apk gym-voice-coach.apk
+          NOTES="$(git log -1 --pretty=%B)"
+          gh release create "v${{ github.run_number }}" gym-voice-coach.apk \
+            --title "0.1.${{ github.run_number }}" --notes "$NOTES" --latest
