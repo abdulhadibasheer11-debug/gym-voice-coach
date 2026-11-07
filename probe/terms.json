@@ -1,0 +1,273 @@
+{
+ "chest_press_high": [
+  "chest press"
+ ],
+ "smith_bench": [
+  "smith machine bench press",
+  "bench press",
+  "smith"
+ ],
+ "incline_machine": [
+  "incline chest press",
+  "incline press",
+  "incline"
+ ],
+ "seated_dip": [
+  "dip machine",
+  "dips",
+  "dip"
+ ],
+ "pec_deck": [
+  "pec deck",
+  "butterfly"
+ ],
+ "tri_rope": [
+  "triceps pushdown rope",
+  "rope pushdown",
+  "triceps pushdown"
+ ],
+ "tri_bar": [
+  "triceps pushdown",
+  "pushdown"
+ ],
+ "tri_db_overhead": [
+  "overhead triceps extension",
+  "triceps extension",
+  "french press"
+ ],
+ "tri_plate": [
+  "overhead triceps extension",
+  "triceps extension",
+  "french press"
+ ],
+ "pulldown_wide": [
+  "wide grip lat pulldown",
+  "lat pulldown",
+  "pulldown",
+  "lat pull down"
+ ],
+ "cable_row": [
+  "seated cable row",
+  "cable row"
+ ],
+ "pulldown_neutral": [
+  "close grip lat pulldown",
+  "lat pulldown"
+ ],
+ "machine_row": [
+  "seated row machine",
+  "seated row"
+ ],
+ "tbar_row": [
+  "t-bar row",
+  "t bar row",
+  "t-bar",
+  "t bar",
+  "row"
+ ],
+ "back_ext": [
+  "hyperextension",
+  "hyperextensions",
+  "back extension"
+ ],
+ "biceps_machine": [
+  "machine bicep curl",
+  "biceps curl machine",
+  "preacher curl",
+  "machine curl",
+  "bicep curl machine",
+  "biceps curl"
+ ],
+ "barbell_curl": [
+  "barbell curl",
+  "biceps curl barbell",
+  "biceps curl",
+  "curl"
+ ],
+ "cable_curl_rope": [
+  "cable hammer curl",
+  "rope hammer curl",
+  "hammer curl",
+  "cable curl",
+  "rope curl"
+ ],
+ "cable_curl_bar": [
+  "cable curl",
+  "cable biceps curl"
+ ],
+ "wrist_curl": [
+  "wrist curl",
+  "wrist curls",
+  "wrist"
+ ],
+ "db_lateral": [
+  "lateral raise",
+  "lateral raises"
+ ],
+ "db_press": [
+  "dumbbell shoulder press",
+  "shoulder press dumbbells"
+ ],
+ "machine_shoulder_press": [
+  "shoulder press machine",
+  "machine shoulder press",
+  "shoulder press"
+ ],
+ "machine_lateral": [
+  "machine lateral raise",
+  "lateral raise"
+ ],
+ "reverse_pec_deck": [
+  "reverse pec deck",
+  "reverse fly",
+  "reverse butterfly"
+ ],
+ "face_pull": [
+  "face pull"
+ ],
+ "db_shrug": [
+  "dumbbell shrug",
+  "shrugs dumbbells",
+  "shrug"
+ ],
+ "leg_ext": [
+  "leg extension"
+ ],
+ "leg_curl": [
+  "lying leg curl",
+  "leg curl"
+ ],
+ "leg_press": [
+  "leg press"
+ ],
+ "squat_machine": [
+  "hack squat",
+  "machine squat",
+  "squat machine",
+  "leg press"
+ ],
+ "adductor": [
+  "hip adduction",
+  "adductor machine",
+  "adduction",
+  "adductor",
+  "inner thigh"
+ ],
+ "abductor": [
+  "hip abduction",
+  "abduction"
+ ],
+ "calf_seated": [
+  "seated calf raise",
+  "calf raise",
+  "seated calf",
+  "calf"
+ ],
+ "abs_machine": [
+  "crunch machine",
+  "ab crunch",
+  "crunch"
+ ],
+ "knee_raise": [
+  "captain's chair knee raise",
+  "knee raise",
+  "leg raise"
+ ],
+ "cable_crunch": [
+  "cable crunch",
+  "kneeling cable crunch",
+  "crunch"
+ ],
+ "decline_crunch": [
+  "decline crunch",
+  "decline sit-up",
+  "sit-up",
+  "sit up",
+  "decline",
+  "crunch"
+ ],
+ "torso_rotation": [
+  "rotary torso",
+  "torso twist",
+  "russian twist"
+ ],
+ "barbell_bench": [
+  "barbell bench press",
+  "bench press"
+ ],
+ "incline_db_press": [
+  "incline dumbbell press",
+  "incline press dumbbell",
+  "incline bench press"
+ ],
+ "db_fly": [
+  "dumbbell fly",
+  "dumbbell flyes",
+  "flyes",
+  "fly"
+ ],
+ "cable_crossover": [
+  "cable crossover",
+  "cable cross-over",
+  "cable fly"
+ ],
+ "push_up": [
+  "push-up",
+  "push up"
+ ],
+ "pull_up": [
+  "pull-up",
+  "pull-ups",
+  "pull up"
+ ],
+ "db_row": [
+  "one arm dumbbell row",
+  "bent over dumbbell row",
+  "dumbbell row"
+ ],
+ "deadlift": [
+  "deadlift",
+  "deadlifts"
+ ],
+ "barbell_squat": [
+  "barbell squat",
+  "barbell full squat"
+ ],
+ "lunge": [
+  "lunges",
+  "lunge"
+ ],
+ "rdl": [
+  "romanian deadlift"
+ ],
+ "hip_thrust": [
+  "hip thrust"
+ ],
+ "standing_calf": [
+  "standing calf raise"
+ ],
+ "db_curl": [
+  "dumbbell curl",
+  "biceps curl dumbbell"
+ ],
+ "hammer_curl": [
+  "hammer curl",
+  "hammer curls",
+  "hammer"
+ ],
+ "skull_crusher": [
+  "skull crusher",
+  "skullcrusher",
+  "lying triceps extension",
+  "skull",
+  "lying triceps",
+  "triceps extension"
+ ],
+ "front_raise": [
+  "front raise",
+  "front raises"
+ ],
+ "upright_row": [
+  "upright row"
+ ]
+}
