@@ -1,0 +1,1046 @@
+{
+ "chest_press_high": [
+  {
+   "k": 0,
+   "name": "Cable Chest Press",
+   "path": "Cable_Chest_Press/0.jpg",
+   "path2": "Cable_Chest_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Leverage Chest Press",
+   "path": "Leverage_Chest_Press/0.jpg",
+   "path2": "Leverage_Chest_Press/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Machine Bench Press",
+   "path": "Machine_Bench_Press/0.jpg",
+   "path2": "Machine_Bench_Press/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Incline Cable Chest Press",
+   "path": "Incline_Cable_Chest_Press/0.jpg",
+   "path2": "Incline_Cable_Chest_Press/1.jpg"
+  }
+ ],
+ "smith_bench": [
+  {
+   "k": 0,
+   "name": "Smith Machine Bench Press",
+   "path": "Smith_Machine_Bench_Press/0.jpg",
+   "path2": "Smith_Machine_Bench_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Smith Machine Incline Bench Press",
+   "path": "Smith_Machine_Incline_Bench_Press/0.jpg",
+   "path2": "Smith_Machine_Incline_Bench_Press/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Smith Machine Close-Grip Bench Press",
+   "path": "Smith_Machine_Close-Grip_Bench_Press/0.jpg",
+   "path2": "Smith_Machine_Close-Grip_Bench_Press/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Machine Bench Press",
+   "path": "Machine_Bench_Press/0.jpg",
+   "path2": "Machine_Bench_Press/1.jpg"
+  }
+ ],
+ "incline_machine": [
+  {
+   "k": 0,
+   "name": "Incline Cable Chest Press",
+   "path": "Incline_Cable_Chest_Press/0.jpg",
+   "path2": "Incline_Cable_Chest_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Leverage Incline Chest Press",
+   "path": "Leverage_Incline_Chest_Press/0.jpg",
+   "path2": "Leverage_Incline_Chest_Press/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Smith Machine Incline Bench Press",
+   "path": "Smith_Machine_Incline_Bench_Press/0.jpg",
+   "path2": "Smith_Machine_Incline_Bench_Press/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Leverage Chest Press",
+   "path": "Leverage_Chest_Press/0.jpg",
+   "path2": "Leverage_Chest_Press/1.jpg"
+  }
+ ],
+ "seated_dip": [
+  {
+   "k": 0,
+   "name": "Dip Machine",
+   "path": "Dip_Machine/0.jpg",
+   "path2": "Dip_Machine/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Dips - Triceps Version",
+   "path": "Dips_-_Triceps_Version/0.jpg",
+   "path2": "Dips_-_Triceps_Version/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Parallel Bar Dip",
+   "path": "Parallel_Bar_Dip/0.jpg",
+   "path2": "Parallel_Bar_Dip/1.jpg"
+  }
+ ],
+ "pec_deck": [
+  {
+   "k": 0,
+   "name": "Butterfly",
+   "path": "Butterfly/0.jpg",
+   "path2": "Butterfly/1.jpg"
+  }
+ ],
+ "tri_rope": [
+  {
+   "k": 0,
+   "name": "Triceps Pushdown - Rope Attachment",
+   "path": "Triceps_Pushdown_-_Rope_Attachment/0.jpg",
+   "path2": "Triceps_Pushdown_-_Rope_Attachment/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Triceps Pushdown",
+   "path": "Triceps_Pushdown/0.jpg",
+   "path2": "Triceps_Pushdown/1.jpg"
+  }
+ ],
+ "tri_bar": [
+  {
+   "k": 0,
+   "name": "Triceps Pushdown",
+   "path": "Triceps_Pushdown/0.jpg",
+   "path2": "Triceps_Pushdown/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Reverse Grip Triceps Pushdown",
+   "path": "Reverse_Grip_Triceps_Pushdown/0.jpg",
+   "path2": "Reverse_Grip_Triceps_Pushdown/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Triceps Pushdown - Rope Attachment",
+   "path": "Triceps_Pushdown_-_Rope_Attachment/0.jpg",
+   "path2": "Triceps_Pushdown_-_Rope_Attachment/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Triceps Pushdown - V-Bar Attachment",
+   "path": "Triceps_Pushdown_-_V-Bar_Attachment/0.jpg",
+   "path2": "Triceps_Pushdown_-_V-Bar_Attachment/1.jpg"
+  }
+ ],
+ "tri_db_overhead": [
+  {
+   "k": 0,
+   "name": "Seated Triceps Press",
+   "path": "Seated_Triceps_Press/0.jpg",
+   "path2": "Seated_Triceps_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Decline Dumbbell Triceps Extension",
+   "path": "Decline_Dumbbell_Triceps_Extension/0.jpg",
+   "path2": "Decline_Dumbbell_Triceps_Extension/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Standing Dumbbell Triceps Extension",
+   "path": "Standing_Dumbbell_Triceps_Extension/0.jpg",
+   "path2": "Standing_Dumbbell_Triceps_Extension/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Dumbbell One-Arm Triceps Extension",
+   "path": "Dumbbell_One-Arm_Triceps_Extension/0.jpg",
+   "path2": "Dumbbell_One-Arm_Triceps_Extension/1.jpg"
+  }
+ ],
+ "tri_plate": [
+  {
+   "k": 0,
+   "name": "Seated Triceps Press",
+   "path": "Seated_Triceps_Press/0.jpg",
+   "path2": "Seated_Triceps_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Standing Dumbbell Triceps Extension",
+   "path": "Standing_Dumbbell_Triceps_Extension/0.jpg",
+   "path2": "Standing_Dumbbell_Triceps_Extension/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Standing One-Arm Dumbbell Triceps Extension",
+   "path": "Standing_One-Arm_Dumbbell_Triceps_Extension/0.jpg",
+   "path2": "Standing_One-Arm_Dumbbell_Triceps_Extension/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Standing Bent-Over One-Arm Dumbbell Triceps Extension",
+   "path": "Standing_Bent-Over_One-Arm_Dumbbell_Triceps_Extension/0.jpg",
+   "path2": "Standing_Bent-Over_One-Arm_Dumbbell_Triceps_Extension/1.jpg"
+  }
+ ],
+ "pulldown_wide": [
+  {
+   "k": 0,
+   "name": "Wide-Grip Lat Pulldown",
+   "path": "Wide-Grip_Lat_Pulldown/0.jpg",
+   "path2": "Wide-Grip_Lat_Pulldown/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Close-Grip Front Lat Pulldown",
+   "path": "Close-Grip_Front_Lat_Pulldown/0.jpg",
+   "path2": "Close-Grip_Front_Lat_Pulldown/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Wide-Grip Pulldown Behind The Neck",
+   "path": "Wide-Grip_Pulldown_Behind_The_Neck/0.jpg",
+   "path2": "Wide-Grip_Pulldown_Behind_The_Neck/1.jpg"
+  }
+ ],
+ "cable_row": [
+  {
+   "k": 0,
+   "name": "Seated Cable Rows",
+   "path": "Seated_Cable_Rows/0.jpg",
+   "path2": "Seated_Cable_Rows/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Seated One-arm Cable Pulley Rows",
+   "path": "Seated_One-arm_Cable_Pulley_Rows/0.jpg",
+   "path2": "Seated_One-arm_Cable_Pulley_Rows/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Cable Seated Crunch",
+   "path": "Cable_Seated_Crunch/0.jpg",
+   "path2": "Cable_Seated_Crunch/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Elevated Cable Rows",
+   "path": "Elevated_Cable_Rows/0.jpg",
+   "path2": "Elevated_Cable_Rows/1.jpg"
+  }
+ ],
+ "pulldown_neutral": [
+  {
+   "k": 0,
+   "name": "V-Bar Pulldown",
+   "path": "V-Bar_Pulldown/0.jpg",
+   "path2": "V-Bar_Pulldown/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Close-Grip Front Lat Pulldown",
+   "path": "Close-Grip_Front_Lat_Pulldown/0.jpg",
+   "path2": "Close-Grip_Front_Lat_Pulldown/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "V-Bar Pullup",
+   "path": "V-Bar_Pullup/0.jpg",
+   "path2": "V-Bar_Pullup/1.jpg"
+  }
+ ],
+ "machine_row": [
+  {
+   "k": 0,
+   "name": "Leverage High Row",
+   "path": "Leverage_High_Row/0.jpg",
+   "path2": "Leverage_High_Row/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Leverage Iso Row",
+   "path": "Leverage_Iso_Row/0.jpg",
+   "path2": "Leverage_Iso_Row/1.jpg"
+  }
+ ],
+ "tbar_row": [
+  {
+   "k": 0,
+   "name": "Lying T-Bar Row",
+   "path": "Lying_T-Bar_Row/0.jpg",
+   "path2": "Lying_T-Bar_Row/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "T-Bar Row with Handle",
+   "path": "T-Bar_Row_with_Handle/0.jpg",
+   "path2": "T-Bar_Row_with_Handle/1.jpg"
+  }
+ ],
+ "back_ext": [
+  {
+   "k": 0,
+   "name": "Hyperextensions (Back Extensions)",
+   "path": "Hyperextensions_Back_Extensions/0.jpg",
+   "path2": "Hyperextensions_Back_Extensions/1.jpg"
+  }
+ ],
+ "biceps_machine": [
+  {
+   "k": 0,
+   "name": "Machine Bicep Curl",
+   "path": "Machine_Bicep_Curl/0.jpg",
+   "path2": "Machine_Bicep_Curl/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Machine Preacher Curls",
+   "path": "Machine_Preacher_Curls/0.jpg",
+   "path2": "Machine_Preacher_Curls/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Dumbbell Bicep Curl",
+   "path": "Dumbbell_Bicep_Curl/0.jpg",
+   "path2": "Dumbbell_Bicep_Curl/1.jpg"
+  }
+ ],
+ "barbell_curl": [
+  {
+   "k": 0,
+   "name": "Barbell Curl",
+   "path": "Barbell_Curl/0.jpg",
+   "path2": "Barbell_Curl/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Reverse Barbell Curl",
+   "path": "Reverse_Barbell_Curl/0.jpg",
+   "path2": "Reverse_Barbell_Curl/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Close-Grip Standing Barbell Curl",
+   "path": "Close-Grip_Standing_Barbell_Curl/0.jpg",
+   "path2": "Close-Grip_Standing_Barbell_Curl/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Lying High Bench Barbell Curl",
+   "path": "Lying_High_Bench_Barbell_Curl/0.jpg",
+   "path2": "Lying_High_Bench_Barbell_Curl/1.jpg"
+  }
+ ],
+ "cable_curl_rope": [
+  {
+   "k": 0,
+   "name": "Cable Hammer Curls - Rope Attachment",
+   "path": "Cable_Hammer_Curls_-_Rope_Attachment/0.jpg",
+   "path2": "Cable_Hammer_Curls_-_Rope_Attachment/1.jpg"
+  }
+ ],
+ "cable_curl_bar": [
+  {
+   "k": 0,
+   "name": "Cable Preacher Curl",
+   "path": "Cable_Preacher_Curl/0.jpg",
+   "path2": "Cable_Preacher_Curl/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Cable Wrist Curl",
+   "path": "Cable_Wrist_Curl/0.jpg",
+   "path2": "Cable_Wrist_Curl/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Lying Cable Curl",
+   "path": "Lying_Cable_Curl/0.jpg",
+   "path2": "Lying_Cable_Curl/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Overhead Cable Curl",
+   "path": "Overhead_Cable_Curl/0.jpg",
+   "path2": "Overhead_Cable_Curl/1.jpg"
+  }
+ ],
+ "wrist_curl": [
+  {
+   "k": 0,
+   "name": "Cable Wrist Curl",
+   "path": "Cable_Wrist_Curl/0.jpg",
+   "path2": "Cable_Wrist_Curl/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Seated Dumbbell Palms-Down Wrist Curl",
+   "path": "Seated_Dumbbell_Palms-Down_Wrist_Curl/0.jpg",
+   "path2": "Seated_Dumbbell_Palms-Down_Wrist_Curl/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Seated Dumbbell Palms-Up Wrist Curl",
+   "path": "Seated_Dumbbell_Palms-Up_Wrist_Curl/0.jpg",
+   "path2": "Seated_Dumbbell_Palms-Up_Wrist_Curl/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Seated Palm-Up Barbell Wrist Curl",
+   "path": "Seated_Palm-Up_Barbell_Wrist_Curl/0.jpg",
+   "path2": "Seated_Palm-Up_Barbell_Wrist_Curl/1.jpg"
+  }
+ ],
+ "db_lateral": [
+  {
+   "k": 0,
+   "name": "Side Lateral Raise",
+   "path": "Side_Lateral_Raise/0.jpg",
+   "path2": "Side_Lateral_Raise/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Seated Side Lateral Raise",
+   "path": "Seated_Side_Lateral_Raise/0.jpg",
+   "path2": "Seated_Side_Lateral_Raise/1.jpg"
+  }
+ ],
+ "db_press": [
+  {
+   "k": 0,
+   "name": "Dumbbell Shoulder Press",
+   "path": "Dumbbell_Shoulder_Press/0.jpg",
+   "path2": "Dumbbell_Shoulder_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Seated Dumbbell Press",
+   "path": "Seated_Dumbbell_Press/0.jpg",
+   "path2": "Seated_Dumbbell_Press/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Dumbbell One-Arm Shoulder Press",
+   "path": "Dumbbell_One-Arm_Shoulder_Press/0.jpg",
+   "path2": "Dumbbell_One-Arm_Shoulder_Press/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Arnold Dumbbell Press",
+   "path": "Arnold_Dumbbell_Press/0.jpg",
+   "path2": "Arnold_Dumbbell_Press/1.jpg"
+  }
+ ],
+ "machine_shoulder_press": [
+  {
+   "k": 0,
+   "name": "Leverage Shoulder Press",
+   "path": "Leverage_Shoulder_Press/0.jpg",
+   "path2": "Leverage_Shoulder_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Machine Shoulder (Military) Press",
+   "path": "Machine_Shoulder_Military_Press/0.jpg",
+   "path2": "Machine_Shoulder_Military_Press/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Smith Machine Overhead Shoulder Press",
+   "path": "Smith_Machine_Overhead_Shoulder_Press/0.jpg",
+   "path2": "Smith_Machine_Overhead_Shoulder_Press/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Barbell Shoulder Press",
+   "path": "Barbell_Shoulder_Press/0.jpg",
+   "path2": "Barbell_Shoulder_Press/1.jpg"
+  }
+ ],
+ "machine_lateral": [
+  {
+   "k": 0,
+   "name": "Side Lateral Raise",
+   "path": "Side_Lateral_Raise/0.jpg",
+   "path2": "Side_Lateral_Raise/1.jpg"
+  }
+ ],
+ "reverse_pec_deck": [
+  {
+   "k": 0,
+   "name": "Reverse Machine Flyes",
+   "path": "Reverse_Machine_Flyes/0.jpg",
+   "path2": "Reverse_Machine_Flyes/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Reverse Flyes",
+   "path": "Reverse_Flyes/0.jpg",
+   "path2": "Reverse_Flyes/1.jpg"
+  }
+ ],
+ "face_pull": [
+  {
+   "k": 0,
+   "name": "Face Pull",
+   "path": "Face_Pull/0.jpg",
+   "path2": "Face_Pull/1.jpg"
+  }
+ ],
+ "db_shrug": [
+  {
+   "k": 0,
+   "name": "Dumbbell Shrug",
+   "path": "Dumbbell_Shrug/0.jpg",
+   "path2": "Dumbbell_Shrug/1.jpg"
+  }
+ ],
+ "leg_ext": [
+  {
+   "k": 0,
+   "name": "Leg Extensions",
+   "path": "Leg_Extensions/0.jpg",
+   "path2": "Leg_Extensions/1.jpg"
+  }
+ ],
+ "leg_curl": [
+  {
+   "k": 0,
+   "name": "Lying Leg Curls",
+   "path": "Lying_Leg_Curls/0.jpg",
+   "path2": "Lying_Leg_Curls/1.jpg"
+  }
+ ],
+ "leg_press": [
+  {
+   "k": 0,
+   "name": "Leg Press",
+   "path": "Leg_Press/0.jpg",
+   "path2": "Leg_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Leg-Over Floor Press",
+   "path": "Leg-Over_Floor_Press/0.jpg",
+   "path2": "Leg-Over_Floor_Press/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Narrow Stance Leg Press",
+   "path": "Narrow_Stance_Leg_Press/0.jpg",
+   "path2": "Narrow_Stance_Leg_Press/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Smith Machine Leg Press",
+   "path": "Smith_Machine_Leg_Press/0.jpg",
+   "path2": "Smith_Machine_Leg_Press/1.jpg"
+  }
+ ],
+ "squat_machine": [
+  {
+   "k": 0,
+   "name": "Hack Squat",
+   "path": "Hack_Squat/0.jpg",
+   "path2": "Hack_Squat/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Barbell Hack Squat",
+   "path": "Barbell_Hack_Squat/0.jpg",
+   "path2": "Barbell_Hack_Squat/1.jpg"
+  }
+ ],
+ "adductor": [
+  {
+   "k": 0,
+   "name": "Thigh Adductor",
+   "path": "Thigh_Adductor/0.jpg",
+   "path2": "Thigh_Adductor/1.jpg"
+  }
+ ],
+ "abductor": [
+  {
+   "k": 0,
+   "name": "Thigh Abductor",
+   "path": "Thigh_Abductor/0.jpg",
+   "path2": "Thigh_Abductor/1.jpg"
+  }
+ ],
+ "calf_seated": [
+  {
+   "k": 0,
+   "name": "Seated Calf Raise",
+   "path": "Seated_Calf_Raise/0.jpg",
+   "path2": "Seated_Calf_Raise/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Barbell Seated Calf Raise",
+   "path": "Barbell_Seated_Calf_Raise/0.jpg",
+   "path2": "Barbell_Seated_Calf_Raise/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Dumbbell Seated One-Leg Calf Raise",
+   "path": "Dumbbell_Seated_One-Leg_Calf_Raise/0.jpg",
+   "path2": "Dumbbell_Seated_One-Leg_Calf_Raise/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Seated Calf Stretch",
+   "path": "Seated_Calf_Stretch/0.jpg",
+   "path2": "Seated_Calf_Stretch/1.jpg"
+  }
+ ],
+ "abs_machine": [
+  {
+   "k": 0,
+   "name": "Ab Crunch Machine",
+   "path": "Ab_Crunch_Machine/0.jpg",
+   "path2": "Ab_Crunch_Machine/1.jpg"
+  }
+ ],
+ "knee_raise": [
+  {
+   "k": 0,
+   "name": "Hanging Leg Raise",
+   "path": "Hanging_Leg_Raise/0.jpg",
+   "path2": "Hanging_Leg_Raise/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Knee/Hip Raise On Parallel Bars",
+   "path": "Knee_Hip_Raise_On_Parallel_Bars/0.jpg",
+   "path2": "Knee_Hip_Raise_On_Parallel_Bars/1.jpg"
+  }
+ ],
+ "cable_crunch": [
+  {
+   "k": 0,
+   "name": "Cable Crunch",
+   "path": "Cable_Crunch/0.jpg",
+   "path2": "Cable_Crunch/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Cable Reverse Crunch",
+   "path": "Cable_Reverse_Crunch/0.jpg",
+   "path2": "Cable_Reverse_Crunch/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Cable Seated Crunch",
+   "path": "Cable_Seated_Crunch/0.jpg",
+   "path2": "Cable_Seated_Crunch/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Bosu Ball Cable Crunch With Side Bends",
+   "path": "Bosu_Ball_Cable_Crunch_With_Side_Bends/0.jpg",
+   "path2": "Bosu_Ball_Cable_Crunch_With_Side_Bends/1.jpg"
+  }
+ ],
+ "decline_crunch": [
+  {
+   "k": 0,
+   "name": "Decline Crunch",
+   "path": "Decline_Crunch/0.jpg",
+   "path2": "Decline_Crunch/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Decline Oblique Crunch",
+   "path": "Decline_Oblique_Crunch/0.jpg",
+   "path2": "Decline_Oblique_Crunch/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Decline Reverse Crunch",
+   "path": "Decline_Reverse_Crunch/0.jpg",
+   "path2": "Decline_Reverse_Crunch/1.jpg"
+  }
+ ],
+ "torso_rotation": [
+  {
+   "k": 0,
+   "name": "Torso Rotation",
+   "path": "Torso_Rotation/0.jpg",
+   "path2": "Torso_Rotation/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Cable Russian Twists",
+   "path": "Cable_Russian_Twists/0.jpg",
+   "path2": "Cable_Russian_Twists/1.jpg"
+  }
+ ],
+ "barbell_bench": [
+  {
+   "k": 0,
+   "name": "Barbell Bench Press - Medium Grip",
+   "path": "Barbell_Bench_Press_-_Medium_Grip/0.jpg",
+   "path2": "Barbell_Bench_Press_-_Medium_Grip/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Barbell Incline Bench Press - Medium Grip",
+   "path": "Barbell_Incline_Bench_Press_-_Medium_Grip/0.jpg",
+   "path2": "Barbell_Incline_Bench_Press_-_Medium_Grip/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Close-Grip Barbell Bench Press",
+   "path": "Close-Grip_Barbell_Bench_Press/0.jpg",
+   "path2": "Close-Grip_Barbell_Bench_Press/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Wide-Grip Barbell Bench Press",
+   "path": "Wide-Grip_Barbell_Bench_Press/0.jpg",
+   "path2": "Wide-Grip_Barbell_Bench_Press/1.jpg"
+  }
+ ],
+ "incline_db_press": [
+  {
+   "k": 0,
+   "name": "Incline Dumbbell Press",
+   "path": "Incline_Dumbbell_Press/0.jpg",
+   "path2": "Incline_Dumbbell_Press/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Arnold Dumbbell Press",
+   "path": "Arnold_Dumbbell_Press/0.jpg",
+   "path2": "Arnold_Dumbbell_Press/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Dumbbell Bench Press",
+   "path": "Dumbbell_Bench_Press/0.jpg",
+   "path2": "Dumbbell_Bench_Press/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Dumbbell Floor Press",
+   "path": "Dumbbell_Floor_Press/0.jpg",
+   "path2": "Dumbbell_Floor_Press/1.jpg"
+  }
+ ],
+ "db_fly": [
+  {
+   "k": 0,
+   "name": "Dumbbell Flyes",
+   "path": "Dumbbell_Flyes/0.jpg",
+   "path2": "Dumbbell_Flyes/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Decline Dumbbell Flyes",
+   "path": "Decline_Dumbbell_Flyes/0.jpg",
+   "path2": "Decline_Dumbbell_Flyes/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Incline Dumbbell Flyes",
+   "path": "Incline_Dumbbell_Flyes/0.jpg",
+   "path2": "Incline_Dumbbell_Flyes/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Incline Dumbbell Flyes - With A Twist",
+   "path": "Incline_Dumbbell_Flyes_-_With_A_Twist/0.jpg",
+   "path2": "Incline_Dumbbell_Flyes_-_With_A_Twist/1.jpg"
+  }
+ ],
+ "cable_crossover": [
+  {
+   "k": 0,
+   "name": "Cable Crossover",
+   "path": "Cable_Crossover/0.jpg",
+   "path2": "Cable_Crossover/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Low Cable Crossover",
+   "path": "Low_Cable_Crossover/0.jpg",
+   "path2": "Low_Cable_Crossover/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Single-Arm Cable Crossover",
+   "path": "Single-Arm_Cable_Crossover/0.jpg",
+   "path2": "Single-Arm_Cable_Crossover/1.jpg"
+  }
+ ],
+ "push_up": [
+  {
+   "k": 0,
+   "name": "Pushups",
+   "path": "Pushups/0.jpg",
+   "path2": "Pushups/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Plyo Kettlebell Pushups",
+   "path": "Plyo_Kettlebell_Pushups/0.jpg",
+   "path2": "Plyo_Kettlebell_Pushups/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Pushups (Close and Wide Hand Positions)",
+   "path": "Pushups_Close_and_Wide_Hand_Positions/0.jpg",
+   "path2": "Pushups_Close_and_Wide_Hand_Positions/1.jpg"
+  }
+ ],
+ "pull_up": [
+  {
+   "k": 0,
+   "name": "Pullups",
+   "path": "Pullups/0.jpg",
+   "path2": "Pullups/1.jpg"
+  }
+ ],
+ "db_row": [
+  {
+   "k": 0,
+   "name": "One-Arm Dumbbell Row",
+   "path": "One-Arm_Dumbbell_Row/0.jpg",
+   "path2": "One-Arm_Dumbbell_Row/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Dumbbell One-Arm Upright Row",
+   "path": "Dumbbell_One-Arm_Upright_Row/0.jpg",
+   "path2": "Dumbbell_One-Arm_Upright_Row/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "One-Arm Kettlebell Row",
+   "path": "One-Arm_Kettlebell_Row/0.jpg",
+   "path2": "One-Arm_Kettlebell_Row/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Dumbbell One-Arm Shoulder Press",
+   "path": "Dumbbell_One-Arm_Shoulder_Press/0.jpg",
+   "path2": "Dumbbell_One-Arm_Shoulder_Press/1.jpg"
+  }
+ ],
+ "deadlift": [
+  {
+   "k": 0,
+   "name": "Barbell Deadlift",
+   "path": "Barbell_Deadlift/0.jpg",
+   "path2": "Barbell_Deadlift/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Stiff-Legged Barbell Deadlift",
+   "path": "Stiff-Legged_Barbell_Deadlift/0.jpg",
+   "path2": "Stiff-Legged_Barbell_Deadlift/1.jpg"
+  }
+ ],
+ "barbell_squat": [
+  {
+   "k": 0,
+   "name": "Barbell Squat",
+   "path": "Barbell_Squat/0.jpg",
+   "path2": "Barbell_Squat/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Barbell Full Squat",
+   "path": "Barbell_Full_Squat/0.jpg",
+   "path2": "Barbell_Full_Squat/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Barbell Hack Squat",
+   "path": "Barbell_Hack_Squat/0.jpg",
+   "path2": "Barbell_Hack_Squat/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Front Barbell Squat",
+   "path": "Front_Barbell_Squat/0.jpg",
+   "path2": "Front_Barbell_Squat/1.jpg"
+  }
+ ],
+ "lunge": [
+  {
+   "k": 0,
+   "name": "Dumbbell Lunges",
+   "path": "Dumbbell_Lunges/0.jpg",
+   "path2": "Dumbbell_Lunges/1.jpg"
+  }
+ ],
+ "rdl": [
+  {
+   "k": 0,
+   "name": "Romanian Deadlift",
+   "path": "Romanian_Deadlift/0.jpg",
+   "path2": "Romanian_Deadlift/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Romanian Deadlift from Deficit",
+   "path": "Romanian_Deadlift_from_Deficit/0.jpg",
+   "path2": "Romanian_Deadlift_from_Deficit/1.jpg"
+  }
+ ],
+ "hip_thrust": [
+  {
+   "k": 0,
+   "name": "Barbell Glute Bridge",
+   "path": "Barbell_Glute_Bridge/0.jpg",
+   "path2": "Barbell_Glute_Bridge/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Barbell Hip Thrust",
+   "path": "Barbell_Hip_Thrust/0.jpg",
+   "path2": "Barbell_Hip_Thrust/1.jpg"
+  }
+ ],
+ "standing_calf": [
+  {
+   "k": 0,
+   "name": "Standing Calf Raises",
+   "path": "Standing_Calf_Raises/0.jpg",
+   "path2": "Standing_Calf_Raises/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Donkey Calf Raises",
+   "path": "Donkey_Calf_Raises/0.jpg",
+   "path2": "Donkey_Calf_Raises/1.jpg"
+  }
+ ],
+ "db_curl": [
+  {
+   "k": 0,
+   "name": "Dumbbell Bicep Curl",
+   "path": "Dumbbell_Bicep_Curl/0.jpg",
+   "path2": "Dumbbell_Bicep_Curl/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Dumbbell Alternate Bicep Curl",
+   "path": "Dumbbell_Alternate_Bicep_Curl/0.jpg",
+   "path2": "Dumbbell_Alternate_Bicep_Curl/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Incline Dumbbell Curl",
+   "path": "Incline_Dumbbell_Curl/0.jpg",
+   "path2": "Incline_Dumbbell_Curl/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Machine Bicep Curl",
+   "path": "Machine_Bicep_Curl/0.jpg",
+   "path2": "Machine_Bicep_Curl/1.jpg"
+  }
+ ],
+ "hammer_curl": [
+  {
+   "k": 0,
+   "name": "Hammer Curls",
+   "path": "Hammer_Curls/0.jpg",
+   "path2": "Hammer_Curls/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Incline Hammer Curls",
+   "path": "Incline_Hammer_Curls/0.jpg",
+   "path2": "Incline_Hammer_Curls/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Cable Hammer Curls - Rope Attachment",
+   "path": "Cable_Hammer_Curls_-_Rope_Attachment/0.jpg",
+   "path2": "Cable_Hammer_Curls_-_Rope_Attachment/1.jpg"
+  }
+ ],
+ "skull_crusher": [
+  {
+   "k": 0,
+   "name": "EZ-Bar Skullcrusher",
+   "path": "EZ-Bar_Skullcrusher/0.jpg",
+   "path2": "EZ-Bar_Skullcrusher/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Lying Triceps Press",
+   "path": "Lying_Triceps_Press/0.jpg",
+   "path2": "Lying_Triceps_Press/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Lying Close-Grip Barbell Triceps Press To Chin",
+   "path": "Lying_Close-Grip_Barbell_Triceps_Press_To_Chin/0.jpg",
+   "path2": "Lying_Close-Grip_Barbell_Triceps_Press_To_Chin/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "EZ-Bar Curl",
+   "path": "EZ-Bar_Curl/0.jpg",
+   "path2": "EZ-Bar_Curl/1.jpg"
+  }
+ ],
+ "front_raise": [
+  {
+   "k": 0,
+   "name": "Front Dumbbell Raise",
+   "path": "Front_Dumbbell_Raise/0.jpg",
+   "path2": "Front_Dumbbell_Raise/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Front Incline Dumbbell Raise",
+   "path": "Front_Incline_Dumbbell_Raise/0.jpg",
+   "path2": "Front_Incline_Dumbbell_Raise/1.jpg"
+  },
+  {
+   "k": 2,
+   "name": "Front Two-Dumbbell Raise",
+   "path": "Front_Two-Dumbbell_Raise/0.jpg",
+   "path2": "Front_Two-Dumbbell_Raise/1.jpg"
+  },
+  {
+   "k": 3,
+   "name": "Standing Dumbbell Straight-Arm Front Delt Raise Above Head",
+   "path": "Standing_Dumbbell_Straight-Arm_Front_Delt_Raise_Above_Head/0.jpg",
+   "path2": "Standing_Dumbbell_Straight-Arm_Front_Delt_Raise_Above_Head/1.jpg"
+  }
+ ],
+ "upright_row": [
+  {
+   "k": 0,
+   "name": "Upright Barbell Row",
+   "path": "Upright_Barbell_Row/0.jpg",
+   "path2": "Upright_Barbell_Row/1.jpg"
+  },
+  {
+   "k": 1,
+   "name": "Upright Cable Row",
+   "path": "Upright_Cable_Row/0.jpg",
+   "path2": "Upright_Cable_Row/1.jpg"
+  }
+ ]
+}
