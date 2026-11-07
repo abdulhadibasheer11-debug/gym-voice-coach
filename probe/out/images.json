@@ -1,0 +1,2069 @@
+{
+ "chest_press_high": [
+  {
+   "k": 0,
+   "wger": 129,
+   "name": "Chest Press",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/129/b263c968-e067-4750-916a-d8758a7df23e.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1581,
+   "name": "Trap press",
+   "author": "CptnFatbeard",
+   "medium": "https://wger.de/media/exercise-images/1581/b71a6710-5798-4639-ac5a-22a2cdae2036.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1556,
+   "name": "Devil\u2019s Press",
+   "author": "Settebello",
+   "medium": "https://wger.de/media/exercise-images/1556/a23c820b-e08b-4911-a6a4-80f16c15d2e0.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1901,
+   "name": "Clean and Press",
+   "author": "nishant0712",
+   "medium": "https://wger.de/media/exercise-images/1901/046f0f42-0ed5-48c5-a9ee-41de25e3b6a0.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 418,
+   "name": "Military Press mit SZ-Bar",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/418/fa2a2207-43cb-4dc0-bc2a-039e32544790.png.400x400_q85.jpg"
+  }
+ ],
+ "smith_bench": [
+  {
+   "k": 0,
+   "wger": 1747,
+   "name": "Smith machine squat",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1747/af9647dd-04ec-4adf-9c07-4e33edb77277.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 185,
+   "name": "Decline Bench Press Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/100/Decline-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 691,
+   "name": "Upright Row, on Multi Press",
+   "author": "anto.kreegyr",
+   "medium": "https://wger.de/media/exercise-images/691/297d4ce1-7e9e-4adb-8f5c-7d54054be885.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 538,
+   "name": "Incline Bench Press - Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/41/Incline-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 146,
+   "name": "Calf Press Using Leg Press Machine",
+   "author": "nate303303",
+   "medium": "https://wger.de/media/exercise-images/146/8b284904-d072-4381-a256-4c81d8fd9c1f.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  }
+ ],
+ "incline_machine": [
+  {
+   "k": 0,
+   "wger": 129,
+   "name": "Chest Press",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/129/b263c968-e067-4750-916a-d8758a7df23e.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 538,
+   "name": "Incline Bench Press - Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/41/Incline-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1831,
+   "name": "Hammerstrength Decline Chest Press",
+   "author": "hans",
+   "medium": "https://wger.de/media/exercise-images/1831/2d9d509f-707b-4132-961e-91a2459ca198.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1283,
+   "name": "Incline Chest-Supported Dumbbell Row",
+   "author": "carlos3c",
+   "medium": "https://wger.de/media/exercise-images/1283/e7262f70-7512-408a-8d00-4c499ef632fc.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1581,
+   "name": "Trap press",
+   "author": "CptnFatbeard",
+   "medium": "https://wger.de/media/exercise-images/1581/b71a6710-5798-4639-ac5a-22a2cdae2036.jpg.400x400_q85.jpg"
+  }
+ ],
+ "seated_dip": [
+  {
+   "k": 0,
+   "wger": 129,
+   "name": "Chest Press",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/129/b263c968-e067-4750-916a-d8758a7df23e.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1747,
+   "name": "Smith machine squat",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1747/af9647dd-04ec-4adf-9c07-4e33edb77277.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1725,
+   "name": "Seated Row (Machine)",
+   "author": "barry",
+   "medium": "https://wger.de/media/exercise-images/1725/f0ebd44e-b8e1-400c-b598-ca371f3a07af.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1748,
+   "name": "Machine Hip Abduction",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1748/923a3ff7-c269-49bd-9f03-697151a40f06.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1654,
+   "name": "Machine Lateral Raise",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/1654/aa724a58-b3b5-4522-b278-1155416236a5.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1744,
+   "name": "Machine Side Lateral Raises",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1744/cb9263c4-39fc-4261-8d30-a5d6d57841c1.jpg.400x400_q85.jpg"
+  }
+ ],
+ "pec_deck": [
+  {
+   "k": 0,
+   "wger": 135,
+   "name": "Butterfly",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/98/Butterfly-machine-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 822,
+   "name": "Cable Rear Delt Fly",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/822/74affc0d-03b6-4f33-b5f4-a822a2615f68.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1922,
+   "name": "Seated Cable chest fly",
+   "author": "shushu",
+   "medium": "https://wger.de/media/exercise-images/1922/eb750ee5-3220-4128-aef1-5e2f1ccff40a.webp.400x400_q85.jpg"
+  }
+ ],
+ "tri_rope": [
+  {
+   "k": 0,
+   "wger": 1185,
+   "name": "Triceps Pushdown",
+   "author": "anto.kreegyr",
+   "medium": "https://wger.de/media/exercise-images/1185/c5ca283d-8958-4fd8-9d59-a3f52a3ac66b.jpg.400x400_q85.jpg"
+  }
+ ],
+ "tri_bar": [
+  {
+   "k": 0,
+   "wger": 1185,
+   "name": "Triceps Pushdown",
+   "author": "anto.kreegyr",
+   "medium": "https://wger.de/media/exercise-images/1185/c5ca283d-8958-4fd8-9d59-a3f52a3ac66b.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1551,
+   "name": "Push-Up",
+   "author": "Settebello",
+   "medium": "https://wger.de/media/exercise-images/1551/a6a9e561-3965-45c6-9f2b-ee671e1a3a45.png.400x400_q85.jpg"
+  }
+ ],
+ "tri_db_overhead": [
+  {
+   "k": 0,
+   "wger": 369,
+   "name": "Leg Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 50,
+   "name": "Barbell Triceps Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 659,
+   "name": "Triceps Extensions on Cable",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/659/a60452f1-e2ea-43fe-baa6-c1a2208d060c.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1298,
+   "name": "High-Cable Cross Tricep Extention - NB",
+   "author": "JackSparrow",
+   "medium": "https://wger.de/media/exercise-images/1298/ec4b83ec-5a8f-4303-9050-99ec4389bc2a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1131,
+   "name": "Cable glute extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1131/3bcf3024-2dcc-4995-9694-55aa2c2e4a9a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  }
+ ],
+ "tri_plate": [
+  {
+   "k": 0,
+   "wger": 369,
+   "name": "Leg Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 50,
+   "name": "Barbell Triceps Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 659,
+   "name": "Triceps Extensions on Cable",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/659/a60452f1-e2ea-43fe-baa6-c1a2208d060c.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1298,
+   "name": "High-Cable Cross Tricep Extention - NB",
+   "author": "JackSparrow",
+   "medium": "https://wger.de/media/exercise-images/1298/ec4b83ec-5a8f-4303-9050-99ec4389bc2a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1131,
+   "name": "Cable glute extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1131/3bcf3024-2dcc-4995-9694-55aa2c2e4a9a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  }
+ ],
+ "pulldown_wide": [
+  {
+   "k": 0,
+   "wger": 158,
+   "name": "Close-grip Lat Pull Down",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/158/0d51a0f2-622f-434b-beb8-1a003c54712a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1136,
+   "name": "Neutral-grip chest pulldown",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1136/5778a8e9-c606-4843-89c8-9d9469eeb6e4.PNG.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1127,
+   "name": "Close-grip supinated lat pulldown",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1127/4942b7c0-6bda-4983-88e5-86547c3d445e.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1971,
+   "name": "Mentzer Pulldown",
+   "author": "Athlean-X",
+   "medium": "https://wger.de/media/exercise-images/1971/729af526-19a0-4d3d-a258-196c7575d139.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1138,
+   "name": "Incline bench pulldown",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1138/6c35fd79-ef35-4cf3-abf5-9c969457b8d4.PNG.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1726,
+   "name": "Straight-Arm Pulldown (Cable)",
+   "author": "barry",
+   "medium": "https://wger.de/media/exercise-images/1726/2e7e541b-5f55-405a-ae78-3e71b3f42db4.png.400x400_q85.jpg"
+  }
+ ],
+ "cable_row": [
+  {
+   "k": 0,
+   "wger": 1117,
+   "name": "Seated Cable Row",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1117/2555c4c3-a84d-47db-b83b-cbf721f12e45.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1725,
+   "name": "Seated Row (Machine)",
+   "author": "barry",
+   "medium": "https://wger.de/media/exercise-images/1725/f0ebd44e-b8e1-400c-b598-ca371f3a07af.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1621,
+   "name": "Unilateral Cable row",
+   "author": "technofer",
+   "medium": "https://wger.de/media/exercise-images/1621/ca1bc68d-9c36-4dd3-8ec4-496c57b5c564.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1922,
+   "name": "Seated Cable chest fly",
+   "author": "shushu",
+   "medium": "https://wger.de/media/exercise-images/1922/eb750ee5-3220-4128-aef1-5e2f1ccff40a.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 512,
+   "name": "Rowing seated, narrow grip",
+   "author": "wger.de",
+   "medium": "https://wger.de/media/exercise-images/512/b938437e-ff00-4679-9036-acb41bb28bbd.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 237,
+   "name": "Fly With Cable",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/122/Incline-cable-flyes-1.png.400x400_q85.jpg"
+  }
+ ],
+ "pulldown_neutral": [
+  {
+   "k": 0,
+   "wger": 1086,
+   "name": "Close-grip Press-ups",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/1086/b2ee8d9b-0480-4992-8494-c223b37c2696.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 158,
+   "name": "Close-grip Lat Pull Down",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/158/0d51a0f2-622f-434b-beb8-1a003c54712a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1136,
+   "name": "Neutral-grip chest pulldown",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1136/5778a8e9-c606-4843-89c8-9d9469eeb6e4.PNG.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1127,
+   "name": "Close-grip supinated lat pulldown",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1127/4942b7c0-6bda-4983-88e5-86547c3d445e.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1971,
+   "name": "Mentzer Pulldown",
+   "author": "Athlean-X",
+   "medium": "https://wger.de/media/exercise-images/1971/729af526-19a0-4d3d-a258-196c7575d139.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1138,
+   "name": "Incline bench pulldown",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1138/6c35fd79-ef35-4cf3-abf5-9c969457b8d4.PNG.400x400_q85.jpg"
+  }
+ ],
+ "machine_row": [
+  {
+   "k": 0,
+   "wger": 1117,
+   "name": "Seated Cable Row",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1117/2555c4c3-a84d-47db-b83b-cbf721f12e45.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1747,
+   "name": "Smith machine squat",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1747/af9647dd-04ec-4adf-9c07-4e33edb77277.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1725,
+   "name": "Seated Row (Machine)",
+   "author": "barry",
+   "medium": "https://wger.de/media/exercise-images/1725/f0ebd44e-b8e1-400c-b598-ca371f3a07af.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1654,
+   "name": "Machine Lateral Raise",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/1654/aa724a58-b3b5-4522-b278-1155416236a5.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 512,
+   "name": "Rowing seated, narrow grip",
+   "author": "wger.de",
+   "medium": "https://wger.de/media/exercise-images/512/b938437e-ff00-4679-9036-acb41bb28bbd.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1744,
+   "name": "Machine Side Lateral Raises",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1744/cb9263c4-39fc-4261-8d30-a5d6d57841c1.jpg.400x400_q85.jpg"
+  }
+ ],
+ "tbar_row": [
+  {
+   "k": 0,
+   "wger": 693,
+   "name": "Upright Row, SZ-bar",
+   "author": "wger.de",
+   "medium": "https://wger.de/media/exercise-images/693/05c91bd2-7814-40b6-b2d1-51ae942b8321.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 94,
+   "name": "Biceps Curls With SZ-bar",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/94/6dee2f60-aea2-4f2d-9bf6-aef50c4f9483.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 418,
+   "name": "Military Press mit SZ-Bar",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/418/fa2a2207-43cb-4dc0-bc2a-039e32544790.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1745,
+   "name": "Cable Front Raise with a small bar",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1745/9c92843a-6b90-428b-a868-9af4b11bad38.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1198,
+   "name": "Inverted Rows",
+   "author": "Gavru",
+   "medium": "https://wger.de/media/exercise-images/1198/864906ac-4ac7-4e52-a886-c6bb97950a9f.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 83,
+   "name": "Bent Over Rowing",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/109/Barbell-rear-delt-row-1.png.400x400_q85.jpg"
+  }
+ ],
+ "back_ext": [
+  {
+   "k": 0,
+   "wger": 369,
+   "name": "Leg Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 622,
+   "name": "Standing Calf Raises",
+   "author": "clafal",
+   "medium": "https://wger.de/media/exercise-images/622/9a429bd0-afd3-4ad0-8043-e9beec901c81.jpeg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1131,
+   "name": "Cable glute extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1131/3bcf3024-2dcc-4995-9694-55aa2c2e4a9a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1243,
+   "name": "Double Leg Calf Raise",
+   "author": "erikocobra",
+   "medium": "https://wger.de/media/exercise-images/1243/53d4fabe-c994-4907-873f-8d82813a9832.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 50,
+   "name": "Barbell Triceps Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 659,
+   "name": "Triceps Extensions on Cable",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/659/a60452f1-e2ea-43fe-baa6-c1a2208d060c.png.400x400_q85.jpg"
+  }
+ ],
+ "biceps_machine": [
+  {
+   "k": 0,
+   "wger": 1012,
+   "name": "Alternating bicep curls",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1012/8270fdb8-28f1-4eff-b410-af8642085b3f.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 369,
+   "name": "Leg Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 94,
+   "name": "Biceps Curls With SZ-bar",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/94/6dee2f60-aea2-4f2d-9bf6-aef50c4f9483.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1226,
+   "name": "Dumbbell bicep curl to press",
+   "author": "Lynn_McIntyre",
+   "medium": "https://wger.de/media/exercise-images/1226/a6154dbd-67a0-4a36-8748-0f5af3865e83.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 129,
+   "name": "Chest Press",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/129/b263c968-e067-4750-916a-d8758a7df23e.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1747,
+   "name": "Smith machine squat",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1747/af9647dd-04ec-4adf-9c07-4e33edb77277.jpg.400x400_q85.jpg"
+  }
+ ],
+ "barbell_curl": [
+  {
+   "k": 0,
+   "wger": 1801,
+   "name": "Barbell Full Squat",
+   "author": "Workout Guru",
+   "medium": "https://wger.de/media/exercise-images/1801/60043328-1cfb-4289-9865-aaf64d5aaa28.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1638,
+   "name": "Barbell Clean and press",
+   "author": "Rottekongen",
+   "medium": "https://wger.de/media/exercise-images/1638/046c09b0-c35d-48d0-a552-39dd49f956d2.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1830,
+   "name": "Barbell Step Back Lunge",
+   "author": "hans",
+   "medium": "https://wger.de/media/exercise-images/1830/3b6c547c-ab3d-4472-93cf-561710279eab.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 566,
+   "name": "Shoulder Press, Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/119/seated-barbell-shoulder-press-large-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 50,
+   "name": "Barbell Triceps Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1290,
+   "name": "Reverse Grip Barbell Curls",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1290/c05818bf-1c81-46df-9f24-42e354265388.png.400x400_q85.jpg"
+  }
+ ],
+ "cable_curl_rope": [
+  {
+   "k": 0,
+   "wger": 1109,
+   "name": "Cable Concentration Curl",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1109/00b0a0bf-c14a-4f13-bb14-62c09030a1aa.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 237,
+   "name": "Fly With Cable",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/122/Incline-cable-flyes-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 323,
+   "name": "Cable Cross-over",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/71/Cable-crossover-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1117,
+   "name": "Seated Cable Row",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1117/2555c4c3-a84d-47db-b83b-cbf721f12e45.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 822,
+   "name": "Cable Rear Delt Fly",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/822/74affc0d-03b6-4f33-b5f4-a822a2615f68.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1621,
+   "name": "Unilateral Cable row",
+   "author": "technofer",
+   "medium": "https://wger.de/media/exercise-images/1621/ca1bc68d-9c36-4dd3-8ec4-496c57b5c564.jpg.400x400_q85.jpg"
+  }
+ ],
+ "cable_curl_bar": [
+  {
+   "k": 0,
+   "wger": 237,
+   "name": "Fly With Cable",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/122/Incline-cable-flyes-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 323,
+   "name": "Cable Cross-over",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/71/Cable-crossover-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1117,
+   "name": "Seated Cable Row",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1117/2555c4c3-a84d-47db-b83b-cbf721f12e45.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 822,
+   "name": "Cable Rear Delt Fly",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/822/74affc0d-03b6-4f33-b5f4-a822a2615f68.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1621,
+   "name": "Unilateral Cable row",
+   "author": "technofer",
+   "medium": "https://wger.de/media/exercise-images/1621/ca1bc68d-9c36-4dd3-8ec4-496c57b5c564.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1131,
+   "name": "Cable glute extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1131/3bcf3024-2dcc-4995-9694-55aa2c2e4a9a.png.400x400_q85.jpg"
+  }
+ ],
+ "wrist_curl": [
+  {
+   "k": 0,
+   "wger": 2680,
+   "name": "Wrist rocks",
+   "author": "nalhilal",
+   "medium": "https://wger.de/media/exercise-images/2680/566cfe8f-ee9a-4f4c-8d1f-f8d71f4779ba.png.400x400_q85.jpg"
+  }
+ ],
+ "db_lateral": [
+  {
+   "k": 0,
+   "wger": 1188,
+   "name": "Side bend",
+   "author": "",
+   "medium": "https://wger.de/media/exercise-images/1188/43e714e4-b736-4f3a-8ab4-97821fdff86a.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 348,
+   "name": "Lateral Raises",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1325,
+   "name": "Lateral Push Off",
+   "author": "cleen",
+   "medium": "https://wger.de/media/exercise-images/1325/d8372291-6725-452a-9711-6321c061e354.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1654,
+   "name": "Machine Lateral Raise",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/1654/aa724a58-b3b5-4522-b278-1155416236a5.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1744,
+   "name": "Machine Side Lateral Raises",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1744/cb9263c4-39fc-4261-8d30-a5d6d57841c1.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1378,
+   "name": "Cable Lateral Raises (Single Arm)",
+   "author": "carlos3c",
+   "medium": "https://wger.de/media/exercise-images/1378/7c1fcf34-fb7e-45e7-a0c1-51f296235315.jpg.400x400_q85.jpg"
+  }
+ ],
+ "db_press": [
+  {
+   "k": 0,
+   "wger": 1947,
+   "name": "dumbbell snatch",
+   "author": "Aleid",
+   "medium": "https://wger.de/media/exercise-images/1947/4201a9c0-f9e4-48ca-80f1-b46c7ffe5640.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 572,
+   "name": "Shrugs, Dumbbells",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/151/Dumbbell-shrugs-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1650,
+   "name": "Dumbbell Side Bend",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1650/1d7a5336-ec0b-4898-a474-78ba32789bf3.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1653,
+   "name": "Dumbbell Side Squat",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1653/c10c4e17-1e14-4cf9-930b-cc3a614f15dd.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1084,
+   "name": "Dumbbell Floor Press",
+   "author": "admin",
+   "medium": "https://wger.de/media/exercise-images/1084/91dd5a95-1c45-46f2-a074-de41b6ad599b.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 75,
+   "name": "Benchpress Dumbbells",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/97/Dumbbell-bench-press-1.png.400x400_q85.jpg"
+  }
+ ],
+ "machine_shoulder_press": [
+  {
+   "k": 0,
+   "wger": 1091,
+   "name": "Plank Shoulder Taps",
+   "author": "clafal",
+   "medium": "https://wger.de/media/exercise-images/1091/50c8912d-54ef-46c9-99d1-633b6196aa1e.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 566,
+   "name": "Shoulder Press, Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/119/seated-barbell-shoulder-press-large-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 567,
+   "name": "Shoulder Press, Dumbbells",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/123/dumbbell-shoulder-press-large-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 146,
+   "name": "Calf Press Using Leg Press Machine",
+   "author": "nate303303",
+   "medium": "https://wger.de/media/exercise-images/146/8b284904-d072-4381-a256-4c81d8fd9c1f.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1581,
+   "name": "Trap press",
+   "author": "CptnFatbeard",
+   "medium": "https://wger.de/media/exercise-images/1581/b71a6710-5798-4639-ac5a-22a2cdae2036.jpg.400x400_q85.jpg"
+  }
+ ],
+ "machine_lateral": [
+  {
+   "k": 0,
+   "wger": 1654,
+   "name": "Machine Lateral Raise",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/1654/aa724a58-b3b5-4522-b278-1155416236a5.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 348,
+   "name": "Lateral Raises",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1725,
+   "name": "Seated Row (Machine)",
+   "author": "barry",
+   "medium": "https://wger.de/media/exercise-images/1725/f0ebd44e-b8e1-400c-b598-ca371f3a07af.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1744,
+   "name": "Machine Side Lateral Raises",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1744/cb9263c4-39fc-4261-8d30-a5d6d57841c1.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1378,
+   "name": "Cable Lateral Raises (Single Arm)",
+   "author": "carlos3c",
+   "medium": "https://wger.de/media/exercise-images/1378/7c1fcf34-fb7e-45e7-a0c1-51f296235315.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1188,
+   "name": "Side bend",
+   "author": "",
+   "medium": "https://wger.de/media/exercise-images/1188/43e714e4-b736-4f3a-8ab4-97821fdff86a.jpg.400x400_q85.jpg"
+  }
+ ],
+ "reverse_pec_deck": [
+  {
+   "k": 0,
+   "wger": 999,
+   "name": "Reverse lunges",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/999/d0931eb3-8db0-4049-bb08-aa4036072056.jfif.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 2620,
+   "name": "Reverse V-Squat",
+   "author": "aboksz",
+   "medium": "https://wger.de/media/exercise-images/2620/561eb05a-b0e4-4cde-a338-5855a30dffd4.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 487,
+   "name": "Rear Delt Raises",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/487/ad724e5c-b1ed-49e8-9279-a17545b0dd0b.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 822,
+   "name": "Cable Rear Delt Fly",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/822/74affc0d-03b6-4f33-b5f4-a822a2615f68.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 84,
+   "name": "Bent Over Rowing Reverse",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/110/Reverse-grip-bent-over-rows-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 828,
+   "name": "Incline Bench Reverse Fly",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/828/2e959dab-f39b-4c7c-9063-eb43064ab5eb.png.400x400_q85.jpg"
+  }
+ ],
+ "face_pull": [
+  {
+   "k": 0,
+   "wger": 475,
+   "name": "Pull-ups",
+   "author": "Imobard",
+   "medium": "https://wger.de/media/exercise-images/475/b0554016-16fd-4dbe-be47-a2a17d16ae0e.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1639,
+   "name": "Dumbbell Bent Over Face Pull",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1639/8927346e-f5ca-4795-bdf1-5ac9309401e7.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1732,
+   "name": "Face pulls with yellow/green band",
+   "author": "54str",
+   "medium": "https://wger.de/media/exercise-images/1732/d13b9adb-968e-4f73-95e6-b16690bcf616.jpg.400x400_q85.jpg"
+  }
+ ],
+ "db_shrug": [
+  {
+   "k": 0,
+   "wger": 1947,
+   "name": "dumbbell snatch",
+   "author": "Aleid",
+   "medium": "https://wger.de/media/exercise-images/1947/4201a9c0-f9e4-48ca-80f1-b46c7ffe5640.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 572,
+   "name": "Shrugs, Dumbbells",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/151/Dumbbell-shrugs-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1650,
+   "name": "Dumbbell Side Bend",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1650/1d7a5336-ec0b-4898-a474-78ba32789bf3.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1653,
+   "name": "Dumbbell Side Squat",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1653/c10c4e17-1e14-4cf9-930b-cc3a614f15dd.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1642,
+   "name": "Dumbbell Hip Thrust",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1642/a81ad922-caf5-47f8-99b4-640cb0717436.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1651,
+   "name": "Dumbbell Rear Lunge",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1651/04ab2679-a04d-4d05-9c85-0d36e898328c.webp.400x400_q85.jpg"
+  }
+ ],
+ "leg_ext": [
+  {
+   "k": 0,
+   "wger": 369,
+   "name": "Leg Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 622,
+   "name": "Standing Calf Raises",
+   "author": "clafal",
+   "medium": "https://wger.de/media/exercise-images/622/9a429bd0-afd3-4ad0-8043-e9beec901c81.jpeg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1131,
+   "name": "Cable glute extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1131/3bcf3024-2dcc-4995-9694-55aa2c2e4a9a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1243,
+   "name": "Double Leg Calf Raise",
+   "author": "erikocobra",
+   "medium": "https://wger.de/media/exercise-images/1243/53d4fabe-c994-4907-873f-8d82813a9832.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 50,
+   "name": "Barbell Triceps Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 659,
+   "name": "Triceps Extensions on Cable",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/659/a60452f1-e2ea-43fe-baa6-c1a2208d060c.png.400x400_q85.jpg"
+  }
+ ],
+ "leg_curl": [
+  {
+   "k": 0,
+   "wger": 365,
+   "name": "Leg Curls (laying)",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/154/lying-leg-curl-machine-large-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 366,
+   "name": "Leg Curls (sitting)",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/117/seated-leg-curl-large-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 367,
+   "name": "Leg Curls (standing)",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/118/standing-leg-curls-large-1.png.400x400_q85.jpg"
+  }
+ ],
+ "leg_press": [
+  {
+   "k": 0,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1581,
+   "name": "Trap press",
+   "author": "CptnFatbeard",
+   "medium": "https://wger.de/media/exercise-images/1581/b71a6710-5798-4639-ac5a-22a2cdae2036.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 129,
+   "name": "Chest Press",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/129/b263c968-e067-4750-916a-d8758a7df23e.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1556,
+   "name": "Devil\u2019s Press",
+   "author": "Settebello",
+   "medium": "https://wger.de/media/exercise-images/1556/a23c820b-e08b-4911-a6a4-80f16c15d2e0.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1901,
+   "name": "Clean and Press",
+   "author": "nishant0712",
+   "medium": "https://wger.de/media/exercise-images/1901/046f0f42-0ed5-48c5-a9ee-41de25e3b6a0.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 373,
+   "name": "Leg Presses (narrow)",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/373/60e2aa21-1910-40d3-9fed-babfee06dd48.png.400x400_q85.jpg"
+  }
+ ],
+ "squat_machine": [
+  {
+   "k": 0,
+   "wger": 456,
+   "name": "Pistol Squat",
+   "author": "wakanda90",
+   "medium": "https://wger.de/media/exercise-images/456/3b681e59-377b-40db-9113-ca5873ce084b.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1747,
+   "name": "Smith machine squat",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1747/af9647dd-04ec-4adf-9c07-4e33edb77277.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1725,
+   "name": "Seated Row (Machine)",
+   "author": "barry",
+   "medium": "https://wger.de/media/exercise-images/1725/f0ebd44e-b8e1-400c-b598-ca371f3a07af.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1744,
+   "name": "Machine Side Lateral Raises",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1744/cb9263c4-39fc-4261-8d30-a5d6d57841c1.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1581,
+   "name": "Trap press",
+   "author": "CptnFatbeard",
+   "medium": "https://wger.de/media/exercise-images/1581/b71a6710-5798-4639-ac5a-22a2cdae2036.jpg.400x400_q85.jpg"
+  }
+ ],
+ "adductor": [
+  {
+   "k": 0,
+   "wger": 1748,
+   "name": "Machine Hip Abduction",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1748/923a3ff7-c269-49bd-9f03-697151a40f06.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1725,
+   "name": "Seated Row (Machine)",
+   "author": "barry",
+   "medium": "https://wger.de/media/exercise-images/1725/f0ebd44e-b8e1-400c-b598-ca371f3a07af.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1860,
+   "name": "Foam Roller Adductors",
+   "author": "Davidgj32",
+   "medium": "https://wger.de/media/exercise-images/1860/f0410e66-28d5-455f-90f3-d078e0988460.avif.400x400_q85.jpg"
+  }
+ ],
+ "abductor": [
+  {
+   "k": 0,
+   "wger": 1748,
+   "name": "Machine Hip Abduction",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1748/923a3ff7-c269-49bd-9f03-697151a40f06.jpg.400x400_q85.jpg"
+  }
+ ],
+ "calf_seated": [
+  {
+   "k": 0,
+   "wger": 1117,
+   "name": "Seated Cable Row",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1117/2555c4c3-a84d-47db-b83b-cbf721f12e45.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 622,
+   "name": "Standing Calf Raises",
+   "author": "clafal",
+   "medium": "https://wger.de/media/exercise-images/622/9a429bd0-afd3-4ad0-8043-e9beec901c81.jpeg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1243,
+   "name": "Double Leg Calf Raise",
+   "author": "erikocobra",
+   "medium": "https://wger.de/media/exercise-images/1243/53d4fabe-c994-4907-873f-8d82813a9832.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1098,
+   "name": "Seated rear delt rise",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/1098/fa5328a2-64cb-4afb-a283-b3d948ddaf3f.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1620,
+   "name": "Seated Dumbbell Calf Raise",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1620/edd40e39-e337-4460-a8dd-6127d40ddd16.jpeg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1922,
+   "name": "Seated Cable chest fly",
+   "author": "shushu",
+   "medium": "https://wger.de/media/exercise-images/1922/eb750ee5-3220-4128-aef1-5e2f1ccff40a.webp.400x400_q85.jpg"
+  }
+ ],
+ "abs_machine": [
+  {
+   "k": 0,
+   "wger": 1648,
+   "name": "Weighted Crunch",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1648/63ae02d6-6dd9-4e9e-84da-d4905e78a33c.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1747,
+   "name": "Smith machine squat",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1747/af9647dd-04ec-4adf-9c07-4e33edb77277.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1725,
+   "name": "Seated Row (Machine)",
+   "author": "barry",
+   "medium": "https://wger.de/media/exercise-images/1725/f0ebd44e-b8e1-400c-b598-ca371f3a07af.png.400x400_q85.jpg"
+  }
+ ],
+ "knee_raise": [
+  {
+   "k": 0,
+   "wger": 2674,
+   "name": "Captain's Chair Knee Raise",
+   "author": "fen",
+   "medium": "https://wger.de/media/exercise-images/2674/3e752d40-288d-4a45-9b51-1f18433e664f.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 2675,
+   "name": "Captain's Chair Oblique Knee Raise",
+   "author": "fen",
+   "medium": "https://wger.de/media/exercise-images/2675/6165b802-9139-4a27-8892-946aa19c2b5c.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 348,
+   "name": "Lateral Raises",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1243,
+   "name": "Double Leg Calf Raise",
+   "author": "erikocobra",
+   "medium": "https://wger.de/media/exercise-images/1243/53d4fabe-c994-4907-873f-8d82813a9832.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1654,
+   "name": "Machine Lateral Raise",
+   "author": "roneydya",
+   "medium": "https://wger.de/media/exercise-images/1654/aa724a58-b3b5-4522-b278-1155416236a5.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1620,
+   "name": "Seated Dumbbell Calf Raise",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1620/edd40e39-e337-4460-a8dd-6127d40ddd16.jpeg.400x400_q85.jpg"
+  }
+ ],
+ "cable_crunch": [
+  {
+   "k": 0,
+   "wger": 1648,
+   "name": "Weighted Crunch",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1648/63ae02d6-6dd9-4e9e-84da-d4905e78a33c.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 323,
+   "name": "Cable Cross-over",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/71/Cable-crossover-2.png.400x400_q85.jpg"
+  }
+ ],
+ "decline_crunch": [
+  {
+   "k": 0,
+   "wger": 1648,
+   "name": "Weighted Crunch",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1648/63ae02d6-6dd9-4e9e-84da-d4905e78a33c.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 185,
+   "name": "Decline Bench Press Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/100/Decline-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1831,
+   "name": "Hammerstrength Decline Chest Press",
+   "author": "hans",
+   "medium": "https://wger.de/media/exercise-images/1831/2d9d509f-707b-4132-961e-91a2459ca198.jpg.400x400_q85.jpg"
+  }
+ ],
+ "torso_rotation": [
+  {
+   "k": 0,
+   "wger": 1377,
+   "name": "Torso Twist",
+   "author": "brucem",
+   "medium": "https://wger.de/media/exercise-images/1377/12e7a231-d36a-4992-bf57-ff7bfe0f3ae4.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 2530,
+   "name": "Russian Push Ups",
+   "author": "ege",
+   "medium": "https://wger.de/media/exercise-images/2530/c39eccd5-c7a5-47cd-85c2-76cac547ad7c.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1089,
+   "name": "Medicine ball twist",
+   "author": "clafal",
+   "medium": "https://wger.de/media/exercise-images/1089/49f51716-535d-41dd-aeb5-cff5bb906bc1.jpeg.400x400_q85.jpg"
+  }
+ ],
+ "barbell_bench": [
+  {
+   "k": 0,
+   "wger": 75,
+   "name": "Benchpress Dumbbells",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/97/Dumbbell-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 566,
+   "name": "Shoulder Press, Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/119/seated-barbell-shoulder-press-large-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1638,
+   "name": "Barbell Clean and press",
+   "author": "Rottekongen",
+   "medium": "https://wger.de/media/exercise-images/1638/046c09b0-c35d-48d0-a552-39dd49f956d2.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 185,
+   "name": "Decline Bench Press Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/100/Decline-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 538,
+   "name": "Incline Bench Press - Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/41/Incline-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  }
+ ],
+ "incline_db_press": [
+  {
+   "k": 0,
+   "wger": 1947,
+   "name": "dumbbell snatch",
+   "author": "Aleid",
+   "medium": "https://wger.de/media/exercise-images/1947/4201a9c0-f9e4-48ca-80f1-b46c7ffe5640.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 75,
+   "name": "Benchpress Dumbbells",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/97/Dumbbell-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1084,
+   "name": "Dumbbell Floor Press",
+   "author": "admin",
+   "medium": "https://wger.de/media/exercise-images/1084/91dd5a95-1c45-46f2-a074-de41b6ad599b.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 567,
+   "name": "Shoulder Press, Dumbbells",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/123/dumbbell-shoulder-press-large-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 185,
+   "name": "Decline Bench Press Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/100/Decline-bench-press-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1226,
+   "name": "Dumbbell bicep curl to press",
+   "author": "Lynn_McIntyre",
+   "medium": "https://wger.de/media/exercise-images/1226/a6154dbd-67a0-4a36-8748-0f5af3865e83.jpg.400x400_q85.jpg"
+  }
+ ],
+ "db_fly": [
+  {
+   "k": 0,
+   "wger": 1947,
+   "name": "dumbbell snatch",
+   "author": "Aleid",
+   "medium": "https://wger.de/media/exercise-images/1947/4201a9c0-f9e4-48ca-80f1-b46c7ffe5640.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1650,
+   "name": "Dumbbell Side Bend",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1650/1d7a5336-ec0b-4898-a474-78ba32789bf3.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1653,
+   "name": "Dumbbell Side Squat",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1653/c10c4e17-1e14-4cf9-930b-cc3a614f15dd.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1642,
+   "name": "Dumbbell Hip Thrust",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1642/a81ad922-caf5-47f8-99b4-640cb0717436.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1651,
+   "name": "Dumbbell Rear Lunge",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1651/04ab2679-a04d-4d05-9c85-0d36e898328c.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1084,
+   "name": "Dumbbell Floor Press",
+   "author": "admin",
+   "medium": "https://wger.de/media/exercise-images/1084/91dd5a95-1c45-46f2-a074-de41b6ad599b.jpg.400x400_q85.jpg"
+  }
+ ],
+ "cable_crossover": [
+  {
+   "k": 0,
+   "wger": 323,
+   "name": "Cable Cross-over",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/71/Cable-crossover-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1296,
+   "name": "Low-Cable Cross-Over - NB",
+   "author": "JackSparrow",
+   "medium": "https://wger.de/media/exercise-images/1296/c42782fe-337a-44f4-9079-7f6dedab4885.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1298,
+   "name": "High-Cable Cross Tricep Extention - NB",
+   "author": "JackSparrow",
+   "medium": "https://wger.de/media/exercise-images/1298/ec4b83ec-5a8f-4303-9050-99ec4389bc2a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 237,
+   "name": "Fly With Cable",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/122/Incline-cable-flyes-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1117,
+   "name": "Seated Cable Row",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1117/2555c4c3-a84d-47db-b83b-cbf721f12e45.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 822,
+   "name": "Cable Rear Delt Fly",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/822/74affc0d-03b6-4f33-b5f4-a822a2615f68.png.400x400_q85.jpg"
+  }
+ ],
+ "push_up": [
+  {
+   "k": 0,
+   "wger": 1551,
+   "name": "Push-Up",
+   "author": "Settebello",
+   "medium": "https://wger.de/media/exercise-images/1551/a6a9e561-3965-45c6-9f2b-ee671e1a3a45.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 475,
+   "name": "Pull-ups",
+   "author": "Imobard",
+   "medium": "https://wger.de/media/exercise-images/475/b0554016-16fd-4dbe-be47-a2a17d16ae0e.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 478,
+   "name": "Push Press",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/478/70a2d72c-a822-45f3-8de2-54ea85951b84.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1554,
+   "name": "Clap Push-UP",
+   "author": "Settebello",
+   "medium": "https://wger.de/media/exercise-images/1554/49207a62-8799-4b47-8c0b-7bde02926f3d.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 2530,
+   "name": "Russian Push Ups",
+   "author": "ege",
+   "medium": "https://wger.de/media/exercise-images/2530/c39eccd5-c7a5-47cd-85c2-76cac547ad7c.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1325,
+   "name": "Lateral Push Off",
+   "author": "cleen",
+   "medium": "https://wger.de/media/exercise-images/1325/d8372291-6725-452a-9711-6321c061e354.jpg.400x400_q85.jpg"
+  }
+ ],
+ "pull_up": [
+  {
+   "k": 0,
+   "wger": 1551,
+   "name": "Push-Up",
+   "author": "Settebello",
+   "medium": "https://wger.de/media/exercise-images/1551/a6a9e561-3965-45c6-9f2b-ee671e1a3a45.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 475,
+   "name": "Pull-ups",
+   "author": "Imobard",
+   "medium": "https://wger.de/media/exercise-images/475/b0554016-16fd-4dbe-be47-a2a17d16ae0e.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1554,
+   "name": "Clap Push-UP",
+   "author": "Settebello",
+   "medium": "https://wger.de/media/exercise-images/1554/49207a62-8799-4b47-8c0b-7bde02926f3d.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1198,
+   "name": "Inverted Rows",
+   "author": "Gavru",
+   "medium": "https://wger.de/media/exercise-images/1198/864906ac-4ac7-4e52-a886-c6bb97950a9f.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1137,
+   "name": "High-pulley pullover",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/1137/42f22229-c0a0-4bfc-aca6-66fe5e1ab10d.PNG.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 158,
+   "name": "Close-grip Lat Pull Down",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/158/0d51a0f2-622f-434b-beb8-1a003c54712a.png.400x400_q85.jpg"
+  }
+ ],
+ "db_row": [
+  {
+   "k": 0,
+   "wger": 1947,
+   "name": "dumbbell snatch",
+   "author": "Aleid",
+   "medium": "https://wger.de/media/exercise-images/1947/4201a9c0-f9e4-48ca-80f1-b46c7ffe5640.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1186,
+   "name": "One Arm Bent Row",
+   "author": "anto.kreegyr",
+   "medium": "https://wger.de/media/exercise-images/1186/1987a039-cf35-437e-bbdc-40c53dd7d053.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1651,
+   "name": "Dumbbell Rear Lunge",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1651/04ab2679-a04d-4d05-9c85-0d36e898328c.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 694,
+   "name": "Upright Row w/ Dumbbells",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/694/119e6823-6960-4341-a9e1-aaf78d7fb57c.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1652,
+   "name": "Dumbbell Romanian Deadlift",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1652/0306c8c0-70cc-45d4-92de-6fa72ceaa834.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1283,
+   "name": "Incline Chest-Supported Dumbbell Row",
+   "author": "carlos3c",
+   "medium": "https://wger.de/media/exercise-images/1283/e7262f70-7512-408a-8d00-4c499ef632fc.jpg.400x400_q85.jpg"
+  }
+ ],
+ "deadlift": [
+  {
+   "k": 0,
+   "wger": 184,
+   "name": "Deadlifts",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/184/1709c405-620a-4d07-9658-fade2b66a2df.jpeg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 484,
+   "name": "Rack Deadlift",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/161/Dead-lifts-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1088,
+   "name": "Dumbbell sumo deadlift",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/1088/9f66b288-ce8f-4154-ba80-78fee267263c.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1612,
+   "name": "kettlebell sumo deadlift",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1612/3dc33f57-2786-4305-8b91-e011d7055923.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1652,
+   "name": "Dumbbell Romanian Deadlift",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1652/0306c8c0-70cc-45d4-92de-6fa72ceaa834.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1641,
+   "name": "Kettlebell One Legged Deadlift",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1641/68d9488d-2596-420f-be0f-52aa70732c83.webp.400x400_q85.jpg"
+  }
+ ],
+ "barbell_squat": [
+  {
+   "k": 0,
+   "wger": 1801,
+   "name": "Barbell Full Squat",
+   "author": "Workout Guru",
+   "medium": "https://wger.de/media/exercise-images/1801/60043328-1cfb-4289-9865-aaf64d5aaa28.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1653,
+   "name": "Dumbbell Side Squat",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1653/c10c4e17-1e14-4cf9-930b-cc3a614f15dd.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1640,
+   "name": "Dumbbell Front Squat",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1640/bdea82f1-15ef-4649-8b5a-1303cfc178e7.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 203,
+   "name": "Dumbbell Goblet Squat",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/203/1c052351-2af0-4227-aeb0-244008e4b0a8.jpeg.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1830,
+   "name": "Barbell Step Back Lunge",
+   "author": "hans",
+   "medium": "https://wger.de/media/exercise-images/1830/3b6c547c-ab3d-4472-93cf-561710279eab.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 566,
+   "name": "Shoulder Press, Barbell",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/119/seated-barbell-shoulder-press-large-1.png.400x400_q85.jpg"
+  }
+ ],
+ "lunge": [
+  {
+   "k": 0,
+   "wger": 984,
+   "name": "Lunges",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/984/5c7ffe68-e7b2-47f3-a22a-f9cc28640432.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 999,
+   "name": "Reverse lunges",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/999/d0931eb3-8db0-4049-bb08-aa4036072056.jfif.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1651,
+   "name": "Dumbbell Rear Lunge",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1651/04ab2679-a04d-4d05-9c85-0d36e898328c.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1604,
+   "name": "Sliding Lateral Lunge",
+   "author": "RiccaBaro",
+   "medium": "https://wger.de/media/exercise-images/1604/7695428e-bfed-4021-b987-498d93153995.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 206,
+   "name": "Dumbbell Lunges Walking",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/113/Walking-lunges-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1830,
+   "name": "Barbell Step Back Lunge",
+   "author": "hans",
+   "medium": "https://wger.de/media/exercise-images/1830/3b6c547c-ab3d-4472-93cf-561710279eab.jpg.400x400_q85.jpg"
+  }
+ ],
+ "rdl": [
+  {
+   "k": 0,
+   "wger": 184,
+   "name": "Deadlifts",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/184/1709c405-620a-4d07-9658-fade2b66a2df.jpeg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 484,
+   "name": "Rack Deadlift",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/161/Dead-lifts-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1652,
+   "name": "Dumbbell Romanian Deadlift",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1652/0306c8c0-70cc-45d4-92de-6fa72ceaa834.webp.400x400_q85.jpg"
+  }
+ ],
+ "hip_thrust": [
+  {
+   "k": 0,
+   "wger": 1642,
+   "name": "Dumbbell Hip Thrust",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1642/a81ad922-caf5-47f8-99b4-640cb0717436.webp.400x400_q85.jpg"
+  }
+ ],
+ "standing_calf": [
+  {
+   "k": 0,
+   "wger": 622,
+   "name": "Standing Calf Raises",
+   "author": "clafal",
+   "medium": "https://wger.de/media/exercise-images/622/9a429bd0-afd3-4ad0-8043-e9beec901c81.jpeg.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 367,
+   "name": "Leg Curls (standing)",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/118/standing-leg-curls-large-1.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1239,
+   "name": "Standing Calf Stretch",
+   "author": "erikocobra",
+   "medium": "https://wger.de/media/exercise-images/1239/5026373a-a7b4-4e26-a0aa-c46634205196.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1243,
+   "name": "Double Leg Calf Raise",
+   "author": "erikocobra",
+   "medium": "https://wger.de/media/exercise-images/1243/53d4fabe-c994-4907-873f-8d82813a9832.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1620,
+   "name": "Seated Dumbbell Calf Raise",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1620/edd40e39-e337-4460-a8dd-6127d40ddd16.jpeg.400x400_q85.jpg"
+  }
+ ],
+ "db_curl": [
+  {
+   "k": 0,
+   "wger": 1947,
+   "name": "dumbbell snatch",
+   "author": "Aleid",
+   "medium": "https://wger.de/media/exercise-images/1947/4201a9c0-f9e4-48ca-80f1-b46c7ffe5640.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1650,
+   "name": "Dumbbell Side Bend",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1650/1d7a5336-ec0b-4898-a474-78ba32789bf3.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 1653,
+   "name": "Dumbbell Side Squat",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1653/c10c4e17-1e14-4cf9-930b-cc3a614f15dd.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1642,
+   "name": "Dumbbell Hip Thrust",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1642/a81ad922-caf5-47f8-99b4-640cb0717436.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1651,
+   "name": "Dumbbell Rear Lunge",
+   "author": "AlucardEvil40",
+   "medium": "https://wger.de/media/exercise-images/1651/04ab2679-a04d-4d05-9c85-0d36e898328c.webp.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1616,
+   "name": "Dumbbell donkey kick",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1616/97e6fd98-2ca6-486f-b9b2-f0499fe38044.jpg.400x400_q85.jpg"
+  }
+ ],
+ "hammer_curl": [
+  {
+   "k": 0,
+   "wger": 1831,
+   "name": "Hammerstrength Decline Chest Press",
+   "author": "hans",
+   "medium": "https://wger.de/media/exercise-images/1831/2d9d509f-707b-4132-961e-91a2459ca198.jpg.400x400_q85.jpg"
+  }
+ ],
+ "skull_crusher": [
+  {
+   "k": 0,
+   "wger": 369,
+   "name": "Leg Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 50,
+   "name": "Barbell Triceps Extension",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 659,
+   "name": "Triceps Extensions on Cable",
+   "author": "Franpol",
+   "medium": "https://wger.de/media/exercise-images/659/a60452f1-e2ea-43fe-baa6-c1a2208d060c.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 1298,
+   "name": "High-Cable Cross Tricep Extention - NB",
+   "author": "JackSparrow",
+   "medium": "https://wger.de/media/exercise-images/1298/ec4b83ec-5a8f-4303-9050-99ec4389bc2a.png.400x400_q85.jpg"
+  },
+  {
+   "k": 4,
+   "wger": 1185,
+   "name": "Triceps Pushdown",
+   "author": "anto.kreegyr",
+   "medium": "https://wger.de/media/exercise-images/1185/c5ca283d-8958-4fd8-9d59-a3f52a3ac66b.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 5,
+   "wger": 1230,
+   "name": "Triceps stretch left",
+   "author": "anonymous",
+   "medium": "https://wger.de/media/exercise-images/1230/9fd1e2fd-f2c4-432d-b3ae-5e5f24085777.webp.400x400_q85.jpg"
+  }
+ ],
+ "front_raise": [
+  {
+   "k": 0,
+   "wger": 256,
+   "name": "Front Raises",
+   "author": "philip",
+   "medium": "https://wger.de/media/exercise-images/256/b7def5bc-2352-499b-b9e5-fff741003831.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 1745,
+   "name": "Cable Front Raise with a small bar",
+   "author": "Tierrasverdes",
+   "medium": "https://wger.de/media/exercise-images/1745/9c92843a-6b90-428b-a868-9af4b11bad38.jpg.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 348,
+   "name": "Lateral Raises",
+   "author": "Everkinetic",
+   "medium": "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-2.png.400x400_q85.jpg"
+  },
+  {
+   "k": 3,
+   "wger": 487,
+   "name": "Rear Delt Raises",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/487/ad724e5c-b1ed-49e8-9279-a17545b0dd0b.png.400x400_q85.jpg"
+  }
+ ],
+ "upright_row": [
+  {
+   "k": 0,
+   "wger": 693,
+   "name": "Upright Row, SZ-bar",
+   "author": "wger.de",
+   "medium": "https://wger.de/media/exercise-images/693/05c91bd2-7814-40b6-b2d1-51ae942b8321.png.400x400_q85.jpg"
+  },
+  {
+   "k": 1,
+   "wger": 694,
+   "name": "Upright Row w/ Dumbbells",
+   "author": "cshep442",
+   "medium": "https://wger.de/media/exercise-images/694/119e6823-6960-4341-a9e1-aaf78d7fb57c.png.400x400_q85.jpg"
+  },
+  {
+   "k": 2,
+   "wger": 691,
+   "name": "Upright Row, on Multi Press",
+   "author": "anto.kreegyr",
+   "medium": "https://wger.de/media/exercise-images/691/297d4ce1-7e9e-4adb-8f5c-7d54054be885.jpg.400x400_q85.jpg"
+  }
+ ]
+}
