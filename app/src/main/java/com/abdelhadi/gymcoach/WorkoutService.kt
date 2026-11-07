@@ -117,10 +117,10 @@ class WorkoutService : Service() {
             prefs.dayId = prefs.suggestedDayId()
             prefs.addLog(JSONObject().apply {
                 put("day", day.id); put("date", System.currentTimeMillis())
-                put("planned", plan.totalSec); put("actual", result.elapsedSec)
+                put("planned", result.plannedSec); put("actual", result.elapsedSec)
                 put("stopped", result.stopped); put("exercises", result.exercisesDone)
             })
-            val diffMin = (result.elapsedSec - plan.totalSec) / 60
+            val diffMin = (result.elapsedSec - result.plannedSec) / 60
             val minutes = (result.elapsedSec + 30) / 60
             if (result.stopped) {
                 sp.say("تم إنهاء الحصة. المدة $minutes دقيقة.", interrupt = true)

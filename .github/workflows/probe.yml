@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 probe/assets.py
+      - run: python3 probe/fedb.py
       - run: |
           git config user.name "build-bot"; git config user.email "build-bot@users.noreply.github.com"
-          git add probe/out && git commit -m "probe results" && git push
+          git add probe/out2 && git commit -m "probe fedb" && git push

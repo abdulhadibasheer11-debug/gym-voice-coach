@@ -79,6 +79,63 @@ object Ui {
             .apply { setMargins(0, dp(ctx, 8), 0, dp(ctx, 8)) }
     }
 
+    /**
+     * Number control: [−] value [+]. With TalkBack the value itself is "adjustable":
+     * swipe up/down (or volume keys) to change it; the new value is announced.
+     */
+    fun stepper(
+        ctx: Context, label: String, value: Int, min: Int, max: Int, step: Int = 1,
+        format: (Int) -> String = { it.toString() }, onChange: (Int) -> Unit,
+    ): LinearLayout {
+        var v = value.coerceIn(min, max)
+        val row = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = android.view.Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                .apply { setMargins(0, dp(ctx, 4), 0, dp(ctx, 10)) }
+        }
+        val valueView = TextView(ctx).apply {
+            textSize = 24f; setTextColor(FG); setTypeface(typeface, Typeface.BOLD)
+            gravity = android.view.Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(0, dp(ctx, 64), 1f)
+            isFocusable = true
+        }
+        fun show(announce: Boolean) {
+            valueView.text = format(v)
+            valueView.contentDescription = "$label: ${format(v)}"
+            if (announce) valueView.announceForAccessibility(format(v))
+        }
+        fun change(d: Int) {
+            val nv = (v + d).coerceIn(min, max)
+            if (nv != v) { v = nv; show(true); onChange(v) } else valueView.announceForAccessibility("${format(v)}، الحد ${if (d > 0) "الأعلى" else "الأدنى"}")
+        }
+        valueView.accessibilityDelegate = object : View.AccessibilityDelegate() {
+            override fun onInitializeAccessibilityNodeInfo(host: View, info: android.view.accessibility.AccessibilityNodeInfo) {
+                super.onInitializeAccessibilityNodeInfo(host, info)
+                info.className = "android.widget.SeekBar"
+                info.addAction(android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD)
+                info.addAction(android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_BACKWARD)
+            }
+            override fun performAccessibilityAction(host: View, action: Int, args: android.os.Bundle?): Boolean = when (action) {
+                android.view.accessibility.AccessibilityNodeInfo.ACTION_SCROLL_FORWARD -> { change(step); true }
+                android.view.accessibility.AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD -> { change(-step); true }
+                else -> super.performAccessibilityAction(host, action, args)
+            }
+        }
+        fun small(text: String, desc: String, d: Int) = Button(ctx).apply {
+            this.text = text; textSize = 28f; setTextColor(Color.BLACK); contentDescription = desc
+            background = GradientDrawable().apply { cornerRadius = dp(ctx, 14).toFloat(); setColor(ACCENT) }
+            layoutParams = LinearLayout.LayoutParams(dp(ctx, 72), dp(ctx, 64))
+            setOnClickListener { change(d) }
+        }
+        // RTL: the first child is on the right. Put "+" on the right, "−" on the left.
+        row.addView(small("+", "زيادة $label", step))
+        row.addView(valueView)
+        row.addView(small("−", "إنقاص $label", -step))
+        show(false)
+        return row
+    }
+
     /** Radio group with a visible label used as the group's accessible name. */
     fun <T> radioGroup(
         ctx: Context, label: String, options: List<Pair<T, String>>, selected: T, onSelect: (T) -> Unit,
