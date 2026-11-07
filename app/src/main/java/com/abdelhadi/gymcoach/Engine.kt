@@ -149,6 +149,7 @@ class Engine(
                 is CardioStep -> { Session.phase = "warmup"; Session.title = "إحماء: ${st.cardio.ar}"; Session.subtitle = "${st.dur / 60} دقائق" }
                 is StretchStep -> { Session.phase = "warmup"; Session.title = "إطالة اليدين"; Session.subtitle = "اتبع الصوت" }
                 is IntroStep -> { Session.phase = "warmup"; Session.title = plan.day.ar; Session.subtitle = plan.day.en }
+                is PrepStep -> { Session.phase = "move"; Session.title = "استعداد"; Session.subtitle = if (st.kind == "toCardio") "التوجه إلى ${settings.cardio.ar}" else "ماء ونفَس وتجهيز" }
             }
             Session.touch()
 
@@ -158,6 +159,16 @@ class Engine(
                         "$total تمارين. المدة المتوقعة ${minAr(plan.totalSec.toDouble())}، وتنتهي حوالي ${clockSpeech(targetEnd)}.",
                         "Let's go!")
                     waitMs(2000)
+                }
+                is PrepStep -> {
+                    val c = settings.cardio.ar
+                    when (st.kind) {
+                        "toCardio" -> sp.say("توجّه الآن إلى $c وجهّزها.", "عندك ${dur.roundToInt()} ثانية، وسأبدأ معك الإحماء بعدها.")
+                        "afterCardio" -> sp.say("استراحة قصيرة: اشرب ماء، وخذ نفسك، وتوجّه لمكان مناسب لإطالة اليدين.", "عندك ${dur.roundToInt()} ثانية.")
+                        "afterCardioNoStretch" -> sp.say("استراحة قصيرة: اشرب ماء وخذ نفسك قبل أول تمرين.")
+                        else -> sp.say("توجّه لمكان مناسب لإطالة اليدين.", "عندك ${dur.roundToInt()} ثانية.")
+                    }
+                    waitMs(max(2000L, durMs - 6000), if (dur > 30) listOf(Cue(15_000) { sp.say("خمسة عشر ثانية.") }) else emptyList())
                 }
                 is CardioStep -> {
                     sp.say("الإحماء: ${st.cardio.ar} ${minAr(st.dur.toDouble())}.", "ابدأ بسرعة خفيفة وزِدها تدريجياً. سأنبهك عند النهاية.")
@@ -295,6 +306,7 @@ class Engine(
             is CardioStep -> "الإحماء على ${st.cardio.ar}"
             is StretchStep -> "إطالة اليدين"
             is IntroStep -> "البداية"
+            is PrepStep -> "استعداد"
         }
         return "$where. باقي على نهاية الحصة حوالي $remainMin دقيقة."
     }

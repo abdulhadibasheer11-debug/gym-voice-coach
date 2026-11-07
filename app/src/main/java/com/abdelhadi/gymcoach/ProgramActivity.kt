@@ -29,8 +29,9 @@ class ProgramActivity : Activity() {
         })
         col.addView(Ui.heading(this, "برامج جاهزة"))
         col.addView(Ui.styled(this, "اختيار برنامج جاهز يستبدل أيامك الحالية، ثم تستطيع تعديله.", 18f, color = Ui.MUTED))
-        Templates.all.forEach { (name, make) ->
-            col.addView(Ui.button(this, name) {
+        col.addView(Ui.button(this, "اختيار برنامج جاهز") {
+            AlertDialog.Builder(this).setTitle("البرامج الجاهزة").setItems(Templates.all.map { it.first }.toTypedArray()) { _, w ->
+                val (name, make) = Templates.all[w]
                 AlertDialog.Builder(this).setTitle("استبدال البرنامج؟")
                     .setMessage("سيُستبدل برنامجك الحالي بـ: $name")
                     .setPositiveButton("نعم، استبدل") { _, _ ->
@@ -38,8 +39,8 @@ class ProgramActivity : Activity() {
                         render(0)
                     }
                     .setNegativeButton("إلغاء", null).show()
-            })
-        }
+            }.setNegativeButton("إغلاق", null).show()
+        })
         setContentView(ScrollView(this).apply { setBackgroundColor(Ui.BG); addView(col) })
     }
 
@@ -54,15 +55,18 @@ class ProgramActivity : Activity() {
             val mins = buildPlan(d, Prefs(this).settingsFor(d)).totalSec / 60
             card.addView(Ui.styled(this, "اليوم ${i + 1}: ${d.ar}", 22f, bold = true))
             card.addView(Ui.styled(this, "${d.blocks.size} تمارين، حوالي $mins دقيقة", 17f, color = Ui.MUTED))
-            card.addView(Ui.button(this, "تعديل ${d.ar}") {
-                startActivity(Intent(this, DayEditActivity::class.java).putExtra("day", d.id))
-            })
-            if (i > 0) card.addView(Ui.button(this, "تحريك ${d.ar} للأعلى") { swap(i, i - 1) })
-            if (i < days.size - 1) card.addView(Ui.button(this, "تحريك ${d.ar} للأسفل") { swap(i, i + 1) })
-            if (days.size > 1) card.addView(Ui.button(this, "حذف ${d.ar}") {
-                AlertDialog.Builder(this).setMessage("حذف ${d.ar}؟").setPositiveButton("حذف") { _, _ ->
-                    ProgramStore.save(this, days.filterIndexed { j, _ -> j != i }); render(maxOf(0, i - 1))
-                }.setNegativeButton("إلغاء", null).show()
+            card.addView(Ui.button(this, "خيارات ${d.ar}") {
+                val acts = mutableListOf<Pair<String, () -> Unit>>(
+                    "تعديل التمارين والاسم" to { startActivity(Intent(this, DayEditActivity::class.java).putExtra("day", d.id)) })
+                if (i > 0) acts += "تحريك للأعلى" to { swap(i, i - 1) }
+                if (i < days.size - 1) acts += "تحريك للأسفل" to { swap(i, i + 1) }
+                if (days.size > 1) acts += "حذف هذا اليوم" to {
+                    AlertDialog.Builder(this).setMessage("حذف ${d.ar}؟").setPositiveButton("حذف") { _, _ ->
+                        ProgramStore.save(this, days.filterIndexed { j, _ -> j != i }); render(maxOf(0, i - 1))
+                    }.setNegativeButton("إلغاء", null).show()
+                }
+                AlertDialog.Builder(this).setTitle(d.ar).setItems(acts.map { it.first }.toTypedArray()) { _, w -> acts[w].second() }
+                    .setNegativeButton("إغلاق", null).show()
             })
             list.addView(card)
         }
@@ -134,18 +138,18 @@ class DayEditActivity : Activity() {
             if (android.os.Build.VERSION.SDK_INT >= 28) card.isScreenReaderFocusable = false
             val label = "${i + 1}. ${blockLabel(bl)}"
             card.addView(Ui.styled(this, label, 20f, bold = true))
-            ExerciseImages.view(this, bl.variants[0][0], 120)?.let { card.addView(it) }
-            card.addView(Ui.button(this, "الجولات والتكرار والراحة للتمرين ${i + 1}") { editSetsReps(i) })
-            if (i > 0) card.addView(Ui.button(this, "تحريك التمرين ${i + 1} للأعلى") { move(i, i - 1) })
-            if (i < blocks.size - 1) card.addView(Ui.button(this, "تحريك التمرين ${i + 1} للأسفل") { move(i, i + 1) })
-            val single = bl.variants.size == 1 && bl.variants[0].size == 1
-            val next = blocks.getOrNull(i + 1)
-            if (single && next != null && next.variants.size == 1 && next.variants[0].size == 1)
-                card.addView(Ui.button(this, "سوبر سِت: دمج التمرين ${i + 1} مع التالي") { mergeWithNext(i) })
-            if (bl.superset && bl.variants.size == 1 && bl.variants[0].size > 1)
-                card.addView(Ui.button(this, "فصل السوبر سِت ${i + 1}") { split(i) })
-            card.addView(Ui.button(this, "حذف التمرين ${i + 1}") {
-                update { d -> d.copy(blocks = d.blocks.filterIndexed { j, _ -> j != i }) }; render(maxOf(0, i - 1))
+            card.addView(Ui.button(this, "خيارات التمرين ${i + 1}") {
+                val acts = mutableListOf<Pair<String, () -> Unit>>("الجولات والتكرار والراحة" to { editSetsReps(i) })
+                if (i > 0) acts += "تحريك للأعلى" to { move(i, i - 1) }
+                if (i < blocks.size - 1) acts += "تحريك للأسفل" to { move(i, i + 1) }
+                val single = bl.variants.size == 1 && bl.variants[0].size == 1
+                val next = blocks.getOrNull(i + 1)
+                if (single && next != null && next.variants.size == 1 && next.variants[0].size == 1)
+                    acts += "سوبر سِت: دمج مع التمرين التالي" to { mergeWithNext(i) }
+                if (bl.superset && bl.variants.size == 1 && bl.variants[0].size > 1) acts += "فصل السوبر سِت" to { split(i) }
+                acts += "حذف التمرين" to { update { d -> d.copy(blocks = d.blocks.filterIndexed { j, _ -> j != i }) }; render(maxOf(0, i - 1)) }
+                AlertDialog.Builder(this).setTitle(blockLabel(bl)).setItems(acts.map { it.first }.toTypedArray()) { _, w -> acts[w].second() }
+                    .setNegativeButton("إغلاق", null).show()
             })
             list.addView(card)
         }

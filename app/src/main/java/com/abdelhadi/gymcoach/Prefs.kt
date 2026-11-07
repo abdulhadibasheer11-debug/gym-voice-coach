@@ -34,6 +34,12 @@ class Prefs(private val ctx: Context) {
     var defaultReps: Int
         get() = p.getInt("defaultReps", 12)
         set(v) = p.edit().putInt("defaultReps", v).apply()
+    var prepBefore: Int
+        get() = p.getInt("prepBefore", 60)
+        set(v) = p.edit().putInt("prepBefore", v).apply()
+    var breakAfterWarmup: Int
+        get() = p.getInt("breakAfterWarmup", 90)
+        set(v) = p.edit().putInt("breakAfterWarmup", v).apply()
     var waterEvery: Int
         get() = p.getInt("waterEvery", 15)
         set(v) = p.edit().putInt("waterEvery", v).apply()
@@ -84,6 +90,8 @@ class Prefs(private val ctx: Context) {
         defaultReps = defaultReps,
         cardioMinutes = cardioMinutes(cardio),
         waterEveryMin = waterEvery,
+        prepBeforeSec = prepBefore,
+        breakAfterWarmupSec = breakAfterWarmup,
         transMult = transMult.toDouble(),
         cardio = cardio,
         restAdj = restAdj,

@@ -38,6 +38,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".WarmupActivity" android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".PlanActivity" android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".AudioActivity" android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".SettingsActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".ProgramActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".DayEditActivity" android:exported="false" android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />

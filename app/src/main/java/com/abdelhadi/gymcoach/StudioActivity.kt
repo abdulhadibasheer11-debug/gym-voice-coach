@@ -26,6 +26,11 @@ class StudioActivity : Activity() {
     private val scope = MainScope()
     private val phrases = CoachLines.recordable()
     private var i = 0
+    /** todo = unrecorded only, done = recorded only (to redo one), all */
+    private var filter = "todo"
+    private fun matches(j: Int) = when (filter) {
+        "todo" -> !VoicePack.has(this, phrases[j]); "done" -> VoicePack.has(this, phrases[j]); else -> true
+    }
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
     private var speaker: Speaker? = null
@@ -40,6 +45,10 @@ class StudioActivity : Activity() {
         val col = Ui.column(this)
         col.addView(Ui.heading(this, "استوديو تسجيل صوت المدرب، تجريبي", big = true))
         col.addView(Ui.styled(this, "لكل جملة: اسمعها، ثم اضغط تسجيل وانتظر الصفارة، وقلها بحماس، ثم اضغط إيقاف. يمكنك قولها بلهجتك. التسجيلات تُستخدم بدل صوت الهاتف عند تفعيل خيار الصوت البشري.", 18f, color = Ui.MUTED))
+        col.addView(Ui.radioGroup(this, "عرض الجمل", listOf("todo" to "غير المسجّلة فقط", "done" to "المسجّلة، لإعادة تسجيل إحداها", "all" to "كل الجمل"), filter) {
+            filter = it; jumpToFirst()
+        })
+        col.addView(Ui.button(this, "قائمة الجمل، للانتقال إلى أي جملة") { pickFromList() })
         val card = Ui.card(this)
         counter = Ui.styled(this, "", 18f, color = Ui.MUTED).also { card.addView(it) }
         phrase = Ui.styled(this, "", 30f, bold = true).also { card.addView(it) }
@@ -51,10 +60,6 @@ class StudioActivity : Activity() {
         col.addView(Ui.button(this, "اسمع تسجيلي") { playMine() })
         col.addView(Ui.button(this, "الجملة التالية") { move(1) })
         col.addView(Ui.button(this, "الجملة السابقة") { move(-1) })
-        col.addView(Ui.button(this, "انتقل لأول جملة غير مسجلة") {
-            val j = phrases.indexOfFirst { !VoicePack.has(this, it) }
-            if (j >= 0) { i = j; render(true) } else announce("كل الجمل مسجلة. ممتاز!")
-        })
         col.addView(Ui.heading(this, "مشاركة الصوت مع الأصدقاء"))
         col.addView(Ui.styled(this, "بعد أن تسجّل، أرسل الحزمة لأصدقائك بملف واحد عبر واتساب أو غيره، ويستوردونها من نفس الشاشة. استأذن صاحب الصوت قبل المشاركة.", 17f, color = Ui.MUTED))
         col.addView(Ui.button(this, "مشاركة حزمة الصوت") { sharePack() })
@@ -65,7 +70,7 @@ class StudioActivity : Activity() {
             VoicePack.file(this, phrases[i]).delete(); render(false); announce("تم الحذف")
         })
         setContentView(ScrollView(this).apply { setBackgroundColor(Ui.BG); addView(col) })
-        render(false)
+        jumpToFirst(speak = false)
         scope.launch { speaker = Speaker(this@StudioActivity).also { it.init() } }
         if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
             requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 2)
@@ -98,9 +103,24 @@ class StudioActivity : Activity() {
         }
     }
 
+    private fun jumpToFirst(speak: Boolean = true) {
+        val j = phrases.indices.firstOrNull { matches(it) }
+        if (j == null) {
+            render(false)
+            announce(if (filter == "todo") "كل الجمل مسجّلة. ممتاز!" else "لا توجد جمل مسجّلة بعد.")
+        } else { i = j; render(speak) }
+    }
+
+    private fun pickFromList() {
+        val items = phrases.mapIndexed { j, t -> (if (VoicePack.has(this, t)) "مسجّلة: " else "غير مسجّلة: ") + t }.toTypedArray()
+        android.app.AlertDialog.Builder(this).setTitle("كل الجمل").setItems(items) { _, w ->
+            stopRecording(save = false); i = w; filter = "all"; render(true)
+        }.setNegativeButton("إغلاق", null).show()
+    }
+
     private fun render(speakIt: Boolean) {
         val done = VoicePack.recordedCount(this)
-        counter.text = "الجملة ${i + 1} من ${phrases.size}. المسجّل: $done"
+        counter.text = "الجملة ${i + 1} من ${phrases.size}. المسجّل: $done، والباقي: ${phrases.size - done}"
         phrase.text = phrases[i]
         state.text = if (VoicePack.has(this, phrases[i])) "مسجّلة" else "غير مسجّلة"
         if (speakIt) phrase.announceForAccessibility("${phrases[i]}، ${state.text}")
@@ -108,7 +128,12 @@ class StudioActivity : Activity() {
 
     private fun move(d: Int) {
         stopRecording(save = false)
-        i = (i + d).mod(phrases.size); render(true)
+        var j = i
+        repeat(phrases.size) {
+            j = (j + d).mod(phrases.size)
+            if (matches(j)) { i = j; render(true); return }
+        }
+        announce(if (filter == "todo") "لا توجد جمل أخرى غير مسجّلة." else "لا توجد جمل أخرى.")
     }
 
     private fun hear() {
@@ -152,7 +177,7 @@ class StudioActivity : Activity() {
         r.release()
         if (save && ok && tmp.length() > 800) {
             tmp.copyTo(VoicePack.file(this, phrases[i]), overwrite = true)
-            render(false); announce("تم الحفظ")
+            render(false); announce(if (filter == "todo") "تم الحفظ. اضغط الجملة التالية للمتابعة." else "تم الحفظ")
             playMine()
         } else if (save) { render(false); announce("التسجيل قصير جداً، حاول مرة أخرى") }
     }

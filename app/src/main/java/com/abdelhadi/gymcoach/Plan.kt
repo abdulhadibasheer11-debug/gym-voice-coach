@@ -300,6 +300,8 @@ data class Settings(
     val defaultReps: Int = 12,
     val cardioMinutes: Int = 7,
     val waterEveryMin: Int = 15,
+    val prepBeforeSec: Int = 60,
+    val breakAfterWarmupSec: Int = 90,
     val transMult: Double = 1.0,
     val cardio: Cardio = Cardio.TREADMILL,
     val restAdj: Map<String, Int> = emptyMap(),
@@ -331,6 +333,8 @@ sealed class Step {
 }
 class IntroStep(override val dur: Int) : Step()
 class CardioStep(val cardio: Cardio, override val dur: Int) : Step()
+/** A short guided pause: walk to the treadmill, drink water and get ready for stretching, etc. */
+class PrepStep(val kind: String, override val dur: Int) : Step()
 class StretchStep(val items: List<StretchItem>, override val dur: Int) : Step()
 class TransitionStep(val ex: List<String>, val superset: Boolean, val blockNo: Int, val blockTotal: Int, override val dur: Int, val sets: Int = 3, val reps: Int = 12, val repsText: String = "12") : Step()
 class PairSwitchStep(val to: String, val round: Int, override val dur: Int) : Step()
@@ -351,8 +355,16 @@ fun buildPlan(day: Day, s: Settings): Plan {
     }
     val steps = mutableListOf<Step>()
     steps += IntroStep(Timing.INTRO)
-    if (s.cardio != Cardio.NONE && s.cardioMinutes > 0) steps += CardioStep(s.cardio, s.cardioMinutes * 60)
-    if (day.armStretch) steps += StretchStep(ARM_STRETCH, ARM_STRETCH.sumOf { it.seconds + STRETCH_ANNOUNCE })
+    val hasCardio = s.cardio != Cardio.NONE && s.cardioMinutes > 0
+    if (hasCardio) {
+        if (s.prepBeforeSec > 0) steps += PrepStep("toCardio", s.prepBeforeSec)
+        steps += CardioStep(s.cardio, s.cardioMinutes * 60)
+    }
+    if (day.armStretch) {
+        val pause = if (hasCardio) s.breakAfterWarmupSec else s.prepBeforeSec
+        if (pause > 0) steps += PrepStep(if (hasCardio) "afterCardio" else "toStretch", pause)
+        steps += StretchStep(ARM_STRETCH, ARM_STRETCH.sumOf { it.seconds + STRETCH_ANNOUNCE })
+    } else if (hasCardio && s.breakAfterWarmupSec > 0) steps += PrepStep("afterCardioNoStretch", s.breakAfterWarmupSec)
     var prev: Exercise? = null
     blocks.forEachIndexed { bi, b ->
         val first = Catalog[b.ex[0]]
