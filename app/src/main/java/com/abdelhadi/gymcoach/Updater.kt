@@ -31,7 +31,11 @@ object Updater {
                 val a = assets.getJSONObject(i)
                 if (a.getString("name").endsWith(".apk")) url = a.getString("browser_download_url")
             }
-            url?.let { Release(code, j.optString("name"), it, j.optString("body")) }
+            // show only user-facing notes: no links or technical lines
+            val notes = j.optString("body").lines().filter { l ->
+                l.isNotBlank() && !l.contains("http", true) && !l.contains("claude", true) && !l.contains("Co-Authored", true)
+            }.joinToString("\n")
+            url?.let { Release(code, j.optString("name"), it, notes) }
         }.getOrNull()
     }
 

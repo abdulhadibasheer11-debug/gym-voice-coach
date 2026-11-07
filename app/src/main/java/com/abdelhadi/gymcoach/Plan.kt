@@ -39,6 +39,39 @@ val AR_NAMES = mapOf(
     "skull_crusher" to "ترايسبس بار مستلقي", "front_raise" to "رفع أمامي دمبل", "upright_row" to "سحب عالي بالبار",
 )
 
+/** Names of the two movement phases for each exercise (working phase, return phase). Default: lift / lower. */
+val PHASES: Map<String, Pair<String, String>> = run {
+    val press = "الدفع" to "الرجوع"
+    val pushDown = "الدفع للأسفل" to "الرجوع للأعلى"
+    val pull = "السحب" to "الإرجاع"
+    val fly = "الضم" to "الفتح"
+    val raise = "الرفع" to "الإنزال"
+    val crunch = "العصر" to "الرجوع"
+    val up = "الصعود" to "النزول"
+    mapOf(
+        "chest_press_high" to press, "smith_bench" to press, "barbell_bench" to press, "incline_machine" to press,
+        "incline_db_press" to press, "machine_shoulder_press" to press, "db_press" to press, "leg_press" to press,
+        "seated_dip" to pushDown, "tri_rope" to pushDown, "tri_bar" to pushDown,
+        "tri_db_overhead" to ("فرد الذراعين للأعلى" to "الثني خلف الرأس"), "tri_plate" to ("فرد الذراعين للأعلى" to "الثني خلف الرأس"),
+        "skull_crusher" to ("فرد الذراعين" to "الإنزال للجبهة"),
+        "pulldown_wide" to ("السحب للأسفل" to "الإرجاع للأعلى"), "pulldown_neutral" to ("السحب للأسفل" to "الإرجاع للأعلى"),
+        "cable_row" to pull, "machine_row" to pull, "tbar_row" to pull, "db_row" to pull, "face_pull" to ("السحب للخلف" to "الإرجاع"),
+        "upright_row" to ("السحب للأعلى" to "الإنزال"), "pull_up" to ("السحب للأعلى" to "النزول"),
+        "pec_deck" to fly, "db_fly" to fly, "cable_crossover" to fly, "adductor" to fly,
+        "reverse_pec_deck" to ("الفتح للخلف" to "الإرجاع للأمام"), "abductor" to ("الفتح" to "الضم"),
+        "db_lateral" to raise, "machine_lateral" to raise, "front_raise" to raise, "db_shrug" to ("رفع الكتفين" to "الإنزال"),
+        "biceps_machine" to raise, "barbell_curl" to raise, "db_curl" to raise, "hammer_curl" to raise,
+        "cable_curl_rope" to raise, "cable_curl_bar" to raise, "wrist_curl" to ("رفع الرسغ" to "الإنزال"),
+        "leg_ext" to ("فرد الرجلين" to "الإرجاع"), "leg_curl" to ("ثني الرجلين" to "الإرجاع"),
+        "squat_machine" to up, "barbell_squat" to up, "lunge" to up, "deadlift" to raise, "rdl" to ("الصعود" to "الميل للأمام"),
+        "hip_thrust" to ("رفع الحوض" to "الإنزال"), "calf_seated" to ("الصعود على الأمشاط" to "النزول"),
+        "standing_calf" to ("الصعود على الأمشاط" to "النزول"), "back_ext" to ("رفع الجذع" to "النزول"),
+        "abs_machine" to crunch, "cable_crunch" to crunch, "decline_crunch" to ("رفع الجذع" to "النزول"),
+        "knee_raise" to ("رفع الركبتين" to "الإنزال"), "torso_rotation" to ("الدوران" to "الرجوع"),
+        "push_up" to ("الدفع للأعلى" to "النزول"),
+    )
+}
+
 /** Muscle groups used by the exercise picker. */
 val GROUPS: List<Pair<String, List<String>>> = listOf(
     "الصدر" to listOf("chest_press_high", "smith_bench", "barbell_bench", "incline_machine", "incline_db_press", "seated_dip", "pec_deck", "db_fly", "cable_crossover", "push_up"),

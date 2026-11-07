@@ -39,6 +39,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cp app/build/outputs/apk/release/app-release.apk gym-voice-coach.apk
-          NOTES="$(git log -1 --pretty=%B)"
+          NOTES="$(cat release-notes.md 2>/dev/null || echo 'تحسينات وإصلاحات')"
           gh release create "v${{ github.run_number }}" gym-voice-coach.apk \
             --title "0.1.${{ github.run_number }}" --notes "$NOTES" --latest

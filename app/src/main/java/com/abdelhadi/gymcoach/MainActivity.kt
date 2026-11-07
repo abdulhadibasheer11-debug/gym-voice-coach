@@ -50,9 +50,8 @@ class MainActivity : Activity() {
         cardioBox.removeAllViews()
         if (prefs.cardio == Cardio.NONE) return
         val c = prefs.cardio
-        cardioBox.addView(Ui.radioGroup(this, "مدة ${c.ar}",
-            listOf(3, 5, 7, 10, 12, 15, 20, 30).map { it to "$it دقائق" },
-            prefs.cardioMinutes(c).let { m -> if (m in listOf(3, 5, 7, 10, 12, 15, 20, 30)) m else 7 }) { prefs.setCardioMinutes(c, it); refresh() })
+        cardioBox.addView(Ui.stepper(this, "مدة ${c.ar} بالدقائق", prefs.cardioMinutes(c), 1, 60,
+            format = { "$it دقيقة" }) { prefs.setCardioMinutes(c, it); refreshPlan() })
     }
 
     private fun pickFolder() {
@@ -90,7 +89,7 @@ class MainActivity : Activity() {
         col.addView(Ui.radioGroup(this, "الإحماء",
             listOf(Cardio.TREADMILL to "المشاية", Cardio.BIKE to "الدراجة", Cardio.NONE to "بدون كارديو"),
             prefs.cardio) { prefs.cardio = it; renderCardioMinutes(); refresh() })
-        col.addView(Ui.text(this, "مدة الإحماء بالدقائق", 20f))
+        col.addView(Ui.text(this, "مدة الإحماء", 20f))
         cardioBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         col.addView(cardioBox)
         renderCardioMinutes()
@@ -130,15 +129,14 @@ class MainActivity : Activity() {
         col.addView(Ui.radioGroup(this, "لغة العدّ",
             listOf("en" to "الإنجليزية", "ar" to "العربية"), prefs.countLang) { prefs.countLang = it })
         col.addView(Ui.text(this, "عدد الجولات الافتراضي لكل تمرين", 20f))
-        col.addView(Ui.radioGroup(this, "عدد الجولات الافتراضي",
-            listOf(2, 3, 4, 5).map { it to "$it جولات" }, prefs.defaultSets) { prefs.defaultSets = it; refresh() })
+        col.addView(Ui.stepper(this, "عدد الجولات الافتراضي", prefs.defaultSets, 1, 10,
+            format = { "$it جولات" }) { prefs.defaultSets = it; refreshPlan() })
         col.addView(Ui.text(this, "عدد التكرارات الافتراضي", 20f))
-        col.addView(Ui.radioGroup(this, "عدد التكرارات الافتراضي",
-            listOf(6, 8, 10, 12, 15, 20).map { it to "$it تكرار" }, prefs.defaultReps) { prefs.defaultReps = it; refresh() })
+        col.addView(Ui.stepper(this, "عدد التكرارات الافتراضي", prefs.defaultReps, 1, 50,
+            format = { "$it تكرار" }) { prefs.defaultReps = it; refreshPlan() })
         col.addView(Ui.text(this, "تذكير شرب الماء", 20f))
-        col.addView(Ui.radioGroup(this, "تذكير شرب الماء",
-            listOf(0 to "بدون تذكير", 10 to "كل 10 دقائق", 15 to "كل 15 دقيقة", 20 to "كل 20 دقيقة", 30 to "كل 30 دقيقة"),
-            prefs.waterEvery) { prefs.waterEvery = it })
+        col.addView(Ui.stepper(this, "تذكير شرب الماء", prefs.waterEvery, 0, 60, step = 5,
+            format = { if (it == 0) "بدون تذكير" else "كل $it دقيقة" }) { prefs.waterEvery = it })
         col.addView(Ui.text(this, "وقت التنقل بين الأجهزة وتجهيز الوزن", 20f))
         col.addView(Ui.radioGroup(this, "وقت التنقل",
             listOf(1.0f to "عادي، حوالي دقيقتين للجهاز الجديد", 1.25f to "أطول بربع", 1.5f to "أطول بالنصف", 2.0f to "ضعف الوقت"),

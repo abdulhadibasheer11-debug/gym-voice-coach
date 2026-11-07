@@ -34,11 +34,13 @@ class Controls {
     @Volatile var skip = false
     @Volatile var skipExercise = false
     val addMs = AtomicLong(0)
+    /** Extra rest the user asked for (consumed by the engine to move the end time). */
+    val addedMs = AtomicLong(0)
 }
 
 data class Cue(val atMs: Long, val fn: suspend () -> Unit)
 
-data class SessionResult(val plan: Plan, val elapsedSec: Int, val stopped: Boolean, val exercisesDone: Int)
+data class SessionResult(val plan: Plan, val elapsedSec: Int, val stopped: Boolean, val exercisesDone: Int, val plannedSec: Int)
 
 class Engine(
     private val scope: CoroutineScope,
@@ -61,7 +63,8 @@ class Engine(
             val now = SystemClock.elapsedRealtime()
             if (!c.paused) {
                 remaining -= (now - last)
-                remaining += c.addMs.getAndSet(0)
+                val add = c.addMs.getAndSet(0)
+                if (add != 0L) { remaining += add; c.addedMs.addAndGet(add) }
                 while (pendingCues.isNotEmpty() && remaining <= pendingCues[0].atMs) {
                     val cue = pendingCues.removeAt(0)
                     scope.launch { cue.fn() }
@@ -81,10 +84,11 @@ class Engine(
     }
     private fun tempoAr(e: Exercise): String {
         val (u, t, d, b) = e.tempo.toList()
-        val sb = StringBuilder("الرفع ${secAr(u)}")
-        if (t > 0) sb.append("، تثبيت ${secAr(t)}")
-        sb.append("، الإنزال ${secAr(d)}")
-        if (b > 0) sb.append("، توقف تحت ${secAr(b)}")
+        val (work, back) = PHASES[e.id] ?: ("الرفع" to "الإنزال")
+        val sb = StringBuilder("$work ${secAr(u)}")
+        if (t > 0) sb.append("، ثبات ${secAr(t)}")
+        sb.append("، $back ${secAr(d)}")
+        if (b > 0) sb.append("، توقف في آخر المدى ${secAr(b)}")
         return sb.append(".").toString()
     }
     private fun minAr(sec: Double): String {
@@ -101,7 +105,10 @@ class Engine(
     suspend fun run(plan: Plan, settings: Settings): SessionResult {
         val t0 = SystemClock.elapsedRealtime()
         val wallStart = System.currentTimeMillis()
-        val targetEnd = wallStart + plan.totalSec * 1000L
+        // shift = planned seconds removed by skipping (minus extra rest added). The end time moves with it,
+        // so skipping exercises shortens the session instead of being "caught up" later.
+        var shift = 0.0
+        fun targetEnd() = wallStart + ((plan.totalSec - shift) * 1000).toLong()
         fun elapsed() = (SystemClock.elapsedRealtime() - t0) / 1000.0
         val done = mutableSetOf<String>()
         var lastWater = 0.0 // seconds since start when the last water reminder was given
@@ -112,12 +119,15 @@ class Engine(
             if (c.stop) break
             c.skip = false
             if (c.skipExercise) {
-                if (st !is TransitionStep) continue
+                if (st !is TransitionStep) { shift += st.dur; continue }
                 c.skipExercise = false
             }
+            shift -= c.addedMs.getAndSet(0) / 1000.0
+            val targetEnd = targetEnd()
             // time management: compress when behind, give a little more rest when ahead
             var dur = st.dur.toDouble()
-            val drift = elapsed() - st.plannedStart
+            val drift = elapsed() - (st.plannedStart - shift)
+            val stepStart = elapsed()
             if (st is RestStep || st is TransitionStep) {
                 val floor = if (st is RestStep) 40.0 else 30.0
                 if (drift > 20) dur = max(floor, dur - min(drift, dur * 0.3))
@@ -210,8 +220,10 @@ class Engine(
                     waitMs(w, cues)
                 }
             }
+            // a skipped step gives its unused time back: the session end moves earlier
+            if (c.skip || c.skipExercise) shift += max(0.0, dur - (elapsed() - stepStart))
         }
-        return SessionResult(plan, elapsed().roundToInt(), c.stop, done.size)
+        return SessionResult(plan, elapsed().roundToInt(), c.stop, done.size, (plan.totalSec - shift).roundToInt())
     }
 
     private fun countWord(n: Int, extra: String?, fast: Boolean) {
