@@ -28,6 +28,23 @@ class MainActivity : Activity() {
     private lateinit var musicFolderText: TextView
     private lateinit var recordedText: TextView
     private lateinit var cardioBox: LinearLayout
+    private lateinit var musicLibText: TextView
+
+    private fun updateMusicLib() {
+        val n = MusicLibrary.downloaded(this).size
+        musicLibText.text = if (n == 0) "موسيقى التطبيق: لم تُنزَّل بعد. بدونها يستخدم التطبيق إيقاعات بسيطة يولّدها بنفسه."
+            else "موسيقى التطبيق: $n أغانٍ جاهزة من ${MusicLibrary.tracks.size}."
+    }
+
+    private fun downloadMusic() {
+        musicLibText.text = "جاري التنزيل…"
+        musicLibText.announceForAccessibility("بدأ تنزيل الموسيقى")
+        scope.launch {
+            val n = MusicLibrary.download(this@MainActivity) { d, t -> musicLibText.text = "جاري التنزيل: $d من $t" }
+            updateMusicLib()
+            musicLibText.announceForAccessibility(if (n > 0) "اكتمل التنزيل، $n أغانٍ جاهزة" else "فشل التنزيل، تأكد من الإنترنت")
+        }
+    }
 
     private fun renderCardioMinutes() {
         cardioBox.removeAllViews()
@@ -87,6 +104,8 @@ class MainActivity : Activity() {
             listOf("none" to "بدون موسيقى، أو أشغّلها من تطبيق آخر وتنخفض عند كلام المدرب",
                 "phone" to "موسيقى من ملفات هاتفي", "app" to "موسيقى حماسية من التطبيق"),
             prefs.musicMode) { prefs.musicMode = it; if (it == "phone" && prefs.musicFolder == null) pickFolder() })
+        musicLibText = Ui.text(this, "", 17f).also { col.addView(it) }
+        col.addView(Ui.button(this, "تنزيل الموسيقى الحماسية، حوالي 60 ميغابايت، يفضّل على واي فاي") { downloadMusic() })
         musicFolderText = Ui.text(this, "", 17f).also { col.addView(it) }
         col.addView(Ui.button(this, "اختيار مجلد الموسيقى من الهاتف") { pickFolder() })
         col.addView(Ui.text(this, "مستوى صوت الموسيقى", 20f))
@@ -150,6 +169,7 @@ class MainActivity : Activity() {
         if (days.none { it.id == prefs.dayId }) prefs.dayId = prefs.suggestedDayId()
         val sug = prefs.suggestedDayId()
         musicFolderText.text = prefs.musicFolder?.let { "مجلد الموسيقى: " + android.net.Uri.decode(it).substringAfterLast(':').substringAfterLast('/') } ?: "لم يتم اختيار مجلد موسيقى."
+        updateMusicLib()
         recordedText.text = "الجمل المسجّلة: ${VoicePack.recordedCount(this)} من ${CoachLines.recordable().size}."
         dayBox.removeAllViews()
         val opts = days.mapIndexed { i, d ->

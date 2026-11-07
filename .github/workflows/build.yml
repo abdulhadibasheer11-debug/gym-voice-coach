@@ -24,9 +24,6 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Fetch exercise illustrations (wger.de, CC-BY-SA)
-        run: python3 tools/fetch_images.py app/src/main/assets/images || echo "images skipped"
-
       - name: Build signed APK
         env:
           KEYSTORE_PATH: ${{ github.workspace }}/signing/release.jks

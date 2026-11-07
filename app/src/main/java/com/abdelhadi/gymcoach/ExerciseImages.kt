@@ -29,9 +29,6 @@ object ExerciseImages {
         }
     }
 
-    fun credits(ctx: Context): String = runCatching {
-        val arr = JSONArray(ctx.assets.open("images/credits.json").bufferedReader().readText())
-        val authors = (0 until arr.length()).map { arr.getJSONObject(it).optString("author") }.filter { it.isNotBlank() }.distinct()
-        "الصور التوضيحية من مكتبة التمارين المفتوحة wger.de، برخصة المشاع الإبداعي CC-BY-SA. المساهمون: " + authors.joinToString("، ")
-    }.getOrDefault("لا توجد صور في هذا الإصدار.")
+    fun credits(ctx: Context): String =
+        "صور التمارين: مكتبة free-exercise-db، ملكية عامة، وصورة جهاز الرفرفة الجانبية من wger.de برخصة CC-BY-SA. " + MusicLibrary.CREDIT
 }

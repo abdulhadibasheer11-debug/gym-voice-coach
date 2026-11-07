@@ -35,6 +35,7 @@ class WorkoutService : Service() {
         const val ACTION_SKIP = "skip"
         const val ACTION_SKIP_EXERCISE = "skip_exercise"
         const val ACTION_STOP = "stop"
+        const val ACTION_NEXT_SONG = "next_song"
         const val EXTRA_DAY = "day"
         private const val CHANNEL = "workout"
         private const val NOTIF_ID = 7
@@ -67,6 +68,7 @@ class WorkoutService : Service() {
                 scope.launch { speaker?.say("تخطي إلى التمرين التالي.", record = false) }
             }
             ACTION_STOP -> stopPressed()
+            ACTION_NEXT_SONG -> music?.next()
         }
         return START_NOT_STICKY
     }

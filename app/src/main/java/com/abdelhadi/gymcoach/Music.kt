@@ -39,7 +39,10 @@ class Music(private val ctx: Context, private val scope: CoroutineScope, private
 
     fun start() {
         when (mode) {
-            "app" -> scope.launch {
+            "app" -> if (MusicLibrary.downloaded(ctx).isNotEmpty()) {
+                files = MusicLibrary.downloaded(ctx).map { Uri.fromFile(it) }.shuffled()
+                playNext()
+            } else scope.launch {
                 val order = BeatSynth.styles.shuffled()
                 var k = 0
                 while (true) {
@@ -104,6 +107,11 @@ class Music(private val ctx: Context, private val scope: CoroutineScope, private
             if (!paused) mp.start()
             player = mp
         }.onFailure { if (files.size > 1 && index < files.size * 2) playNext() }
+    }
+
+    /** Skip to the next song (files) or the next generated style. */
+    fun next() {
+        if (files.isNotEmpty()) playNext()
     }
 
     fun duck(on: Boolean) {

@@ -1,0 +1,332 @@
+[
+ {
+  "id": "chest_press_high",
+  "name": "Leverage Chest Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "smith_bench",
+  "name": "Smith Machine Bench Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "incline_machine",
+  "name": "Leverage Incline Chest Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "seated_dip",
+  "name": "Dip Machine",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "pec_deck",
+  "name": "Butterfly",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "tri_rope",
+  "name": "Triceps Pushdown - Rope Attachment",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "tri_bar",
+  "name": "Triceps Pushdown",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "tri_db_overhead",
+  "name": "Seated Triceps Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "tri_plate",
+  "name": "Seated Triceps Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "pulldown_wide",
+  "name": "Wide-Grip Lat Pulldown",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "cable_row",
+  "name": "Seated Cable Rows",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "pulldown_neutral",
+  "name": "V-Bar Pulldown",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "machine_row",
+  "name": "Leverage Iso Row",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "tbar_row",
+  "name": "Lying T-Bar Row",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "back_ext",
+  "name": "Hyperextensions (Back Extensions)",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "biceps_machine",
+  "name": "Machine Bicep Curl",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "barbell_curl",
+  "name": "Barbell Curl",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "cable_curl_rope",
+  "name": "Cable Hammer Curls - Rope Attachment",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "wrist_curl",
+  "name": "Seated Palm-Up Barbell Wrist Curl",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "db_lateral",
+  "name": "Side Lateral Raise",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "db_press",
+  "name": "Seated Dumbbell Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "machine_shoulder_press",
+  "name": "Leverage Shoulder Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "reverse_pec_deck",
+  "name": "Reverse Machine Flyes",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "face_pull",
+  "name": "Face Pull",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "db_shrug",
+  "name": "Dumbbell Shrug",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "leg_ext",
+  "name": "Leg Extensions",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "leg_curl",
+  "name": "Lying Leg Curls",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "leg_press",
+  "name": "Leg Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "squat_machine",
+  "name": "Hack Squat",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "adductor",
+  "name": "Thigh Adductor",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "abductor",
+  "name": "Thigh Abductor",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "calf_seated",
+  "name": "Seated Calf Raise",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "abs_machine",
+  "name": "Ab Crunch Machine",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "knee_raise",
+  "name": "Knee/Hip Raise On Parallel Bars",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "cable_crunch",
+  "name": "Cable Crunch",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "decline_crunch",
+  "name": "Decline Crunch",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "barbell_bench",
+  "name": "Barbell Bench Press - Medium Grip",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "incline_db_press",
+  "name": "Incline Dumbbell Press",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "db_fly",
+  "name": "Dumbbell Flyes",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "cable_crossover",
+  "name": "Cable Crossover",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "push_up",
+  "name": "Pushups",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "pull_up",
+  "name": "Pullups",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "db_row",
+  "name": "One-Arm Dumbbell Row",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "deadlift",
+  "name": "Barbell Deadlift",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "barbell_squat",
+  "name": "Barbell Squat",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "lunge",
+  "name": "Dumbbell Lunges",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "rdl",
+  "name": "Romanian Deadlift",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "hip_thrust",
+  "name": "Barbell Hip Thrust",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "standing_calf",
+  "name": "Standing Calf Raises",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "db_curl",
+  "name": "Dumbbell Bicep Curl",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "hammer_curl",
+  "name": "Hammer Curls",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "skull_crusher",
+  "name": "EZ-Bar Skullcrusher",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "front_raise",
+  "name": "Front Dumbbell Raise",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "upright_row",
+  "name": "Upright Barbell Row",
+  "author": "free-exercise-db",
+  "license": "Public domain (Unlicense)"
+ },
+ {
+  "id": "machine_lateral",
+  "name": "Machine Lateral Raise",
+  "author": "roneydya",
+  "license": "CC-BY-SA, wger.de"
+ }
+]

@@ -101,6 +101,7 @@ class WorkoutActivity : Activity() {
         col.addView(Ui.button(this, "أحتاج راحة أكثر، ثلاثين ثانية") { WorkoutService.send(this, WorkoutService.ACTION_MORE_REST) })
         col.addView(Ui.button(this, "تخطي الخطوة الحالية") { WorkoutService.send(this, WorkoutService.ACTION_SKIP) })
         col.addView(Ui.button(this, "تخطي إلى التمرين التالي") { WorkoutService.send(this, WorkoutService.ACTION_SKIP_EXERCISE) })
+        col.addView(Ui.button(this, "الأغنية التالية") { WorkoutService.send(this, WorkoutService.ACTION_NEXT_SONG) })
         col.addView(Ui.button(this, "إنهاء الحصة، اضغط مرتين") { WorkoutService.send(this, WorkoutService.ACTION_STOP) })
         setContentView(ScrollView(this).apply { setBackgroundColor(Ui.BG); addView(col) })
     }
