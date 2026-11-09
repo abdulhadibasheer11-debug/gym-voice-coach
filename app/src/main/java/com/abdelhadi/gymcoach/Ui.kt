@@ -27,7 +27,7 @@ open class BaseActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Ui.init(this)
         createdLight = Ui.light
-        setTheme(if (Ui.light) android.R.style.Theme_DeviceDefault_Light else android.R.style.Theme_DeviceDefault)
+        setTheme(if (Ui.light) android.R.style.Theme_DeviceDefault_Light_NoActionBar else android.R.style.Theme_DeviceDefault_NoActionBar)
         super.onCreate(savedInstanceState)
         window.statusBarColor = Ui.BG
         window.navigationBarColor = Ui.BG
@@ -115,6 +115,9 @@ object Ui {
         font(this, bold)
         setPadding(0, dp(ctx, 2), 0, dp(ctx, 2))
     }
+
+    /** Arabic dates and times with Western digits (3:09, not ٣:٠٩), matching the rest of the app. */
+    val AR: java.util.Locale = java.util.Locale.forLanguageTag("ar-u-nu-latn")
 
     fun dp(ctx: Context, v: Int) = (v * ctx.resources.displayMetrics.density).toInt()
 

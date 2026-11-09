@@ -128,7 +128,7 @@ class HistoryActivity : BaseActivity() {
                 .apply { setTextColor(Ui.MUTED) })
 
             col.addView(Ui.heading(this, "آخر الحصص"))
-            val fmt = SimpleDateFormat("EEEE d MMMM، h:mm a", Locale("ar"))
+            val fmt = SimpleDateFormat("EEEE d MMMM، h:mm a", Ui.AR)
             list.take(40).forEach { e ->
                 val card = Ui.card(this)
                 card.addView(Ui.styled(this, e.dayAr, 20f, bold = true))

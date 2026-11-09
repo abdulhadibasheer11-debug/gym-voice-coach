@@ -43,7 +43,7 @@ class WorkoutActivity : BaseActivity() {
     private var shownNext: String? = "-"
     private var seen = -1L
     private val openedAt = System.currentTimeMillis()
-    private val clock = SimpleDateFormat("h:mm a", Locale("ar"))
+    private val clock = SimpleDateFormat("h:mm a", Ui.AR)
 
     private val tick = object : Runnable {
         override fun run() {

@@ -29,7 +29,7 @@ object Screens {
     }
 
     fun endTime(sec: Int): String =
-        SimpleDateFormat("h:mm a", Locale("ar")).format(Date(System.currentTimeMillis() + sec * 1000L))
+        SimpleDateFormat("h:mm a", Ui.AR).format(Date(System.currentTimeMillis() + sec * 1000L))
 
     fun currentDay(p: Prefs): Day {
         val days = p.days()
@@ -92,7 +92,7 @@ class MainActivity : BaseActivity() {
             col.addView(Ui.button(this, "الإعدادات", iconRes = R.drawable.ic_tune) { startActivity(Intent(this, SettingsActivity::class.java)) })
             col.addView(Ui.styled(this, "بعد البدء ضع الهاتف في جيبك. زر التشغيل في السماعة يوقف ويستأنف، والتالي يتخطى، والسابق يعيد آخر تعليمات.", 16f, color = Ui.MUTED))
         }
-        Screens.checkUpdate(this, scope, manual = false)
+        if (!BuildConfig.DEBUG) Screens.checkUpdate(this, scope, manual = false)
         handleStartNow(intent)
     }
 

@@ -54,7 +54,7 @@ class WeightsActivity : BaseActivity() {
     private fun render() {
         while (col.childCount > 1) col.removeViewAt(1)
         col.addView(Ui.text(this, "الأوزان تُسجّل بالصوت بعد أول جولة إذا فعّلت ذلك في الإعدادات، أو يدوياً من هنا. الأحدث أولاً.", 17f).apply { setTextColor(Ui.MUTED) })
-        val fmt = SimpleDateFormat("d MMMM", Locale("ar"))
+        val fmt = SimpleDateFormat("d MMMM", Ui.AR)
         val (withData, without) = ids().partition { Weights.history(this, it).isNotEmpty() }
         withData.sortedByDescending { Weights.history(this, it).last().date }.forEach { id ->
             val e = Catalog[id]; val h = Weights.history(this, id)
