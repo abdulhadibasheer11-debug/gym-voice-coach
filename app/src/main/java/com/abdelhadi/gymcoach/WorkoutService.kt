@@ -96,6 +96,9 @@ class WorkoutService : Service() {
             sp.rate = prefs.speechRate
             sp.useRecorded = prefs.useRecorded
             sp.onText = { Session.status = it; Session.touch() }
+            val haptics = Haptics(this@WorkoutService, prefs.haptics)
+            sp.onBeep = { haptics.beep(it) }
+            sp.onRep = { haptics.rep() }
             val m = Music(this@WorkoutService, this, prefs.musicMode, prefs.musicFolder, prefs.musicVolume)
             music = m
             sp.onSpeech = { m.duck(it) }
@@ -117,8 +120,9 @@ class WorkoutService : Service() {
             val completed = result.exercisesDone >= (totalEx + 1) / 2
             if (completed) { prefs.lastDay = day.id; prefs.bumpVariant(day.id) }
             prefs.dayId = prefs.suggestedDayId()
+            StartWidget.refreshAll(this@WorkoutService)
             prefs.addLog(JSONObject().apply {
-                put("day", day.id); put("date", System.currentTimeMillis())
+                put("day", day.id); put("dayAr", day.ar); put("date", System.currentTimeMillis())
                 put("planned", result.plannedSec); put("actual", result.elapsedSec)
                 put("stopped", result.stopped); put("exercises", result.exercisesDone)
             })
@@ -127,8 +131,10 @@ class WorkoutService : Service() {
             if (result.stopped) {
                 sp.say("تم إنهاء الحصة. المدة $minutes دقيقة.", interrupt = true)
             } else {
+                val week = History.sessionsThisWeek(History.entries(this@WorkoutService))
                 sp.say("انتهت الحصة!", "Great workout!",
                     "المدة $minutes دقيقة${if (diffMin > 1) "، متأخرين $diffMin دقائق عن الخطة" else "، في الوقت المحدد"}.",
+                    if (week > 0) "هذه حصتك ${History.ordinalAr(week)} هذا الأسبوع." else "",
                     "لا تنسَ تشرب ماء.")
             }
             finish()

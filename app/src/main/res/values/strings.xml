@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">مدرّب الجيم الصوتي</string>
+    <string name="widget_desc">زر كبير لبدء حصة اليوم</string>
+    <string name="shortcut_start">ابدأ الحصة</string>
+    <string name="shortcut_start_long">ابدأ حصة اليوم</string>
+    <string name="tile_label">ابدأ الحصة</string>
 </resources>

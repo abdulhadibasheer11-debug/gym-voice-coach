@@ -286,6 +286,7 @@ class Engine(
                 fast && i % 25 == 0 && i < st.reps -> CoachLines.midSet().first()
                 else -> null
             }
+            sp.onRep?.invoke()
             countWord(i, extra, fast)
             waitMs(((up + top) * 1000).toLong(), showClock = false)
             if (!fast) sp.beep(Beep.TICK)

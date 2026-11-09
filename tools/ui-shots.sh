@@ -18,6 +18,7 @@ open SettingsActivity; shot 04-settings-dark
 tap "فاتح"; shot 05-settings-light
 open MainActivity; shot 06-main-light
 open PlanActivity; shot 07-plan-light
+open HistoryActivity; shot 09-history-light
 open SettingsActivity; tap "داكن"; sleep 2
 adb shell settings put system font_scale 1.5
 open MainActivity; shot 08-main-bigfont 4

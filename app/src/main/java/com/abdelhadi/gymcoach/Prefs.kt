@@ -44,6 +44,10 @@ class Prefs(private val ctx: Context) {
     var theme: String
         get() = p.getString("theme", "system") ?: "system"
         set(v) = p.edit().putString("theme", v).apply()
+    /** Vibration: "off", "key" (countdown, go, set done) or "all" (also every rep). */
+    var haptics: String
+        get() = p.getString("haptics", "key") ?: "key"
+        set(v) = p.edit().putString("haptics", v).apply()
     var waterEvery: Int
         get() = p.getInt("waterEvery", 15)
         set(v) = p.edit().putInt("waterEvery", v).apply()
@@ -62,7 +66,7 @@ class Prefs(private val ctx: Context) {
         val arr = runCatching { JSONArray(p.getString("log", "[]")) }.getOrDefault(JSONArray())
         arr.put(entry)
         val trimmed = JSONArray()
-        val start = maxOf(0, arr.length() - 60)
+        val start = maxOf(0, arr.length() - 400)
         for (i in start until arr.length()) trimmed.put(arr.get(i))
         p.edit().putString("log", trimmed.toString()).apply()
     }

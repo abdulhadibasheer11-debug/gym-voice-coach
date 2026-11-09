@@ -162,7 +162,12 @@ class Speaker(private val ctx: Context) {
         pending.values.forEach { it.complete(Unit) }; pending.clear()
     }
 
+    /** Hooks for vibration: called on every beep and on every counted rep. */
+    var onBeep: ((Beep) -> Unit)? = null
+    var onRep: (() -> Unit)? = null
+
     fun beep(kind: Beep) {
+        onBeep?.invoke(kind)
         val g = tone ?: return
         runCatching {
             when (kind) {

@@ -85,13 +85,26 @@ class MainActivity : BaseActivity() {
             dayBtn = Ui.button(this, "", iconRes = R.drawable.ic_calendar) { pickDay() }.also { col.addView(it) }
             warmBtn = Ui.button(this, "", iconRes = R.drawable.ic_run) { startActivity(Intent(this, WarmupActivity::class.java)) }.also { col.addView(it) }
             col.addView(Ui.button(this, "خطة اليوم", iconRes = R.drawable.ic_list, desc = "خطة اليوم بالتفصيل") { startActivity(Intent(this, PlanActivity::class.java)) })
+            col.addView(Ui.button(this, "السجل والإحصائيات", iconRes = R.drawable.ic_chart) { startActivity(Intent(this, HistoryActivity::class.java)) })
             col.addView(Ui.button(this, "تخصيص البرنامج", iconRes = R.drawable.ic_edit, desc = "تخصيص البرنامج والأيام") { startActivity(Intent(this, ProgramActivity::class.java)) })
             col.addView(Ui.button(this, "الموسيقى والصوت", iconRes = R.drawable.ic_music, desc = "الموسيقى وصوت المدرب") { startActivity(Intent(this, AudioActivity::class.java)) })
             col.addView(Ui.button(this, "الإعدادات", iconRes = R.drawable.ic_tune) { startActivity(Intent(this, SettingsActivity::class.java)) })
             col.addView(Ui.styled(this, "بعد البدء ضع الهاتف في جيبك. زر التشغيل في السماعة يوقف ويستأنف، والتالي يتخطى، والسابق يعيد آخر تعليمات.", 16f, color = Ui.MUTED))
         }
         Screens.checkUpdate(this, scope, manual = false)
+        handleStartNow(intent)
     }
+
+    override fun onNewIntent(intent: Intent?) { super.onNewIntent(intent); handleStartNow(intent) }
+
+    /** From the widget, the quick-settings tile or the app shortcut: start right away. */
+    private fun handleStartNow(i: Intent?) {
+        if (i?.action != ACTION_START_NOW) return
+        i.action = null
+        if (!Session.running) startWorkout()
+    }
+
+    companion object { const val ACTION_START_NOW = "com.abdelhadi.gymcoach.START_NOW" }
 
     override fun onResume() {
         super.onResume()
@@ -108,6 +121,7 @@ class MainActivity : BaseActivity() {
         dayBtn.text = "اليوم: ${day.ar}"
         dayBtn.contentDescription = "يوم التمرين: ${day.ar}${if (day.id == prefs.suggestedDayId()) "، المقترح" else ""}. تغيير"
         warmBtn.text = if (s.cardio == Cardio.NONE) "الإحماء: بدون كارديو" else "الإحماء: ${s.cardio.ar} ${s.cardioMinutes} د"
+        StartWidget.refreshAll(this)
         warmBtn.contentDescription = if (s.cardio == Cardio.NONE) "الإحماء: بدون كارديو. تغيير"
             else "الإحماء: ${s.cardio.ar} ${s.cardioMinutes} دقيقة. تغيير"
     }
@@ -306,6 +320,9 @@ class SettingsActivity : BaseActivity() {
             col.addView(Ui.stepper(this, "عدد الجولات الافتراضي", p.defaultSets, 1, 10, format = { "$it جولات" }) { p.defaultSets = it })
             col.addView(Ui.styled(this, "عدد التكرارات الافتراضي", 20f, bold = true))
             col.addView(Ui.stepper(this, "عدد التكرارات الافتراضي", p.defaultReps, 1, 50, format = { "$it تكرار" }) { p.defaultReps = it })
+            col.addView(Ui.styled(this, "الاهتزاز", 20f, bold = true))
+            col.addView(Ui.radioGroup(this, "الاهتزاز",
+                listOf("off" to "بدون", "key" to "عند العدّ التنازلي والبداية ونهاية الجولة", "all" to "وأيضاً مع كل تكرار"), p.haptics) { p.haptics = it })
             col.addView(Ui.styled(this, "تذكير شرب الماء", 20f, bold = true))
             col.addView(Ui.stepper(this, "تذكير شرب الماء", p.waterEvery, 0, 60, step = 5,
                 format = { if (it == 0) "بدون تذكير" else "كل $it دقيقة" }) { p.waterEvery = it })

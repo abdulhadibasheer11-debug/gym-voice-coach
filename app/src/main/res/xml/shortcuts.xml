@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:shortcutId="start" android:enabled="true"
+        android:icon="@drawable/ic_shortcut_start"
+        android:shortcutShortLabel="@string/shortcut_start"
+        android:shortcutLongLabel="@string/shortcut_start_long">
+        <intent android:action="com.abdelhadi.gymcoach.START_NOW"
+            android:targetPackage="com.abdelhadi.gymcoach"
+            android:targetClass="com.abdelhadi.gymcoach.MainActivity" />
+    </shortcut>
+</shortcuts>
