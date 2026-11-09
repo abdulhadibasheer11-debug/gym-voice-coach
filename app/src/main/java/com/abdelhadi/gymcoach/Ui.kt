@@ -178,6 +178,50 @@ object Ui {
             .apply { setMargins(0, dp(ctx, 8), 0, dp(ctx, 8)) }
     }
 
+    /**
+     * A tappable list row: bold title, a second line, and a chevron. Read by TalkBack as one button
+     * ("[title], [subtitle]" or [desc]); double-tap opens it.
+     */
+    fun listItem(ctx: Context, title: String, subtitle: String, desc: String? = null, onClick: () -> Unit) = LinearLayout(ctx).apply {
+        orientation = LinearLayout.HORIZONTAL
+        gravity = Gravity.CENTER_VERTICAL
+        val p = dp(ctx, 14); setPadding(p, p, p, p)
+        minimumHeight = dp(ctx, 72)
+        background = android.graphics.drawable.RippleDrawable(
+            ColorStateList.valueOf(if (light) 0x22000000 else 0x33FFFFFF),
+            GradientDrawable().apply {
+                cornerRadius = dp(ctx, 14).toFloat(); setColor(CARD)
+                setStroke(dp(ctx, 1), if (light) 0xFFD5D9E0.toInt() else 0xFF2E3440.toInt())
+            }, null)
+        val texts = LinearLayout(ctx).apply { orientation = LinearLayout.VERTICAL }
+        texts.addView(styled(ctx, title, 20f, bold = true))
+        if (subtitle.isNotBlank()) texts.addView(styled(ctx, subtitle, 16f, color = MUTED))
+        addView(texts, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        addView(TextView(ctx).apply {
+            text = "‹"; textSize = 28f; setTextColor(MUTED) // RTL: points to the inside of the screen
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        })
+        contentDescription = desc ?: if (subtitle.isBlank()) title else "$title، $subtitle"
+        isClickable = true; isFocusable = true
+        accessibilityDelegate = object : View.AccessibilityDelegate() {
+            override fun onInitializeAccessibilityNodeInfo(host: View, info: android.view.accessibility.AccessibilityNodeInfo) {
+                super.onInitializeAccessibilityNodeInfo(host, info); info.className = Button::class.java.name
+            }
+        }
+        setOnClickListener { onClick() }
+        layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            .apply { setMargins(0, dp(ctx, 5), 0, dp(ctx, 5)) }
+    }
+
+    /** Section label inside a list (smaller than a page heading, still a heading for TalkBack). */
+    fun section(ctx: Context, text: String) = heading(ctx, text).apply { textSize = 19f; setTextColor(ACCENT_TEXT) }
+
+    /** Yes/No confirmation for destructive actions. */
+    fun confirm(a: Activity, message: String, yes: String = "حذف", onYes: () -> Unit) {
+        android.app.AlertDialog.Builder(a).setMessage(message).setPositiveButton(yes) { _, _ -> onYes() }
+            .setNegativeButton("إلغاء", null).show()
+    }
+
     /** Buttons side by side with equal widths (RTL: the first is on the right). */
     fun row(ctx: Context, vararg views: View) = LinearLayout(ctx).apply {
         orientation = LinearLayout.HORIZONTAL

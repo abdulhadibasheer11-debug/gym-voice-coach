@@ -138,6 +138,7 @@ class WorkoutService : Service() {
                 put("day", day.id); put("dayAr", day.ar); put("date", System.currentTimeMillis())
                 put("planned", result.plannedSec); put("actual", result.elapsedSec)
                 put("stopped", result.stopped); put("exercises", result.exercisesDone)
+                put("ids", org.json.JSONArray(result.doneIds))
             })
             val diffMin = (result.elapsedSec - result.plannedSec) / 60
             val minutes = (result.elapsedSec + 30) / 60

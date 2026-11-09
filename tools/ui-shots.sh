@@ -23,7 +23,9 @@ top; tap "الأوزان والتقدّم"; shot 08-weights-dark; back
 top; tap "الموسيقى والصوت"; sleep 2; tap "استوديو التسجيل والمشاركة"; shot 50-studio 4
 adb shell input swipe 540 1700 540 500 400; shot 51-studio-2
 adb shell input swipe 540 1700 540 500 400; shot 52-studio-3
+tap "الجودة والمشاركة"; shot 53-studio-settings 3; back
 back; back
+top; tap "الأوزان والتقدّم"; sleep 2; tap "جهاز ضغط الصدر"; shot 54-weight-detail 3; back; back
 adb shell settings put system font_scale 1.5
 adb shell am force-stop $PKG; start; shot 09-main-bigfont 5
 adb shell settings put system font_scale 1.0
@@ -34,4 +36,7 @@ for i in 1 2 3 4 5 6; do top; tap "تخطي الخطوة الحالية"; shot "
 for i in 1 2 3; do top; tap "تخطي الخطوة الحالية"; shot "2$i-workout-more$i" 7; done
 adb shell input swipe 540 1700 540 500 400; shot 30-workout-bottom 2
 tap "تسجيل وزن"; shot 40-weight-dialog 3
+tap "حفظ"; sleep 2
+adb shell am force-stop $PKG; start; sleep 3
+top; tap "الأوزان والتقدّم"; shot 60-weights-list 3; tap "جهاز ضغط الصدر"; shot 61-weight-detail-data 3; back; back
 adb logcat -d | grep -iE "AndroidRuntime|FATAL|gymcoach" | tail -60 > shots/logcat.txt

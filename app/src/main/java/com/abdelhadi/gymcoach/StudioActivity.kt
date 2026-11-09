@@ -11,6 +11,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import kotlinx.coroutines.Dispatchers
@@ -35,8 +36,7 @@ class StudioActivity : BaseActivity() {
     }
     private var recorder: PcmRecorder? = null
     private lateinit var prefs: Prefs
-    private lateinit var versionBtn: Button
-    private lateinit var origBtn: Button
+    private lateinit var progressBar: BarView
     private var player: MediaPlayer? = null
     private var speaker: Speaker? = null
     private val handler = Handler(Looper.getMainLooper())
@@ -49,48 +49,45 @@ class StudioActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         prefs = Prefs(this)
         val col = Ui.column(this)
-        col.addView(Ui.heading(this, "استوديو تسجيل صوت المدرب، تجريبي", big = true))
-        col.addView(Ui.styled(this, "لكل جملة: اسمعها، ثم اضغط تسجيل وانتظر الصفارة، وقلها بحماس. التسجيل يتوقف وحده عندما تسكت، أو اضغط إيقاف. يمكنك قولها بلهجتك. التسجيلات تُستخدم بدل صوت الهاتف عند تفعيل خيار الصوت البشري.", 18f, color = Ui.MUTED))
-        col.addView(Ui.radioGroup(this, "عرض الجمل", listOf("todo" to "غير المسجّلة فقط", "done" to "المسجّلة، لإعادة تسجيل إحداها", "all" to "كل الجمل"), filter) {
-            filter = it; jumpToFirst()
-        })
-        col.addView(Ui.button(this, "قائمة الجمل، للانتقال إلى أي جملة") { pickFromList() })
+        col.addView(Ui.heading(this, "استوديو التسجيل", big = true))
+        col.addView(Ui.styled(this, "اسمع الجملة، ثم اضغط تسجيل وقلها بعد الصفارة بحماس وبلهجتك. التسجيل يتوقف وحده عندما تسكت.", 17f, color = Ui.MUTED))
+
+        // the current sentence
         val card = Ui.card(this)
-        counter = Ui.styled(this, "", 18f, color = Ui.MUTED).also { card.addView(it) }
+        counter = Ui.styled(this, "", 16f, color = Ui.MUTED).also { card.addView(it) }
+        progressBar = BarView(this).also {
+            card.addView(it, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Ui.dp(this, 8)).apply { setMargins(0, Ui.dp(this@StudioActivity, 6), 0, Ui.dp(this@StudioActivity, 10)) })
+        }
         phrase = Ui.styled(this, "", 30f, bold = true).also { card.addView(it) }
         state = Ui.styled(this, "", 18f).also { card.addView(it) }
         col.addView(card)
-        col.addView(Ui.button(this, "اسمع الجملة") { hear() })
-        recBtn = Ui.button(this, "تسجيل", primary = true) { toggleRecord() }
+
+        // main controls
+        recBtn = Ui.button(this, "تسجيل", primary = true, iconRes = R.drawable.ic_mic) { toggleRecord() }
         col.addView(recBtn)
-        col.addView(Ui.button(this, "اسمع تسجيلي") { playMine() })
-        origBtn = Ui.button(this, "اسمع الأصلي بدون تحسين") { playOriginal() }.also { col.addView(it) }
-        versionBtn = Ui.button(this, "") { toggleVersion() }.also { col.addView(it) }
-        col.addView(Ui.button(this, "الجملة التالية") { move(1) })
-        col.addView(Ui.button(this, "الجملة السابقة") { move(-1) })
+        col.addView(Ui.row(this,
+            Ui.button(this, "اسمع الجملة", compact = true, iconRes = R.drawable.ic_replay, desc = "اسمع الجملة بصوت الهاتف") { hear() },
+            Ui.button(this, "اسمع تسجيلي", compact = true, iconRes = R.drawable.ic_play) { playMine() },
+        ))
+        col.addView(Ui.row(this,
+            Ui.button(this, "السابقة", compact = true, desc = "الجملة السابقة") { move(-1) },
+            Ui.button(this, "التالية", compact = true, desc = "الجملة التالية") { move(1) },
+        ))
+        col.addView(Ui.button(this, "خيارات هذه الجملة", iconRes = R.drawable.ic_tune) { sentenceOptions() })
+
+        // finding sentences
+        col.addView(Ui.section(this, "التنقل بين الجمل"))
+        col.addView(Ui.radioGroup(this, "التالية والسابقة تنتقل إلى", listOf("todo" to "الجمل غير المسجّلة فقط", "done" to "المسجّلة فقط، لإعادة إحداها", "all" to "كل الجمل"), filter) {
+            filter = it; jumpToFirst()
+        })
+        col.addView(Ui.button(this, "قائمة كل الجمل", iconRes = R.drawable.ic_list) { pickFromList() })
+
+        col.addView(Ui.section(this, "النتيجة والإعدادات"))
         col.addView(Ui.button(this, "اسمع عيّنة من الحصة بصوتك", iconRes = R.drawable.ic_play) { sample() })
-
-        col.addView(Ui.heading(this, "جودة التسجيل"))
-        col.addView(Ui.styled(this, "تحسين الصوت تلقائياً", 20f, bold = true))
-        col.addView(Ui.radioGroup(this, "تحسين الصوت تلقائياً", listOf(
-            true to "نعم: قص الصمت قبل الكلام وبعده، وتوحيد مستوى الصوت، وإزالة الطنين المنخفض",
-            false to "لا، احفظ التسجيل كما هو"), prefs.studioEnhance) { prefs.studioEnhance = it })
-        col.addView(Ui.styled(this, "الأصلي يُحفظ دائماً، وتستطيع لكل جملة سماعه واختياره بدل المحسّن.", 16f, color = Ui.MUTED))
-        if (android.media.audiofx.NoiseSuppressor.isAvailable()) {
-            col.addView(Ui.styled(this, "كاتم الضوضاء من الهاتف أثناء التسجيل", 20f, bold = true))
-            col.addView(Ui.radioGroup(this, "كاتم الضوضاء من الهاتف", listOf(false to "لا، الأفضل في مكان هادئ", true to "نعم، للأماكن المزعجة"), prefs.studioNoise) { prefs.studioNoise = it })
-            col.addView(Ui.styled(this, "قد يجعل الصوت معدنياً في بعض الهواتف. جرّبه على جملة واحدة واسمعها قبل اعتماده.", 16f, color = Ui.MUTED))
-        }
-
-        col.addView(Ui.heading(this, "مشاركة الصوت مع الأصدقاء"))
-        col.addView(Ui.styled(this, "بعد أن تسجّل، أرسل الحزمة لأصدقائك بملف واحد عبر واتساب أو غيره، ويستوردونها من نفس الشاشة. استأذن صاحب الصوت قبل المشاركة.", 17f, color = Ui.MUTED))
-        col.addView(Ui.button(this, "مشاركة حزمة الصوت") { sharePack() })
-        col.addView(Ui.button(this, "استيراد حزمة صوت من ملف") {
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).setType("*/*").addCategory(Intent.CATEGORY_OPENABLE), 9)
+        col.addView(Ui.button(this, "الجودة والمشاركة", iconRes = R.drawable.ic_tune, desc = "إعدادات جودة التسجيل، ومشاركة حزمة الصوت واستيرادها") {
+            stopRecording(save = false); startActivity(Intent(this, StudioSettingsActivity::class.java))
         })
-        col.addView(Ui.button(this, "حذف تسجيل هذه الجملة") {
-            VoicePack.delete(this, phrases[i]); render(false); announce("تم الحذف")
-        })
+
         setContentView(ScrollView(this).apply { setBackgroundColor(Ui.BG); addView(col) })
         jumpToFirst(speak = false)
         scope.launch { speaker = Speaker(this@StudioActivity).also { it.init() } }
@@ -98,31 +95,26 @@ class StudioActivity : BaseActivity() {
             requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 2)
     }
 
+    override fun onResume() { super.onResume(); if (::phrase.isInitialized) render(false) } // a pack may have been imported
+
     private fun announce(t: String) = phrase.announceForAccessibility(t)
 
-    private fun sharePack() {
-        val f = VoicePack.export(this, "صوت المدرب")
-        if (f == null) { announce("لا توجد تسجيلات للمشاركة بعد"); return }
-        val uri = androidx.core.content.FileProvider.getUriForFile(this, "$packageName.files", f)
-        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
-            type = "application/zip"; putExtra(Intent.EXTRA_STREAM, uri)
-            putExtra(Intent.EXTRA_TEXT, "حزمة صوت لتطبيق مدرّب الجيم الصوتي. افتح التطبيق، ثم استوديو التسجيل، ثم استيراد حزمة صوت.")
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }, "مشاركة حزمة الصوت"))
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val uri = data?.data ?: return
-        if (requestCode == 9 && resultCode == RESULT_OK) {
-            val (n, name) = runCatching { VoicePack.import(this, uri) }.getOrDefault(0 to null)
-            render(false)
-            if (n > 0) {
-                Prefs(this).useRecorded = true
-                announce("تم استيراد $n تسجيل${name?.let { "، $it" } ?: ""}. تم تفعيل الصوت البشري.")
-            } else announce("هذا الملف ليس حزمة صوت صالحة")
+    /** Less frequent actions for the current sentence, in one place. */
+    private fun sentenceOptions() {
+        val t = phrases[i]
+        if (!VoicePack.has(this, t)) { announce("هذه الجملة غير مسجّلة بعد"); return }
+        val both = VoicePack.original(this, t).exists() && VoicePack.hasEnhanced(this, t)
+        val items = mutableListOf<Pair<String, () -> Unit>>()
+        if (both) {
+            items += "اسمع الأصلي بدون تحسين" to { playOriginal() }
+            items += (if (VoicePack.usesOriginal(this, t)) "استخدم المحسّن لهذه الجملة" else "استخدم الأصلي لهذه الجملة") to { toggleVersion() }
         }
+        items += "حذف تسجيل هذه الجملة" to {
+            Ui.confirm(this, "حذف تسجيل: $t؟") { VoicePack.delete(this, t); render(false); announce("تم الحذف") }
+        }
+        android.app.AlertDialog.Builder(this).setTitle(t)
+            .setItems(items.map { it.first }.toTypedArray()) { _, w -> items[w].second() }
+            .setNegativeButton("إغلاق", null).show()
     }
 
     private fun jumpToFirst(speak: Boolean = true) {
@@ -142,7 +134,7 @@ class StudioActivity : BaseActivity() {
 
     private fun render(speakIt: Boolean) {
         val done = VoicePack.recordedCount(this)
-        counter.text = "الجملة ${i + 1} من ${phrases.size}. المسجّل: $done، والباقي: ${phrases.size - done}"
+        counter.text = "الجملة ${i + 1} من ${phrases.size} · المسجّل $done، والباقي ${phrases.size - done}"
         phrase.text = phrases[i]
         val t = phrases[i]
         val has = VoicePack.has(this, t)
@@ -156,9 +148,7 @@ class StudioActivity : BaseActivity() {
             else -> "مسجّلة بدون تحسين"
         }
         recBtn.text = if (recorder != null) "إيقاف التسجيل" else if (has) "أعد التسجيل" else "تسجيل"
-        origBtn.visibility = if (both) View.VISIBLE else View.GONE
-        versionBtn.visibility = if (both) View.VISIBLE else View.GONE
-        versionBtn.text = if (VoicePack.usesOriginal(this, t)) "استخدم المحسّن لهذه الجملة" else "استخدم الأصلي لهذه الجملة"
+        progressBar.fraction = done.toFloat() / phrases.size
         if (speakIt) phrase.announceForAccessibility("${phrases[i]}، ${state.text}")
     }
 
