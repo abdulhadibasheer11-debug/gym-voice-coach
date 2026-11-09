@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 
 /** Program overview: any number of days, reorder, delete, add, or start from a ready-made template. */
-class ProgramActivity : Activity() {
+class ProgramActivity : BaseActivity() {
     private lateinit var list: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +84,7 @@ class ProgramActivity : Activity() {
 }
 
 /** Edit one day: name, arm stretch, exercises (add, remove, reorder, sets/reps, superset). */
-class DayEditActivity : Activity() {
+class DayEditActivity : BaseActivity() {
     private lateinit var dayId: String
     private lateinit var list: LinearLayout
     private lateinit var nameField: android.widget.EditText

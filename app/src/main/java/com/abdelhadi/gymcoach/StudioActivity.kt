@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
  * Experimental: record a human voice for each coach sentence.
  * Flow per sentence: hear it → press Record (a beep, then speak) → press Stop → listen → next.
  */
-class StudioActivity : Activity() {
+class StudioActivity : BaseActivity() {
     private val scope = MainScope()
     private val phrases = CoachLines.recordable()
     private var i = 0

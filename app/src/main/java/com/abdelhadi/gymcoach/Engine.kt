@@ -24,6 +24,15 @@ object Session {
     @Volatile var title = ""
     @Volatile var subtitle = ""
     @Volatile var exId: String? = null
+    /** Visual progress: total seconds of the current countdown, reps of the current set. */
+    @Volatile var clockTotal = 0
+    @Volatile var repTotal = 0
+    /** Wall-clock start and (moving) target end of the session, for the session bar. */
+    @Volatile var startMs = 0L
+    @Volatile var endMs = 0L
+    /** What comes after the current step, and its exercise (for a small preview). */
+    @Volatile var next = ""
+    @Volatile var nextExId: String? = null
     @Volatile var version = 0L
     fun touch() { version++ }
 }
@@ -57,6 +66,7 @@ class Engine(
         var remaining = ms.toDouble()
         var last = SystemClock.elapsedRealtime()
         val pendingCues = cues.sortedByDescending { it.atMs }.toMutableList()
+        if (showClock) Session.clockTotal = max(1, ceil(ms / 1000.0).toInt())
         while (remaining > 0) {
             if (c.stop || c.skip || c.skipExercise) return
             delay(50)
@@ -64,7 +74,10 @@ class Engine(
             if (!c.paused) {
                 remaining -= (now - last)
                 val add = c.addMs.getAndSet(0)
-                if (add != 0L) { remaining += add; c.addedMs.addAndGet(add) }
+                if (add != 0L) {
+                    remaining += add; c.addedMs.addAndGet(add)
+                    if (showClock) Session.clockTotal += (add / 1000).toInt()
+                }
                 while (pendingCues.isNotEmpty() && remaining <= pendingCues[0].atMs) {
                     val cue = pendingCues.removeAt(0)
                     scope.launch { cue.fn() }
@@ -115,7 +128,8 @@ class Engine(
         var transCount = 0
         val total = plan.blocks.size
 
-        for (st in plan.steps) {
+        Session.startMs = wallStart
+        for ((idx, st) in plan.steps.withIndex()) {
             if (c.stop) break
             c.skip = false
             if (c.skipExercise) {
@@ -138,6 +152,9 @@ class Engine(
             Session.progress = progressText(st, total, remainMin)
             Session.remainingSec = -1
             Session.restId = (st as? RestStep)?.nextId
+            Session.endMs = targetEnd
+            Session.next = nextText(plan.steps.getOrNull(idx + 1))
+            Session.nextExId = nextExercise(plan.steps.getOrNull(idx + 1))
             Session.exId = when (st) {
                 is SetStep -> st.id; is RestStep -> st.nextId; is TransitionStep -> st.ex[0]; is PairSwitchStep -> st.to; else -> null
             }
@@ -246,6 +263,7 @@ class Engine(
     private suspend fun doSet(st: SetStep) {
         val e = Catalog[st.id]
         Session.remainingSec = -1
+        Session.repTotal = st.reps
         Session.subtitle = "${e.en} · جولة ${st.setNo} من ${st.of}"
         sp.say("جولة ${st.setNo} من ${st.of}.", e.nameAr)
         repeat(3) { if (c.stop || c.skip) return; sp.beep(Beep.COUNTDOWN); waitMs(800, showClock = false) }
@@ -295,6 +313,21 @@ class Engine(
             }
         }
         if (!c.stop) sp.say("انتهت الإطالة.")
+    }
+
+    private fun nextText(n: Step?): String = when (n) {
+        null -> "هذه آخر خطوة في الحصة."
+        is SetStep -> "بعدها: ${Catalog[n.id].nameAr}، جولة ${n.setNo} من ${n.of}."
+        is RestStep -> "بعدها: راحة ${n.dur} ثانية."
+        is TransitionStep -> "التمرين التالي: ${Catalog[n.ex[0]].nameAr}."
+        is PairSwitchStep -> "بعدها: الانتقال إلى ${Catalog[n.to].nameAr}."
+        is CardioStep -> "بعدها: إحماء على ${n.cardio.ar}."
+        is StretchStep -> "بعدها: إطالة اليدين."
+        is PrepStep -> "بعدها: استعداد قصير."
+        is IntroStep -> ""
+    }
+    private fun nextExercise(n: Step?): String? = when (n) {
+        is SetStep -> n.id; is TransitionStep -> n.ex[0]; is PairSwitchStep -> n.to; else -> null
     }
 
     private fun progressText(st: Step, total: Int, remainMin: Int): String {

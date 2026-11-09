@@ -66,7 +66,7 @@ object Screens {
 }
 
 /** Home: short on purpose. Everything else lives on its own screen. */
-class MainActivity : Activity() {
+class MainActivity : BaseActivity() {
     private val scope = MainScope()
     private lateinit var prefs: Prefs
     private lateinit var summary: TextView
@@ -81,13 +81,13 @@ class MainActivity : Activity() {
             val card = Ui.card(this)
             summary = Ui.styled(this, "", 21f).also { card.addView(it) }
             col.addView(card)
-            col.addView(Ui.button(this, "ابدأ الحصة", primary = true) { startWorkout() })
-            dayBtn = Ui.button(this, "") { pickDay() }.also { col.addView(it) }
-            warmBtn = Ui.button(this, "") { startActivity(Intent(this, WarmupActivity::class.java)) }.also { col.addView(it) }
-            col.addView(Ui.button(this, "خطة اليوم بالتفصيل") { startActivity(Intent(this, PlanActivity::class.java)) })
-            col.addView(Ui.button(this, "تخصيص البرنامج والأيام") { startActivity(Intent(this, ProgramActivity::class.java)) })
-            col.addView(Ui.button(this, "الموسيقى وصوت المدرب") { startActivity(Intent(this, AudioActivity::class.java)) })
-            col.addView(Ui.button(this, "الإعدادات") { startActivity(Intent(this, SettingsActivity::class.java)) })
+            col.addView(Ui.button(this, "ابدأ الحصة", primary = true, iconRes = R.drawable.ic_play) { startWorkout() })
+            dayBtn = Ui.button(this, "", iconRes = R.drawable.ic_calendar) { pickDay() }.also { col.addView(it) }
+            warmBtn = Ui.button(this, "", iconRes = R.drawable.ic_run) { startActivity(Intent(this, WarmupActivity::class.java)) }.also { col.addView(it) }
+            col.addView(Ui.button(this, "خطة اليوم", iconRes = R.drawable.ic_list, desc = "خطة اليوم بالتفصيل") { startActivity(Intent(this, PlanActivity::class.java)) })
+            col.addView(Ui.button(this, "تخصيص البرنامج", iconRes = R.drawable.ic_edit, desc = "تخصيص البرنامج والأيام") { startActivity(Intent(this, ProgramActivity::class.java)) })
+            col.addView(Ui.button(this, "الموسيقى والصوت", iconRes = R.drawable.ic_music, desc = "الموسيقى وصوت المدرب") { startActivity(Intent(this, AudioActivity::class.java)) })
+            col.addView(Ui.button(this, "الإعدادات", iconRes = R.drawable.ic_tune) { startActivity(Intent(this, SettingsActivity::class.java)) })
             col.addView(Ui.styled(this, "بعد البدء ضع الهاتف في جيبك. زر التشغيل في السماعة يوقف ويستأنف، والتالي يتخطى، والسابق يعيد آخر تعليمات.", 16f, color = Ui.MUTED))
         }
         Screens.checkUpdate(this, scope, manual = false)
@@ -105,8 +105,10 @@ class MainActivity : Activity() {
         val plan = buildPlan(day, s)
         val i = prefs.days().indexOfFirst { it.id == day.id } + 1
         summary.text = "اليوم $i: ${day.ar}. ${plan.blocks.size} تمارين، المدة ${plan.totalSec / 60} دقيقة. إذا بدأت الآن تنتهي حوالي ${Screens.endTime(plan.totalSec)}."
-        dayBtn.text = "يوم التمرين: ${day.ar}${if (day.id == prefs.suggestedDayId()) "، المقترح" else ""}. تغيير"
-        warmBtn.text = if (s.cardio == Cardio.NONE) "الإحماء: بدون كارديو. تغيير"
+        dayBtn.text = "اليوم: ${day.ar}"
+        dayBtn.contentDescription = "يوم التمرين: ${day.ar}${if (day.id == prefs.suggestedDayId()) "، المقترح" else ""}. تغيير"
+        warmBtn.text = if (s.cardio == Cardio.NONE) "الإحماء: بدون كارديو" else "الإحماء: ${s.cardio.ar} ${s.cardioMinutes} د"
+        warmBtn.contentDescription = if (s.cardio == Cardio.NONE) "الإحماء: بدون كارديو. تغيير"
             else "الإحماء: ${s.cardio.ar} ${s.cardioMinutes} دقيقة. تغيير"
     }
 
@@ -146,7 +148,7 @@ class MainActivity : Activity() {
 }
 
 /** Warm-up: cardio type and minutes, time to get to the machine, break before stretching. */
-class WarmupActivity : Activity() {
+class WarmupActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val p = Prefs(this)
@@ -171,7 +173,7 @@ class WarmupActivity : Activity() {
 }
 
 /** Today's plan in detail, with exercise photos. */
-class PlanActivity : Activity() {
+class PlanActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val p = Prefs(this)
@@ -186,7 +188,7 @@ class PlanActivity : Activity() {
             plan.blocks.forEach { b ->
                 val card = Ui.card(this)
                 n++
-                if (b.superset) card.addView(Ui.styled(this, "سوبر سِت بالتبادل", 16f, bold = true, color = Ui.ACCENT))
+                if (b.superset) card.addView(Ui.styled(this, "سوبر سِت بالتبادل", 16f, bold = true, color = Ui.ACCENT_TEXT))
                 b.ex.forEach { id ->
                     val e = Catalog[id]
                     ExerciseImages.view(this, id)?.let { card.addView(it) }
@@ -202,7 +204,7 @@ class PlanActivity : Activity() {
 }
 
 /** Music and coach voice. */
-class AudioActivity : Activity() {
+class AudioActivity : BaseActivity() {
     private val scope = MainScope()
     private lateinit var p: Prefs
     private lateinit var libText: TextView
@@ -289,12 +291,17 @@ class AudioActivity : Activity() {
 }
 
 /** General settings, updates and credits. */
-class SettingsActivity : Activity() {
+class SettingsActivity : BaseActivity() {
     private val scope = MainScope()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val p = Prefs(this)
         Screens.page(this, "الإعدادات") { col ->
+            col.addView(Ui.styled(this, "مظهر التطبيق", 20f, bold = true))
+            col.addView(Ui.radioGroup(this, "مظهر التطبيق",
+                listOf("system" to "تلقائي حسب الهاتف", "dark" to "داكن", "light" to "فاتح"), p.theme) {
+                if (it != p.theme) { p.theme = it; recreate() }
+            })
             col.addView(Ui.styled(this, "عدد الجولات الافتراضي", 20f, bold = true))
             col.addView(Ui.stepper(this, "عدد الجولات الافتراضي", p.defaultSets, 1, 10, format = { "$it جولات" }) { p.defaultSets = it })
             col.addView(Ui.styled(this, "عدد التكرارات الافتراضي", 20f, bold = true))
@@ -313,6 +320,7 @@ class SettingsActivity : Activity() {
             col.addView(Ui.button(this, "فحص التحديثات") { Screens.checkUpdate(this, scope, manual = true) })
             col.addView(Ui.heading(this, "الحقوق"))
             col.addView(Ui.text(this, ExerciseImages.credits(this), 15f))
+            col.addView(Ui.text(this, "الخط: Tajawal، من Google Fonts، برخصة SIL Open Font License 1.1.", 15f))
         }
     }
     override fun onDestroy() { scope.cancel(); super.onDestroy() }

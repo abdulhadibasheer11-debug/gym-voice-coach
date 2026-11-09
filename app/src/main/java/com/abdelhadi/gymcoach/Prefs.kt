@@ -40,6 +40,10 @@ class Prefs(private val ctx: Context) {
     var breakAfterWarmup: Int
         get() = p.getInt("breakAfterWarmup", 90)
         set(v) = p.edit().putInt("breakAfterWarmup", v).apply()
+    /** "system" (follow the phone), "dark" or "light". */
+    var theme: String
+        get() = p.getString("theme", "system") ?: "system"
+        set(v) = p.edit().putString("theme", v).apply()
     var waterEvery: Int
         get() = p.getInt("waterEvery", 15)
         set(v) = p.edit().putInt("waterEvery", v).apply()

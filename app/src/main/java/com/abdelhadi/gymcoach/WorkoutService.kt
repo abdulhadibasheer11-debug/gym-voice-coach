@@ -229,7 +229,7 @@ class WorkoutService : Service() {
         }
         val open = PendingIntent.getActivity(this, 0, Intent(this, WorkoutActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
         return Notification.Builder(this, CHANNEL)
-            .setSmallIcon(R.drawable.ic_launcher)
+            .setSmallIcon(R.drawable.ic_stat_coach)
             .setContentTitle(getString(R.string.app_name))
             .setContentText(text)
             .setOngoing(true)
