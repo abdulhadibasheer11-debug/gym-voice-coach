@@ -158,6 +158,22 @@ object Weights {
         sp(ctx).edit().putString("weights", o.toString()).apply()
     }
 
+    /** Deletes one entry (by its date) or, with [date] = null, the whole history of this exercise. */
+    fun remove(ctx: Context, id: String, date: Long?) {
+        val o = load(ctx, "weights")
+        if (date == null) o.remove(id) else {
+            val keep = history(ctx, id).filter { it.date != date }
+            if (keep.isEmpty()) o.remove(id) else {
+                val a = JSONArray(); keep.forEach { a.put(JSONArray().put(it.date).put(it.kg)) }; o.put(id, a)
+            }
+        }
+        sp(ctx).edit().putString("weights", o.toString()).apply()
+    }
+
+    /** Today's entry (same session window as [add]) if there is one. */
+    fun today(ctx: Context, id: String, now: Long = System.currentTimeMillis()): Entry? =
+        history(ctx, id).lastOrNull()?.takeIf { now - it.date < 6 * 3600_000L }
+
     fun addRestRequest(ctx: Context, id: String, now: Long = System.currentTimeMillis()) {
         val o = load(ctx, "restReq")
         val a = o.optJSONArray(id) ?: JSONArray()
@@ -175,7 +191,7 @@ object Weights {
     }
 
     fun kgAr(kg: Double): String {
-        val s = if (kg % 1.0 == 0.0) kg.toInt().toString() else kg.toString()
+        val s = if (kg % 1.0 == 0.0) kg.toInt().toString() else java.math.BigDecimal(kg).setScale(2, java.math.RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
         return "$s كيلو"
     }
 

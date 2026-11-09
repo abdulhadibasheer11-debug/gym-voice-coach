@@ -74,7 +74,8 @@ class WorkoutActivity : BaseActivity() {
             if (bmp != null) { image.setImageBitmap(bmp); image.visibility = View.VISIBLE } else image.visibility = View.GONE
         }
         setIfChanged(title, Session.title)
-        setIfChanged(subtitle, Session.subtitle)
+        // English name and Arabic round info on separate lines, so the two directions never get mixed
+        setIfChanged(subtitle, Session.subtitle.replace(" · ", "\n"))
         val r = Session.remainingSec
         val isSet = Session.phase == "set"
         val bigText = when {

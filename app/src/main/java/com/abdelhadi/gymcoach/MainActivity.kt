@@ -335,6 +335,9 @@ class SettingsActivity : BaseActivity() {
             })
             col.addView(Ui.styled(this, "الأوامر: وقف، كمل، تخطي، التمرين التالي، راحة، كرر، كم باقي، الوزن ورقم. عند تفعيلها يتأخر الإيقاف المؤقت بالضغطة الواحدة نصف ثانية.", 16f, color = Ui.MUTED))
             col.addView(Ui.heading(this, "عام"))
+            col.addView(Ui.styled(this, "خطوة زيادة ونقصان الوزن", 20f, bold = true))
+            col.addView(Ui.radioGroup(this, "خطوة زيادة ونقصان الوزن",
+                listOf(0.5f to "نصف كيلو", 1f to "1 كيلو", 1.25f to "1.25 كيلو", 2.5f to "2.5 كيلو", 5f to "5 كيلو"), p.weightStep) { p.weightStep = it })
             col.addView(Ui.styled(this, "إبقاء الشاشة مضاءة أثناء الحصة", 20f, bold = true))
             col.addView(Ui.radioGroup(this, "إبقاء الشاشة مضاءة أثناء الحصة",
                 listOf(true to "نعم، وزر التشغيل يطفئها عند الحاجة", false to "لا"), p.keepScreenOn) { p.keepScreenOn = it })

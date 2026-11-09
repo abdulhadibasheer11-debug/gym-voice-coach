@@ -46,6 +46,27 @@ class WeightsActivity : BaseActivity() {
         render()
     }
 
+    /** Every saved weight of one exercise; pick one to delete it, or delete them all. */
+    private fun manage(id: String) {
+        val e = Catalog[id]
+        val h = Weights.history(this, id).reversed()
+        if (h.isEmpty()) return
+        val fmt = SimpleDateFormat("EEEE d MMMM", Ui.AR)
+        val items = h.map { "${fmt.format(Date(it.date))}: ${Weights.kgAr(it.kg)}" }.toTypedArray()
+        AlertDialog.Builder(this).setTitle("${e.nameAr}: اختر تسجيلاً لحذفه")
+            .setItems(items) { _, w ->
+                AlertDialog.Builder(this).setMessage("حذف ${items[w]}؟")
+                    .setPositiveButton("حذف") { _, _ -> Weights.remove(this, id, h[w].date); render(); col.announceForAccessibility("تم الحذف") }
+                    .setNegativeButton("إلغاء", null).show()
+            }
+            .setNeutralButton("حذف كل السجلات") { _, _ ->
+                AlertDialog.Builder(this).setMessage("حذف كل أوزان ${e.nameAr}؟ لا يمكن التراجع.")
+                    .setPositiveButton("حذف الكل") { _, _ -> Weights.remove(this, id, null); render(); col.announceForAccessibility("تم حذف كل السجلات") }
+                    .setNegativeButton("إلغاء", null).show()
+            }
+            .setNegativeButton("إغلاق", null).show()
+    }
+
     private fun ids(): List<String> {
         val inProgram = Prefs(this).days().flatMap { d -> d.blocks.flatMap { b -> b.variants.flatten() } }
         return (inProgram + Weights.all(this).keys).distinct().filter { Catalog.all.containsKey(it) }
@@ -75,7 +96,10 @@ class WeightsActivity : BaseActivity() {
                 card.addView(Ui.styled(this, "آخر الحصص: " + recent.joinToString("، ") { Weights.kgAr(it.kg) }, 15f, color = Ui.MUTED))
             }
             Weights.suggestion(this, id)?.let { card.addView(Ui.styled(this, it, 16f, color = Ui.ACCENT_TEXT)) }
-            card.addView(Ui.button(this, "تسجيل وزن", desc = "تسجيل وزن ${e.nameAr}") { WeightEntry.show(this, id) { render() } })
+            card.addView(Ui.row(this,
+                Ui.button(this, "تسجيل وزن", compact = true, desc = "تسجيل وزن ${e.nameAr}") { WeightEntry.show(this, id) { render() } },
+                Ui.button(this, "السجلات والحذف", compact = true, desc = "سجلات ${e.nameAr} وحذفها") { manage(id) },
+            ))
             col.addView(card)
         }
         if (without.isNotEmpty()) {
@@ -96,11 +120,14 @@ class WeightsActivity : BaseActivity() {
 object WeightEntry {
     fun show(a: android.app.Activity, id: String, onSaved: (Double) -> Unit = {}) {
         val e = Catalog[id]
-        var halfKg = ((Weights.last(a, id) ?: 20.0) * 2).toInt()
+        // value in quarter-kilos so every step (0.5, 1, 1.25, 2.5, 5) is exact
+        val step = (Prefs(a).weightStep * 4).toInt().coerceAtLeast(1)
+        var q = ((Weights.last(a, id) ?: 20.0) * 4).toInt()
         val box = Ui.column(a)
         box.addView(Ui.styled(a, e.nameAr, 20f, bold = true))
         box.addView(Ui.styled(a, Weights.last(a, id)?.let { "آخر وزن: ${Weights.kgAr(it)}" } ?: "لا يوجد وزن سابق.", 17f, color = Ui.MUTED))
-        box.addView(Ui.stepper(a, "الوزن", halfKg, 1, 1000, step = 5, format = { Weights.kgAr(it / 2.0) }) { halfKg = it })
+        box.addView(Ui.stepper(a, "الوزن", q, 1, 2000, step = step, format = { Weights.kgAr(it / 4.0) }) { q = it })
+        box.addView(Ui.styled(a, "الخطوة ${Weights.kgAr(step / 4.0)}، وتتغير من الإعدادات.", 15f, color = Ui.MUTED))
         box.addView(Ui.styled(a, "أو اكتب الوزن بالكيلو", 17f, bold = true))
         val typed = android.widget.EditText(a).apply {
             inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -114,12 +141,21 @@ object WeightEntry {
         val dlg = AlertDialog.Builder(a).setTitle("تسجيل وزن").setView(box)
             .setPositiveButton("حفظ") { _, _ ->
                 val t = VoiceInput.normalize(typed.text.toString()).toDoubleOrNull()?.takeIf { it in 0.5..500.0 }
-                val kg = t ?: (halfKg / 2.0)
+                val kg = t ?: (q / 4.0)
                 Weights.add(a, id, kg)
                 a.window.decorView.announceForAccessibility("تم حفظ ${Weights.kgAr(kg)} لـ ${e.nameAr}")
                 onSaved(kg)
             }
-            .setNegativeButton("إلغاء", null).create()
+            .setNegativeButton("إلغاء", null)
+            .apply {
+                Weights.today(a, id)?.let { today ->
+                    setNeutralButton("حذف وزن اليوم") { _, _ ->
+                        Weights.remove(a, id, today.date)
+                        a.window.decorView.announceForAccessibility("تم حذف ${Weights.kgAr(today.kg)} من ${e.nameAr}")
+                        onSaved(0.0)
+                    }
+                }
+            }.create()
         // never pop the keyboard up by itself
         dlg.window?.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         dlg.show()

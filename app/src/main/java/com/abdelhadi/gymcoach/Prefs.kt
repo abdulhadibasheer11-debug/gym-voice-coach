@@ -60,6 +60,10 @@ class Prefs(private val ctx: Context) {
     var keepScreenOn: Boolean
         get() = p.getBoolean("keepScreenOn", true)
         set(v) = p.edit().putBoolean("keepScreenOn", v).apply()
+    /** Step of the weight −/+ buttons, in kg. */
+    var weightStep: Float
+        get() = p.getFloat("weightStep", 2.5f)
+        set(v) = p.edit().putFloat("weightStep", v).apply()
     var waterEvery: Int
         get() = p.getInt("waterEvery", 15)
         set(v) = p.edit().putInt("waterEvery", v).apply()
