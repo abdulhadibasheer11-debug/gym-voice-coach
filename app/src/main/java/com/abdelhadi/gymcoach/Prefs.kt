@@ -64,6 +64,14 @@ class Prefs(private val ctx: Context) {
     var weightStep: Float
         get() = p.getFloat("weightStep", 2.5f)
         set(v) = p.edit().putFloat("weightStep", v).apply()
+    /** Studio: clean up each new recording (the original is always kept). */
+    var studioEnhance: Boolean
+        get() = p.getBoolean("studioEnhance", true)
+        set(v) = p.edit().putBoolean("studioEnhance", v).apply()
+    /** Studio: the phone's own noise suppressor while recording (quality differs between phones). */
+    var studioNoise: Boolean
+        get() = p.getBoolean("studioNoise", false)
+        set(v) = p.edit().putBoolean("studioNoise", v).apply()
     var waterEvery: Int
         get() = p.getInt("waterEvery", 15)
         set(v) = p.edit().putInt("waterEvery", v).apply()
