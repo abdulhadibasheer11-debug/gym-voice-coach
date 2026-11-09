@@ -2,7 +2,10 @@ name: Check build (no release)
 
 on:
   push:
-    branches-ignore: [main]
+    branches-ignore: [main, ci-shots]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -52,3 +55,9 @@ jobs:
         with:
           name: shots
           path: shots
+      - name: Publish shots to the ci-shots branch
+        if: always()
+        run: |
+          cd shots && git init -q && git checkout -q -b ci-shots && git add -A
+          git -c user.name=ci -c user.email=ci@example.com commit -qm "shots ${{ github.sha }}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-shots

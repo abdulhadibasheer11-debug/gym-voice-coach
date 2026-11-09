@@ -36,6 +36,7 @@ class WorkoutService : Service() {
         const val ACTION_SKIP_EXERCISE = "skip_exercise"
         const val ACTION_STOP = "stop"
         const val ACTION_NEXT_SONG = "next_song"
+        const val ACTION_VOICE = "voice"
         const val EXTRA_DAY = "day"
         private const val CHANNEL = "workout"
         private const val NOTIF_ID = 7
@@ -53,6 +54,12 @@ class WorkoutService : Service() {
     private var wakeLock: PowerManager.WakeLock? = null
     private var media: MediaSession? = null
     private var lastStopPress = 0L
+    private var voice: VoiceInput? = null
+    private var listening = false
+    private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private var singlePending = false
+    private val singlePress = Runnable { singlePending = false; togglePause() }
+    private var prefsCache: Prefs? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -69,14 +76,18 @@ class WorkoutService : Service() {
             }
             ACTION_STOP -> stopPressed()
             ACTION_NEXT_SONG -> music?.next()
+            ACTION_VOICE -> voiceCommand()
         }
         return START_NOT_STICKY
     }
 
     private fun start(dayId: String?) {
         if (job != null) return
-        startForegroundCompat(buildNotification("جاري التجهيز"))
         val prefs = Prefs(this)
+        prefsCache = prefs
+        val wantsMic = (prefs.voiceWeights || prefs.voiceCommands) &&
+            checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        startForegroundCompat(buildNotification("جاري التجهيز"), wantsMic)
         val days = prefs.days()
         val day = days.firstOrNull { it.id == dayId } ?: days[0]
         val settings = prefs.settingsFor(day)
@@ -103,6 +114,8 @@ class WorkoutService : Service() {
             music = m
             sp.onSpeech = { m.duck(it) }
             m.start()
+            // music pauses completely while listening, so the recogniser hears the voice
+            if (wantsMic) voice = VoiceInput(this@WorkoutService) { on -> listening = on; if (!Session.paused) m.pause(on) }
             if (!sp.arabicAvailable) sp.say("Arabic voice is not installed. Please install Arabic in Google text to speech settings.")
             // keep notification text in sync
             val notifJob = launch {
@@ -112,7 +125,7 @@ class WorkoutService : Service() {
                     delay(1000)
                 }
             }
-            val engine = Engine(this, sp, controls, prefs)
+            val engine = Engine(this, sp, controls, prefs, this@WorkoutService, if (prefs.voiceWeights) voice else null)
             val result = engine.run(plan, settings)
             notifJob.cancel()
 
@@ -142,6 +155,8 @@ class WorkoutService : Service() {
     }
 
     private fun finish() {
+        mainHandler.removeCallbacks(singlePress)
+        voice = null
         Session.running = false; Session.paused = false; Session.touch()
         speaker?.shutdown(); speaker = null
         music?.stop(); music = null
@@ -177,6 +192,7 @@ class WorkoutService : Service() {
         if (id != null) {
             val prefs = Prefs(this)
             prefs.restAdj = prefs.restAdj + (id to minOf(45, (prefs.restAdj[id] ?: 0) + 10))
+            Weights.addRestRequest(this, id)
         }
     }
 
@@ -195,14 +211,63 @@ class WorkoutService : Service() {
         runCatching {
             media = MediaSession(this, "GymCoach").apply {
                 setCallback(object : MediaSession.Callback() {
-                    override fun onPlay() = togglePause()
-                    override fun onPause() = togglePause()
+                    override fun onPlay() = headsetPlayPause()
+                    override fun onPause() = headsetPlayPause()
                     override fun onSkipToNext() { controls.skip = true; speaker?.stop() }
                     override fun onSkipToPrevious() = repeatLast()
                 })
                 isActive = true
             }
             updateMediaState()
+        }
+    }
+
+    /** With voice commands on: one press = pause/resume (after a short wait), two quick presses = listen. */
+    private fun headsetPlayPause() {
+        val vc = prefsCache?.voiceCommands == true && voice != null
+        if (!vc) { togglePause(); return }
+        if (singlePending) { singlePending = false; mainHandler.removeCallbacks(singlePress); voiceCommand() }
+        else { singlePending = true; mainHandler.postDelayed(singlePress, 450) }
+    }
+
+    /** Listen for one spoken command while the session holds still. */
+    private fun voiceCommand() {
+        val v = voice
+        val sp = speaker ?: return
+        if (!Session.running || listening) return
+        if (v == null) {
+            scope.launch { sp.say("الأوامر الصوتية غير مفعّلة. فعّلها من الإعدادات واسمح باستخدام الميكروفون.", record = false, interrupt = true) }
+            return
+        }
+        scope.launch {
+            val wasPaused = controls.paused
+            controls.paused = true // hold counting and timers while listening
+            sp.stop()
+            sp.say("نعم؟", record = false, interrupt = true)
+            sp.beep(Beep.TICK)
+            val alts = v.listen(4000)
+            controls.paused = wasPaused
+            if (alts == null) { sp.say("ما سمعت أمر.", record = false); return@launch }
+            when (VoiceInput.command(alts)) {
+                VoiceInput.Companion.Cmd.PAUSE -> if (!wasPaused) togglePause() else sp.say("الحصة متوقفة أصلاً.", record = false)
+                VoiceInput.Companion.Cmd.RESUME -> if (wasPaused) togglePause() else sp.say("نكمل.", record = false)
+                VoiceInput.Companion.Cmd.SKIP -> { controls.skip = true; sp.stop() }
+                VoiceInput.Companion.Cmd.SKIP_EXERCISE -> { controls.skipExercise = true; sp.stop(); sp.say("تخطي إلى التمرين التالي.", record = false) }
+                VoiceInput.Companion.Cmd.MORE_REST -> moreRest()
+                VoiceInput.Companion.Cmd.REPEAT -> repeatLast()
+                VoiceInput.Companion.Cmd.TIME -> {
+                    val left = ((Session.endMs - System.currentTimeMillis()) / 60000.0).let { kotlin.math.ceil(it).toInt() }.coerceAtLeast(0)
+                    val fmt = java.text.SimpleDateFormat("h:mm", java.util.Locale.US).format(java.util.Date(Session.endMs))
+                    sp.say("باقي حوالي $left دقيقة، والانتهاء الساعة $fmt.", record = false)
+                }
+                VoiceInput.Companion.Cmd.WEIGHT -> {
+                    val id = Session.exId
+                    val kg = VoiceInput.number(alts)?.takeIf { it in 0.5..500.0 }
+                    if (id != null && kg != null) { Weights.add(this@WorkoutService, id, kg); sp.say("سجّلت ${Weights.kgAr(kg)} لـ", Catalog[id].nameAr, record = false) }
+                    else sp.say("قل مثلاً: الوزن أربعين.", record = false)
+                }
+                VoiceInput.Companion.Cmd.UNKNOWN -> sp.say("ما فهمت. الأوامر: وقف، كمل، تخطي، التمرين التالي، راحة، كرر، كم باقي، الوزن ورقم.", record = false)
+            }
         }
     }
 
@@ -217,7 +282,14 @@ class WorkoutService : Service() {
     }
 
     // ---------- notification ----------
-    private fun startForegroundCompat(n: Notification) {
+    private fun startForegroundCompat(n: Notification, mic: Boolean = false) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && mic) {
+            // the microphone type lets speech recognition work with the screen locked
+            val ok = runCatching {
+                startForeground(NOTIF_ID, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE)
+            }.isSuccess
+            if (ok) return
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(NOTIF_ID, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
         } else startForeground(NOTIF_ID, n)

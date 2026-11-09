@@ -182,6 +182,7 @@ class WorkoutActivity : BaseActivity() {
         col.addView(Ui.row(this,
             Ui.button(this, "التمرين التالي", compact = true, iconRes = R.drawable.ic_dumbbell, desc = "تخطي إلى التمرين التالي") { WorkoutService.send(this, WorkoutService.ACTION_SKIP_EXERCISE) },
             Ui.button(this, "أغنية أخرى", compact = true, iconRes = R.drawable.ic_music, desc = "الأغنية التالية") { WorkoutService.send(this, WorkoutService.ACTION_NEXT_SONG) },
+            Ui.button(this, "أمر صوتي", compact = true, iconRes = R.drawable.ic_mic, desc = "أمر صوتي، تجريبي") { WorkoutService.send(this, WorkoutService.ACTION_VOICE) },
         ))
 
         progress = Ui.styled(this, "", 17f, color = Ui.MUTED).also { col.addView(it) }

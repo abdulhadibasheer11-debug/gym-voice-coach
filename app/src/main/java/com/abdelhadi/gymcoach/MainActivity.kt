@@ -85,7 +85,8 @@ class MainActivity : BaseActivity() {
             dayBtn = Ui.button(this, "", iconRes = R.drawable.ic_calendar) { pickDay() }.also { col.addView(it) }
             warmBtn = Ui.button(this, "", iconRes = R.drawable.ic_run) { startActivity(Intent(this, WarmupActivity::class.java)) }.also { col.addView(it) }
             col.addView(Ui.button(this, "خطة اليوم", iconRes = R.drawable.ic_list, desc = "خطة اليوم بالتفصيل") { startActivity(Intent(this, PlanActivity::class.java)) })
-            col.addView(Ui.button(this, "السجل والإحصائيات", iconRes = R.drawable.ic_chart) { startActivity(Intent(this, HistoryActivity::class.java)) })
+            col.addView(Ui.button(this, "السجل والإحصائيات", iconRes = R.drawable.ic_history) { startActivity(Intent(this, HistoryActivity::class.java)) })
+            col.addView(Ui.button(this, "الأوزان والتقدّم", iconRes = R.drawable.ic_chart) { startActivity(Intent(this, WeightsActivity::class.java)) })
             col.addView(Ui.button(this, "تخصيص البرنامج", iconRes = R.drawable.ic_edit, desc = "تخصيص البرنامج والأيام") { startActivity(Intent(this, ProgramActivity::class.java)) })
             col.addView(Ui.button(this, "الموسيقى والصوت", iconRes = R.drawable.ic_music, desc = "الموسيقى وصوت المدرب") { startActivity(Intent(this, AudioActivity::class.java)) })
             col.addView(Ui.button(this, "الإعدادات", iconRes = R.drawable.ic_tune) { startActivity(Intent(this, SettingsActivity::class.java)) })
@@ -323,6 +324,17 @@ class SettingsActivity : BaseActivity() {
             col.addView(Ui.styled(this, "الاهتزاز", 20f, bold = true))
             col.addView(Ui.radioGroup(this, "الاهتزاز",
                 listOf("off" to "بدون", "key" to "عند العدّ التنازلي والبداية ونهاية الجولة", "all" to "وأيضاً مع كل تكرار"), p.haptics) { p.haptics = it })
+            col.addView(Ui.heading(this, "الميكروفون، تجريبي"))
+            col.addView(Ui.styled(this, "اسألني عن الوزن بعد أول جولة من كل تمرين", 20f, bold = true))
+            col.addView(Ui.radioGroup(this, "سؤال الوزن بعد أول جولة", listOf(false to "لا", true to "نعم، وأرد بصوتي"), p.voiceWeights) {
+                p.voiceWeights = it; if (it) askMic()
+            })
+            col.addView(Ui.styled(this, "الأوامر الصوتية: اضغط زر السماعة مرتين ثم قل الأمر", 20f, bold = true))
+            col.addView(Ui.radioGroup(this, "الأوامر الصوتية بالضغط مرتين على زر السماعة", listOf(false to "لا", true to "نعم"), p.voiceCommands) {
+                p.voiceCommands = it; if (it) askMic()
+            })
+            col.addView(Ui.styled(this, "الأوامر: وقف، كمل، تخطي، التمرين التالي، راحة، كرر، كم باقي، الوزن ورقم. عند تفعيلها يتأخر الإيقاف المؤقت بالضغطة الواحدة نصف ثانية.", 16f, color = Ui.MUTED))
+            col.addView(Ui.heading(this, "عام"))
             col.addView(Ui.styled(this, "تذكير شرب الماء", 20f, bold = true))
             col.addView(Ui.stepper(this, "تذكير شرب الماء", p.waterEvery, 0, 60, step = 5,
                 format = { if (it == 0) "بدون تذكير" else "كل $it دقيقة" }) { p.waterEvery = it })
@@ -340,5 +352,11 @@ class SettingsActivity : BaseActivity() {
             col.addView(Ui.text(this, "الخط: Tajawal، من Google Fonts، برخصة SIL Open Font License 1.1.", 15f))
         }
     }
+
+    private fun askMic() {
+        if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+            requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 3)
+    }
+
     override fun onDestroy() { scope.cancel(); super.onDestroy() }
 }

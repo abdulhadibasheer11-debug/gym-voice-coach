@@ -56,7 +56,12 @@ class Engine(
     private val sp: Speaker,
     private val c: Controls,
     private val prefs: Prefs,
+    private val ctx: android.content.Context,
+    /** Speech input for weight logging; null when that feature is off. */
+    private val voice: VoiceInput? = null,
 ) {
+    private val pendingWeightAsk = mutableListOf<String>()
+
     private val countArabic get() = prefs.countLang == "ar"
 
     private fun fire(vararg parts: String) { scope.launch { sp.say(*parts) } }
@@ -217,6 +222,11 @@ class Engine(
                         if (st.repsText.contains("،")) "${st.sets} جولات، التكرارات: ${st.repsText}." else "${st.sets} جولات، ${st.repsText} تكرار.", tempoAr(e),
                     )
                     if (st.superset && exs.size > 1) parts += listOf("سوبر سِت، بالتبادل مع", exs[1].nameAr + ".", exs[1].en, "بدون راحة بين التمرينين.")
+                    exs.forEach { x ->
+                        val last = Weights.last(ctx, x.id)
+                        if (last != null) parts += (if (exs.size > 1) "آخر وزن في ${x.nameAr}: " else "آخر مرة استخدمت ") + Weights.kgAr(last) + "."
+                        Weights.suggestion(ctx, x.id)?.let { parts += it }
+                    }
                     if (transCount > 1 && remain > 60) parts += "باقي على نهاية الحصة حوالي ${minAr(remain)}."
                     if (drift > 60) parts += "نحن متأخرين ${minAr(drift)}، سأختصر الراحة قليلاً."
                     parts += "عندك ${dur.roundToInt()} ثانية لتجهيز الجهاز والوزن."
@@ -228,14 +238,26 @@ class Engine(
                     if (st.round == 0) sp.say("انتقل الآن إلى", e.nameAr + ".", e.en, e.ar + ".", tempoAr(e)) else sp.say("انتقل إلى", e.nameAr)
                     waitMs(max(2000L, durMs - 4000), if (st.dur > 25) listOf(Cue(15_000) { sp.say("خمسة عشر ثانية.") }) else emptyList())
                 }
-                is SetStep -> { doSet(st); if (!c.skip && !c.stop) done += st.id }
+                is SetStep -> {
+                    doSet(st)
+                    if (!c.skip && !c.stop && !c.skipExercise) {
+                        done += st.id
+                        if (st.setNo == 1 && voice != null && st.id !in pendingWeightAsk) pendingWeightAsk += st.id
+                    }
+                }
                 is RestStep -> {
                     val e = Catalog[st.nextId]
                     sp.say("راحة ${dur.roundToInt()} ثانية.")
+                    val askStart = elapsed()
+                    if (voice != null && pendingWeightAsk.isNotEmpty() && dur >= 40) {
+                        pendingWeightAsk.toList().forEach { if (!c.stop && !c.skip && !c.skipExercise) askWeight(it) }
+                        pendingWeightAsk.clear()
+                    }
+                    val askedMs = ((elapsed() - askStart) * 1000).toLong()
                     if (settings.waterEveryMin > 0 && elapsed() - lastWater >= settings.waterEveryMin * 60 && dur >= 40) {
                         lastWater = elapsed(); sp.say(CoachLines.water())
                     }
-                    val w = durMs - 3000
+                    val w = max(5000L, durMs - 3000 - askedMs)
                     val tip = e.tips[(st.nextSet - 2).mod(e.tips.size)]
                     val cues = mutableListOf(Cue(10_000) {
                         if (st.superset) sp.say("عشر ثواني. الجولة الجاية:", e.en) else sp.say("عشر ثواني، جهّز نفسك.")
@@ -314,6 +336,21 @@ class Engine(
             }
         }
         if (!c.stop) sp.say("انتهت الإطالة.")
+    }
+
+    /** Ask for the weight just used; silence keeps last time's weight. */
+    private suspend fun askWeight(id: String) {
+        val v = voice ?: return
+        val e = Catalog[id]
+        val last = Weights.last(ctx, id)
+        sp.say("كم الوزن في ${e.nameAr}؟", if (last != null) "قل الرقم بعد الصافرة، أو اسكت لأسجّل ${Weights.kgAr(last)}." else "قل الرقم بالكيلو بعد الصافرة.")
+        sp.beep(Beep.TICK)
+        val kg = v.listen(5000)?.let { VoiceInput.number(it) }?.takeIf { it in 0.5..500.0 }
+        when {
+            kg != null -> { Weights.add(ctx, id, kg); sp.say("سجّلت ${Weights.kgAr(kg)}.") }
+            last != null -> { Weights.add(ctx, id, last); sp.say("ما سمعت رقم، سجّلت ${Weights.kgAr(last)} مثل المرة الماضية.") }
+            else -> sp.say("ما سمعت رقم. تقدر تسجّله لاحقاً من شاشة الأوزان.")
+        }
     }
 
     private fun nextText(n: Step?): String = when (n) {

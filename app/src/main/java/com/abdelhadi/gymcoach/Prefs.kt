@@ -48,6 +48,14 @@ class Prefs(private val ctx: Context) {
     var haptics: String
         get() = p.getString("haptics", "key") ?: "key"
         set(v) = p.edit().putString("haptics", v).apply()
+    /** Experimental: ask for the weight after the first set (speech recognition). */
+    var voiceWeights: Boolean
+        get() = p.getBoolean("voiceWeights", false)
+        set(v) = p.edit().putBoolean("voiceWeights", v).apply()
+    /** Experimental: double press on the headset button = listen for one voice command. */
+    var voiceCommands: Boolean
+        get() = p.getBoolean("voiceCommands", false)
+        set(v) = p.edit().putBoolean("voiceCommands", v).apply()
     var waterEvery: Int
         get() = p.getInt("waterEvery", 15)
         set(v) = p.edit().putInt("waterEvery", v).apply()

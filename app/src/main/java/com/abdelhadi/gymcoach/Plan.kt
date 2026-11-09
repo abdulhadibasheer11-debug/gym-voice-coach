@@ -97,7 +97,7 @@ object Catalog {
             "ثبّت ظهرك على المسند، وارجع كتفيك للخلف.", "لا تقفل الكوع تماماً في نهاية الدفع."),
         ex("smith_bench", "Smith Machine Flat Bench Press", "بار السميث على السكة، استلقِ على البنش المستوي", "منتصف الصدر", Equip.MACHINE, "smith", Cat.HEAVY, t(1.0, 0.0, 2.0, 0.5),
             "انزل بالبار لمنتصف الصدر بهدوء.", "قدماك ثابتتان على الأرض، وظهرك ملتصق بالبنش."),
-        ex("incline_machine", "Seated Incline Press Machine", "جهاز تجلس عليه وتدفع للأعلى", "أعلى الصدر والكتف الأمامي", Equip.MACHINE, "incline_press", Cat.COMPOUND, t(1.0, 0.0, 2.0, 0.0),
+        ex("incline_machine", "Seated Incline Press Machine", "جهاز تجلس عليه وتدفع مائلاً للأعلى، وليس فوق الرأس", "أعلى الصدر والكتف الأمامي", Equip.MACHINE, "incline_press", Cat.COMPOUND, t(1.0, 0.0, 2.0, 0.0),
             "ادفع للأعلى بدون ما ترفع ظهرك عن المسند."),
         ex("seated_dip", "Seated Dip Machine", "جهاز تجلس عليه وتدفع للأسفل", "أسفل الصدر والترايسبس", Equip.MACHINE, "seated_dip", Cat.COMPOUND, t(1.0, 1.0, 2.0, 0.0),
             "ادفع للأسفل حتى تفرد ذراعك، وارجع ببطء.", "خلّي مرفقيك قريبين من جسمك."),
