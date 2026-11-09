@@ -1,0 +1,40 @@
+11-09 18:58:32.579   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.MainActivity for user 0: +2s220ms
+11-09 18:58:52.809   519   802 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.PlanActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 18:58:53.184   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.PlanActivity for user 0: +406ms
+11-09 18:59:10.419   519  2677 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.SettingsActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 18:59:10.899   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.SettingsActivity for user 0: +492ms
+11-09 18:59:39.444   519  3006 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.HistoryActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 18:59:39.595   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.HistoryActivity for user 0: +141ms
+11-09 18:59:51.599   519  1850 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.WeightsActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 18:59:51.859   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.WeightsActivity for user 0: +262ms
+11-09 19:00:07.080   519  2750 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.AudioActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 19:00:07.421   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.AudioActivity for user 0: +293ms
+11-09 19:00:18.398   519  1221 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.StudioActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 19:00:18.811   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.StudioActivity for user 0: +397ms
+11-09 19:00:44.462   519  3006 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.StudioSettingsActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 19:00:44.632   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.StudioSettingsActivity for user 0: +141ms
+11-09 19:01:00.726   519  1905 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.WeightsActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 19:01:01.005   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.WeightsActivity for user 0: +251ms
+11-09 19:01:04.811   519  1833 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.WeightDetailActivity (has extras)} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 19:01:05.070   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.WeightDetailActivity for user 0: +260ms
+11-09 19:01:16.053   519  1150 W ActivityTaskManager: Force removing ActivityRecord{b481231 u0 com.abdelhadi.gymcoach/.MainActivity t8 f}}: app died, no saved state
+11-09 19:01:16.509   519  1110 I ActivityTaskManager: Add Task{f8d064e #8 type=standard A=10192:com.abdelhadi.gymcoach} to hidden list because adding Task{10de30d #9 type=standard A=10192:com.abdelhadi.gymcoach}
+11-09 19:01:16.510   519  1110 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.abdelhadi.gymcoach/.MainActivity} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+11-09 19:01:17.630   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.MainActivity for user 0: +1s117ms
+11-09 19:01:25.688   519   802 W ActivityTaskManager: Force removing ActivityRecord{c429a4 u0 com.abdelhadi.gymcoach/.MainActivity t9 f}}: app died, no saved state
+11-09 19:01:25.992   519  2545 I ActivityTaskManager: Add Task{10de30d #9 type=standard A=10192:com.abdelhadi.gymcoach} to hidden list because adding Task{75690d7 #10 type=standard A=10192:com.abdelhadi.gymcoach}
+11-09 19:01:25.993   519  2545 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.abdelhadi.gymcoach/.MainActivity} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+11-09 19:01:27.102   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.MainActivity for user 0: +1s121ms
+11-09 19:01:30.056   519  2545 W ActivityTaskManager: Force removing ActivityRecord{5f32856 u0 com.abdelhadi.gymcoach/.MainActivity t10 f}}: app died, no saved state
+11-09 19:01:30.518   519  2677 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.abdelhadi.gymcoach/.MainActivity} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+11-09 19:01:31.370   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.MainActivity for user 0: +866ms
+11-09 19:01:36.559   519   802 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.WorkoutActivity} with LAUNCH_SINGLE_TOP from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 19:01:36.866   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.WorkoutActivity for user 0: +264ms
+11-09 19:05:26.259   519  1221 W ActivityTaskManager: Force removing ActivityRecord{aaba776 u0 com.abdelhadi.gymcoach/.WorkoutActivity t11 f}}: app died, no saved state
+11-09 19:05:26.262   519  1221 W ActivityTaskManager: Force removing ActivityRecord{38cc71b u0 com.abdelhadi.gymcoach/.MainActivity t11 f}}: app died, no saved state
+11-09 19:05:26.864   519  1088 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.abdelhadi.gymcoach/.MainActivity} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+11-09 19:05:27.970   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.MainActivity for user 0: +1s249ms
+11-09 19:05:32.984   519  2750 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.WeightsActivity} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 19:05:33.285   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.WeightsActivity for user 0: +308ms
+11-09 19:05:42.251   519  1649 I ActivityTaskManager: START u0 {cmp=com.abdelhadi.gymcoach/.WeightDetailActivity (has extras)} with LAUNCH_MULTIPLE from uid 10192 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-09 19:05:42.546   519   536 I ActivityTaskManager: Displayed com.abdelhadi.gymcoach/.WeightDetailActivity for user 0: +293ms
