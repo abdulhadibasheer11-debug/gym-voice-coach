@@ -6,8 +6,10 @@ PKG=com.abdelhadi.gymcoach
 mkdir -p shots
 adb install -r -g app/build/outputs/apk/debug/app-debug.apk
 dump() { adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1; adb pull /sdcard/ui.xml /tmp/ui.xml >/dev/null 2>&1; }
-shot() { sleep "${2:-3}"; adb exec-out screencap -p > "shots/$1.png"; dump; cp /tmp/ui.xml "shots/$1.xml"; }
-tap() { for k in 1 2 3; do dump; xy=$(python3 tools/tap.py /tmp/ui.xml "$1") && { adb shell input tap $xy; return 0; }; adb shell input swipe 540 1600 540 900 300; sleep 1; done; echo "NOT FOUND: $1"; }
+shot() { sleep "${2:-3}"; dump; anr; adb exec-out screencap -p > "shots/$1.png"; dump; cp /tmp/ui.xml "shots/$1.xml"; }
+# the emulator sometimes shows "isn't responding" for the launcher: press Wait
+anr() { if grep -q "responding" /tmp/ui.xml 2>/dev/null; then xy=$(python3 tools/tap.py /tmp/ui.xml "Wait") && adb shell input tap $xy; sleep 2; dump; fi; }
+tap() { for k in 1 2 3 4; do dump; anr; xy=$(python3 tools/tap.py /tmp/ui.xml "$1") && { adb shell input tap $xy; return 0; }; adb shell input swipe 540 1600 540 900 300; sleep 1; done; echo "NOT FOUND: $1"; }
 top() { for k in 1 2 3; do adb shell input swipe 540 600 540 1900 200; done; }
 back() { adb shell input keyevent KEYCODE_BACK; sleep 2; }
 start() { adb shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; }
