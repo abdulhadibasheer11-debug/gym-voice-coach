@@ -24,8 +24,10 @@ adb shell settings put system font_scale 1.5
 adb shell am force-stop $PKG; start; shot 09-main-bigfont 5
 adb shell settings put system font_scale 1.0
 adb shell am force-stop $PKG; start; sleep 4
+adb shell am force-stop $PKG; start; sleep 3
 top; tap "ابدأ الحصة"; shot 10-workout-intro 6
 for i in 1 2 3 4 5 6; do top; tap "تخطي الخطوة الحالية"; shot "1$i-workout-skip$i" 4; done
 for i in 1 2 3; do top; tap "تخطي الخطوة الحالية"; shot "2$i-workout-more$i" 7; done
 adb shell input swipe 540 1700 540 500 400; shot 30-workout-bottom 2
+tap "تسجيل وزن"; shot 40-weight-dialog 3
 adb logcat -d | grep -iE "AndroidRuntime|FATAL|gymcoach" | tail -60 > shots/logcat.txt

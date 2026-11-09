@@ -145,9 +145,14 @@ class WorkoutService : Service() {
                 sp.say("تم إنهاء الحصة. المدة $minutes دقيقة.", interrupt = true)
             } else {
                 val week = History.sessionsThisWeek(History.entries(this@WorkoutService))
+                // remind about exercises done today without a weight (only for people who log weights)
+                val sessionStart = System.currentTimeMillis() - result.elapsedSec * 1000L
+                val logsWeights = prefs.voiceWeights || Weights.all(this@WorkoutService).values.any { h -> h.any { it.date >= sessionStart } }
+                val missing = if (logsWeights) result.doneIds.filter { id -> (Weights.history(this@WorkoutService, id).lastOrNull()?.date ?: 0L) < sessionStart } else emptyList()
                 sp.say("انتهت الحصة!", "Great workout!",
                     "المدة $minutes دقيقة${if (diffMin > 1) "، متأخرين $diffMin دقائق عن الخطة" else "، في الوقت المحدد"}.",
                     if (week > 0) "هذه حصتك ${History.ordinalAr(week)} هذا الأسبوع." else "",
+                    if (missing.isNotEmpty()) "لم يُسجَّل وزن ${History.nAr(missing.size, "تمرين واحد", "تمرينين", "تمارين", "تمريناً")}: ${missing.joinToString("، ") { Catalog[it].nameAr }}. تقدر تسجّلها من شاشة الأوزان." else "",
                     "لا تنسَ تشرب ماء.")
             }
             finish()

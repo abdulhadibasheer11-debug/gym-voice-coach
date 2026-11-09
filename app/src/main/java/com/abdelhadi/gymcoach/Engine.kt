@@ -33,6 +33,9 @@ object Session {
     /** What comes after the current step, and its exercise (for a small preview). */
     @Volatile var next = ""
     @Volatile var nextExId: String? = null
+    /** The exercise whose set finished most recently (for logging its weight during rest/transition). */
+    @Volatile var lastSetId: String? = null
+    @Volatile var startedAt = 0L
     @Volatile var version = 0L
     fun touch() { version++ }
 }
@@ -49,7 +52,7 @@ class Controls {
 
 data class Cue(val atMs: Long, val fn: suspend () -> Unit)
 
-data class SessionResult(val plan: Plan, val elapsedSec: Int, val stopped: Boolean, val exercisesDone: Int, val plannedSec: Int)
+data class SessionResult(val plan: Plan, val elapsedSec: Int, val stopped: Boolean, val exercisesDone: Int, val plannedSec: Int, val doneIds: List<String> = emptyList())
 
 class Engine(
     private val scope: CoroutineScope,
@@ -134,6 +137,7 @@ class Engine(
         val total = plan.blocks.size
 
         Session.startMs = wallStart
+        Session.lastSetId = null
         for ((idx, st) in plan.steps.withIndex()) {
             if (c.stop) break
             c.skip = false
@@ -242,6 +246,7 @@ class Engine(
                     doSet(st)
                     if (!c.skip && !c.stop && !c.skipExercise) {
                         done += st.id
+                        Session.lastSetId = st.id
                         if (st.setNo == 1 && voice != null && st.id !in pendingWeightAsk) pendingWeightAsk += st.id
                     }
                 }
@@ -273,7 +278,7 @@ class Engine(
             // a skipped step gives its unused time back: the session end moves earlier
             if (c.skip || c.skipExercise) shift += max(0.0, dur - (elapsed() - stepStart))
         }
-        return SessionResult(plan, elapsed().roundToInt(), c.stop, done.size, (plan.totalSec - shift).roundToInt())
+        return SessionResult(plan, elapsed().roundToInt(), c.stop, done.size, (plan.totalSec - shift).roundToInt(), done.toList())
     }
 
     private fun countWord(n: Int, extra: String?, fast: Boolean) {
@@ -344,12 +349,20 @@ class Engine(
         val e = Catalog[id]
         val last = Weights.last(ctx, id)
         sp.say("كم الوزن في ${e.nameAr}؟", if (last != null) "قل الرقم بعد الصافرة، أو اسكت لأسجّل ${Weights.kgAr(last)}." else "قل الرقم بالكيلو بعد الصافرة.")
-        sp.beep(Beep.TICK)
-        val kg = v.listen(5000)?.let { VoiceInput.number(it) }?.takeIf { it in 0.5..500.0 }
-        when {
-            kg != null -> { Weights.add(ctx, id, kg); sp.say("سجّلت ${Weights.kgAr(kg)}.") }
-            last != null -> { Weights.add(ctx, id, last); sp.say("ما سمعت رقم، سجّلت ${Weights.kgAr(last)} مثل المرة الماضية.") }
-            else -> sp.say("ما سمعت رقم. تقدر تسجّله لاحقاً من شاشة الأوزان.")
+        for (attempt in 1..2) {
+            sp.beep(Beep.TICK)
+            val r = v.hear(5000)
+            val kg = r.alts?.let { VoiceInput.number(it) }?.takeIf { it in 0.5..500.0 }
+            when {
+                kg != null -> { Weights.add(ctx, id, kg); sp.say("سجّلت ${Weights.kgAr(kg)}."); return }
+                r.failed -> { sp.say("التعرّف على الصوت لا يعمل الآن، غالباً بسبب الإنترنت. سجّل الوزن من زر تسجيل الوزن."); return }
+                // complete silence on the first try means "same as last time"
+                r.silent && attempt == 1 && last != null -> {
+                    Weights.add(ctx, id, last); sp.say("سجّلت ${Weights.kgAr(last)} مثل المرة الماضية."); return
+                }
+                attempt == 1 -> sp.say("ما سمعت جيداً، أعد الرقم.")
+                else -> sp.say("ما سمعت جيداً. تقدر تسجّله الآن من زر تسجيل الوزن، أو بعد الحصة من شاشة الأوزان.")
+            }
         }
     }
 

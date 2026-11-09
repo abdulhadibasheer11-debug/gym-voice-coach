@@ -32,15 +32,12 @@ class WorkoutActivity : BaseActivity() {
     private lateinit var big: TextView
     private lateinit var ring: RingView
     private lateinit var status: TextView
-    private lateinit var progress: TextView
     private lateinit var bar: BarView
     private lateinit var timeLine: TextView
     private lateinit var nextText: TextView
-    private lateinit var nextImage: ImageView
     private lateinit var pauseBtn: Button
     private lateinit var image: ImageView
     private var shownEx: String? = "-"
-    private var shownNext: String? = "-"
     private lateinit var ringBox: FrameLayout
     private var seen = -1L
     private val openedAt = System.currentTimeMillis()
@@ -96,15 +93,7 @@ class WorkoutActivity : BaseActivity() {
             else -> if (Session.clockTotal > 0) r.toFloat() / Session.clockTotal else 0f
         }
         setIfChanged(status, Session.status)
-        setIfChanged(progress, Session.progress)
         setIfChanged(nextText, Session.next)
-        val nextKey = "${Session.nextExId}|${Session.exId}"
-        if (shownNext != nextKey) {
-            shownNext = nextKey
-            // only preview when the next exercise differs from the one already shown in the big card
-            val bmp = Session.nextExId?.takeIf { it != Session.exId }?.let { ExerciseImages.get(this, it) }
-            if (bmp != null) { nextImage.setImageBitmap(bmp); nextImage.visibility = View.VISIBLE } else nextImage.visibility = View.GONE
-        }
         val paused = Session.paused
         setIfChanged(pauseBtn, if (paused) "استئناف" else "إيقاف مؤقت")
         pauseBtn.setCompoundDrawablesRelative(Ui.icon(this, if (paused) R.drawable.ic_play else R.drawable.ic_pause, android.graphics.Color.BLACK, 34), null, null, null)
@@ -125,58 +114,59 @@ class WorkoutActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTitle("الحصة جارية") // window title: announced by TalkBack, no on-screen heading needed
+        if (Prefs(this).keepScreenOn) window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        val ctx = this
         val col = Ui.column(this)
-        col.addView(Ui.heading(this, "الحصة جارية"))
 
+        // ---------- information (top) ----------
         heroCard = Ui.card(this, Ui.MOVE)
-        phaseLabel = Ui.styled(this, "", 18f, bold = true).also { heroCard.addView(it) }
-        title = Ui.styled(this, "", 28f, bold = true).also { heroCard.addView(it) }
-        subtitle = Ui.styled(this, "", 18f).also { heroCard.addView(it) }
+        phaseLabel = Ui.styled(this, "", 17f, bold = true).also { heroCard.addView(it) }
+        // exercise name with a small photo beside it (tap the photo to enlarge it)
+        val nameRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        val names = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        title = Ui.styled(this, "", 26f, bold = true).also { names.addView(it) }
+        subtitle = Ui.styled(this, "", 17f).also { names.addView(it) }
+        nameRow.addView(names, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
         image = ImageView(this).apply {
-            scaleType = ImageView.ScaleType.FIT_CENTER
+            scaleType = ImageView.ScaleType.CENTER_CROP
             setBackgroundColor(0xFFFFFFFF.toInt())
             importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
             visibility = View.GONE
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Ui.dp(this@WorkoutActivity, 140))
-                .apply { setMargins(0, Ui.dp(this@WorkoutActivity, 8), 0, Ui.dp(this@WorkoutActivity, 8)) }
+            clipToOutline = true
+            background = GradientDrawable().apply { cornerRadius = Ui.dp(ctx, 12).toFloat(); setColor(0xFFFFFFFF.toInt()) }
+            setOnClickListener { enlargeImage() }
         }
-        heroCard.addView(image)
+        nameRow.addView(image, LinearLayout.LayoutParams(Ui.dp(this, 92), Ui.dp(this, 92)).apply { marginStart = Ui.dp(ctx, 10) })
+        heroCard.addView(nameRow)
         // big number inside a progress ring
         ringBox = FrameLayout(this).apply {
-            layoutParams = LinearLayout.LayoutParams(Ui.dp(this@WorkoutActivity, 200), Ui.dp(this@WorkoutActivity, 200))
-                .apply { gravity = Gravity.CENTER_HORIZONTAL; topMargin = Ui.dp(this@WorkoutActivity, 4) }
+            layoutParams = LinearLayout.LayoutParams(Ui.dp(ctx, 170), Ui.dp(ctx, 170))
+                .apply { gravity = Gravity.CENTER_HORIZONTAL; topMargin = Ui.dp(ctx, 6) }
         }
         ring = RingView(this).also { ringBox.addView(it, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)) }
-        big = Ui.styled(this, "", 64f, bold = true).also {
-            Ui.fixedSize(it, 64f)
+        big = Ui.styled(this, "", 56f, bold = true).also {
+            Ui.fixedSize(it, 56f)
             it.gravity = Gravity.CENTER
             ringBox.addView(it, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
         }
         heroCard.addView(ringBox)
         col.addView(heroCard)
 
-        // whole-session progress
         bar = BarView(this).also {
-            col.addView(it, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Ui.dp(this, 10)).apply { topMargin = Ui.dp(this@WorkoutActivity, 8) })
+            col.addView(it, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Ui.dp(this, 10)).apply { topMargin = Ui.dp(ctx, 8) })
         }
         timeLine = Ui.styled(this, "", 17f, bold = true).also { col.addView(it) }
-
-        // what's next
-        val nextCard = Ui.card(this)
-        val nextRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
-        nextImage = ImageView(this).apply {
-            scaleType = ImageView.ScaleType.FIT_CENTER
-            setBackgroundColor(0xFFFFFFFF.toInt())
-            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
-            visibility = View.GONE
+        nextText = Ui.styled(this, "", 17f, color = Ui.MUTED).also { col.addView(it) }
+        status = Ui.styled(this, "", 17f).also {
+            it.maxLines = 2; it.ellipsize = android.text.TextUtils.TruncateAt.END
+            col.addView(it)
         }
-        nextText = Ui.styled(this, "", 18f)
-        nextRow.addView(nextText, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-        nextRow.addView(nextImage, LinearLayout.LayoutParams(Ui.dp(this, 72), Ui.dp(this, 72)).apply { marginStart = Ui.dp(this@WorkoutActivity, 10) })
-        nextCard.addView(nextRow)
-        col.addView(nextCard)
 
-        // controls
+        // spacer: pushes the controls to the bottom when everything fits; collapses when it does not
+        col.addView(View(this), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
+
+        // ---------- controls (bottom, always in the same place) ----------
         pauseBtn = Ui.button(this, "إيقاف مؤقت", primary = true, iconRes = R.drawable.ic_pause) { WorkoutService.send(this, WorkoutService.ACTION_PAUSE) }
         col.addView(pauseBtn)
         col.addView(Ui.row(this,
@@ -186,15 +176,43 @@ class WorkoutActivity : BaseActivity() {
         ))
         col.addView(Ui.row(this,
             Ui.button(this, "التمرين التالي", compact = true, iconRes = R.drawable.ic_dumbbell, desc = "تخطي إلى التمرين التالي") { WorkoutService.send(this, WorkoutService.ACTION_SKIP_EXERCISE) },
-            Ui.button(this, "أغنية أخرى", compact = true, iconRes = R.drawable.ic_music, desc = "الأغنية التالية") { WorkoutService.send(this, WorkoutService.ACTION_NEXT_SONG) },
-            Ui.button(this, "أمر صوتي", compact = true, iconRes = R.drawable.ic_mic, desc = "أمر صوتي، تجريبي") { WorkoutService.send(this, WorkoutService.ACTION_VOICE) },
+            Ui.button(this, "أمر صوتي", compact = true, iconRes = R.drawable.ic_mic, desc = "أمر صوتي") { WorkoutService.send(this, WorkoutService.ACTION_VOICE) },
+            Ui.button(this, "تسجيل وزن", compact = true, iconRes = R.drawable.ic_chart, desc = "تسجيل وزن") { logWeight() },
         ))
-
-        progress = Ui.styled(this, "", 17f, color = Ui.MUTED).also { col.addView(it) }
-        status = Ui.styled(this, "", 19f).also { col.addView(it) }
-
+        // only when the app itself plays the music
+        if (Prefs(this).musicMode != "none") col.addView(
+            Ui.button(this, "أغنية أخرى", iconRes = R.drawable.ic_music, desc = "الأغنية التالية") { WorkoutService.send(this, WorkoutService.ACTION_NEXT_SONG) })
         col.addView(Ui.button(this, "إنهاء الحصة", danger = true, iconRes = R.drawable.ic_stop, desc = "إنهاء الحصة، اضغط مرتين") { WorkoutService.send(this, WorkoutService.ACTION_STOP) })
-        setContentView(ScrollView(this).apply { setBackgroundColor(Ui.BG); addView(col) })
+
+        setContentView(ScrollView(this).apply {
+            setBackgroundColor(Ui.BG)
+            isFillViewport = true
+            addView(col, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+        })
+    }
+
+    /** Which exercise a weight belongs to: during a set the current one; otherwise the one just finished. */
+    private fun logWeight() {
+        val ids = listOfNotNull(
+            if (Session.phase == "set") Session.exId else Session.lastSetId,
+            Session.exId,
+        ).distinct().filter { Catalog.all.containsKey(it) }
+        when (ids.size) {
+            0 -> window.decorView.announceForAccessibility("لا يوجد تمرين بعد لتسجيل وزنه")
+            1 -> WeightEntry.show(this, ids[0])
+            else -> android.app.AlertDialog.Builder(this).setTitle("وزن أي تمرين؟")
+                .setItems(ids.mapIndexed { i, id -> Catalog[id].nameAr + if (i == 0) "، الذي انتهيت منه" else "، الحالي" }.toTypedArray()) { _, w -> WeightEntry.show(this, ids[w]) }
+                .setNegativeButton("إلغاء", null).show()
+        }
+    }
+
+    private fun enlargeImage() {
+        val bmp = Session.exId?.let { ExerciseImages.get(this, it) } ?: return
+        val iv = ImageView(this).apply {
+            setImageBitmap(bmp); adjustViewBounds = true; setBackgroundColor(0xFFFFFFFF.toInt())
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }
+        android.app.AlertDialog.Builder(this).setView(iv).setPositiveButton("إغلاق", null).show()
     }
 
     override fun onResume() { super.onResume(); seen = -1; handler.post(tick) }

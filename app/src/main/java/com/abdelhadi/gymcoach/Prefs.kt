@@ -56,6 +56,10 @@ class Prefs(private val ctx: Context) {
     var voiceCommands: Boolean
         get() = p.getBoolean("voiceCommands", false)
         set(v) = p.edit().putBoolean("voiceCommands", v).apply()
+    /** Keep the screen on during a session (pressing the power button still turns it off). */
+    var keepScreenOn: Boolean
+        get() = p.getBoolean("keepScreenOn", true)
+        set(v) = p.edit().putBoolean("keepScreenOn", v).apply()
     var waterEvery: Int
         get() = p.getInt("waterEvery", 15)
         set(v) = p.edit().putInt("waterEvery", v).apply()

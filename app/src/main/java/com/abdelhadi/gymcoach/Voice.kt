@@ -23,18 +23,34 @@ class VoiceInput(private val ctx: Context, private val onListen: (Boolean) -> Un
         ctx.checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
             SpeechRecognizer.isRecognitionAvailable(ctx)
 
+    /**
+     * Result of one listen. [silent] = the person said nothing; [failed] = the recogniser itself failed
+     * (no internet, busy, no permission), so silence must not be read as "same as last time".
+     */
+    class Heard(val alts: List<String>?, val silent: Boolean, val failed: Boolean)
+
     /** Listen once; returns the recognised alternatives (best first), or null if nothing was understood. */
-    suspend fun listen(maxMs: Long = 6000): List<String>? {
-        if (!available) return null
-        val done = CompletableDeferred<List<String>?>()
-        val sr = runCatching { SpeechRecognizer.createSpeechRecognizer(ctx) }.getOrNull() ?: return null
+    suspend fun listen(maxMs: Long = 6000): List<String>? = hear(maxMs).alts
+
+    suspend fun hear(maxMs: Long = 6000): Heard {
+        if (!available) return Heard(null, silent = false, failed = true)
+        val done = CompletableDeferred<Heard>()
+        val sr = runCatching { SpeechRecognizer.createSpeechRecognizer(ctx) }.getOrNull() ?: return Heard(null, false, true)
+        var spoke = false
         onListen(true)
         try {
             sr.setRecognitionListener(object : RecognitionListener {
-                override fun onResults(b: Bundle?) { done.complete(b?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.toList()) }
-                override fun onError(error: Int) { done.complete(null) }
+                override fun onResults(b: Bundle?) {
+                    val alts = b?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.toList()?.takeIf { it.isNotEmpty() }
+                    done.complete(Heard(alts, silent = alts == null && !spoke, failed = false))
+                }
+                override fun onError(error: Int) {
+                    val noSpeech = error == SpeechRecognizer.ERROR_SPEECH_TIMEOUT || (error == SpeechRecognizer.ERROR_NO_MATCH && !spoke)
+                    val notHeard = error == SpeechRecognizer.ERROR_NO_MATCH
+                    done.complete(Heard(null, silent = noSpeech, failed = !noSpeech && !notHeard))
+                }
                 override fun onReadyForSpeech(p: Bundle?) {}
-                override fun onBeginningOfSpeech() {}
+                override fun onBeginningOfSpeech() { spoke = true }
                 override fun onRmsChanged(v: Float) {}
                 override fun onBufferReceived(b: ByteArray?) {}
                 override fun onEndOfSpeech() {}
@@ -47,7 +63,7 @@ class VoiceInput(private val ctx: Context, private val onListen: (Boolean) -> Un
                 putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5)
                 putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, ctx.packageName)
             })
-            return withTimeoutOrNull(maxMs + 3000) { done.await() }
+            return withTimeoutOrNull(maxMs + 3000) { done.await() } ?: Heard(null, silent = !spoke, failed = false)
         } finally {
             runCatching { sr.cancel(); sr.destroy() }
             onListen(false)

@@ -335,6 +335,9 @@ class SettingsActivity : BaseActivity() {
             })
             col.addView(Ui.styled(this, "الأوامر: وقف، كمل، تخطي، التمرين التالي، راحة، كرر، كم باقي، الوزن ورقم. عند تفعيلها يتأخر الإيقاف المؤقت بالضغطة الواحدة نصف ثانية.", 16f, color = Ui.MUTED))
             col.addView(Ui.heading(this, "عام"))
+            col.addView(Ui.styled(this, "إبقاء الشاشة مضاءة أثناء الحصة", 20f, bold = true))
+            col.addView(Ui.radioGroup(this, "إبقاء الشاشة مضاءة أثناء الحصة",
+                listOf(true to "نعم، وزر التشغيل يطفئها عند الحاجة", false to "لا"), p.keepScreenOn) { p.keepScreenOn = it })
             col.addView(Ui.styled(this, "تذكير شرب الماء", 20f, bold = true))
             col.addView(Ui.stepper(this, "تذكير شرب الماء", p.waterEvery, 0, 60, step = 5,
                 format = { if (it == 0) "بدون تذكير" else "كل $it دقيقة" }) { p.waterEvery = it })
