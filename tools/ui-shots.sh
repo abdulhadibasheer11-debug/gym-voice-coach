@@ -39,4 +39,4 @@ tap "تسجيل وزن"; shot 40-weight-dialog 3
 tap "حفظ"; sleep 2
 adb shell am force-stop $PKG; start; sleep 3
 top; tap "الأوزان والتقدّم"; shot 60-weights-list 3; tap "جهاز ضغط الصدر"; shot 61-weight-detail-data 3; back; back
-adb logcat -d | grep -iE "AndroidRuntime|FATAL|gymcoach" | tail -60 > shots/logcat.txt
+adb logcat -d | grep -A40 "FATAL EXCEPTION" > shots/logcat.txt; adb logcat -d | grep -iE "ActivityTaskManager.*gymcoach" | tail -40 >> shots/logcat.txt

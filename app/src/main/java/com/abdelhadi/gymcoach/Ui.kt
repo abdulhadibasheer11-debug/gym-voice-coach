@@ -198,7 +198,7 @@ object Ui {
         if (subtitle.isNotBlank()) texts.addView(styled(ctx, subtitle, 16f, color = MUTED))
         addView(texts, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
         addView(TextView(ctx).apply {
-            text = "‹"; textSize = 28f; setTextColor(MUTED) // RTL: points to the inside of the screen
+            text = "›"; textSize = 28f; setTextColor(MUTED) // mirrored in RTL, so it shows as ‹ (pointing inward)
             importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
         })
         contentDescription = desc ?: if (subtitle.isBlank()) title else "$title، $subtitle"
