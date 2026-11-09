@@ -41,6 +41,7 @@ class WorkoutActivity : BaseActivity() {
     private lateinit var image: ImageView
     private var shownEx: String? = "-"
     private var shownNext: String? = "-"
+    private lateinit var ringBox: FrameLayout
     private var seen = -1L
     private val openedAt = System.currentTimeMillis()
     private val clock = SimpleDateFormat("h:mm a", Ui.AR)
@@ -85,6 +86,9 @@ class WorkoutActivity : BaseActivity() {
             else -> "%d:%02d".format(r / 60, r % 60)
         }
         setIfChanged(big, bigText)
+        // no countdown yet (the coach is still talking): hide the empty ring so the controls move up
+        val ringVis = if (r < 0) View.GONE else View.VISIBLE
+        if (ringBox.visibility != ringVis) ringBox.visibility = ringVis
         big.contentDescription = if (isSet && r >= 0) "التكرار $r من ${Session.repTotal}" else if (r >= 0) "متبقي $r ثانية" else ""
         ring.fraction = when {
             r < 0 -> 0f
@@ -94,8 +98,9 @@ class WorkoutActivity : BaseActivity() {
         setIfChanged(status, Session.status)
         setIfChanged(progress, Session.progress)
         setIfChanged(nextText, Session.next)
-        if (shownNext != Session.nextExId) {
-            shownNext = Session.nextExId
+        val nextKey = "${Session.nextExId}|${Session.exId}"
+        if (shownNext != nextKey) {
+            shownNext = nextKey
             // only preview when the next exercise differs from the one already shown in the big card
             val bmp = Session.nextExId?.takeIf { it != Session.exId }?.let { ExerciseImages.get(this, it) }
             if (bmp != null) { nextImage.setImageBitmap(bmp); nextImage.visibility = View.VISIBLE } else nextImage.visibility = View.GONE
@@ -132,12 +137,12 @@ class WorkoutActivity : BaseActivity() {
             setBackgroundColor(0xFFFFFFFF.toInt())
             importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
             visibility = View.GONE
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Ui.dp(this@WorkoutActivity, 160))
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Ui.dp(this@WorkoutActivity, 140))
                 .apply { setMargins(0, Ui.dp(this@WorkoutActivity, 8), 0, Ui.dp(this@WorkoutActivity, 8)) }
         }
         heroCard.addView(image)
         // big number inside a progress ring
-        val ringBox = FrameLayout(this).apply {
+        ringBox = FrameLayout(this).apply {
             layoutParams = LinearLayout.LayoutParams(Ui.dp(this@WorkoutActivity, 200), Ui.dp(this@WorkoutActivity, 200))
                 .apply { gravity = Gravity.CENTER_HORIZONTAL; topMargin = Ui.dp(this@WorkoutActivity, 4) }
         }
